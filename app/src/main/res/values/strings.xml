@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">thisorthat</string>
+    <string name="thisText">this</string>
+    <string name="thatText">that</string>
 </resources>

@@ -7,6 +7,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class Question(
     @PrimaryKey var id: Long,
-    @ColumnInfo(name = "left_text") var thisText: String,
-    @ColumnInfo(name = "right_text") var thatText: String
+    @ColumnInfo(name = "this_text") var thisText: String,
+    @ColumnInfo(name = "that_text") var thatText: String,
+    /**
+     * true is 'this_text'
+     * false is 'that_text'
+     * null is unanswered question
+     * */
+    @ColumnInfo(name = "user_choice") var userChoice: Boolean?
 )

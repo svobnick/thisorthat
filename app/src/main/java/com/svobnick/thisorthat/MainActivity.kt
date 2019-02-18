@@ -1,63 +1,65 @@
 package com.svobnick.thisorthat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import com.svobnick.thisorthat.service.HttpClient
-import org.json.JSONObject
-import java.lang.Long.valueOf
+import com.svobnick.thisorthat.service.questionsRequest
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private var database: ApplicationDatabase? = null
+    private var currentQuestion: Question? = null
+    private var currentQuestionPool: Queue<Question>? = null
 
+    @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        database = Room.databaseBuilder(this, ApplicationDatabase::class.java!!, "database").allowMainThreadQueries().build()
-        getQuestions()
+
+        // todo must be standalone component with own lifecycle (remove from activity)
+        database = Room.databaseBuilder(this, ApplicationDatabase::class.java, "database")
+            // todo requests must be done with asyncTasks, not in main thread
+            .allowMainThreadQueries()
+            .build()
+
+        getUnansweredQuestions()
+        if (currentQuestionPool != null && !currentQuestionPool?.isEmpty()!!) {
+            setNextQuestionToView()
+        } else {
+            getNewQuestions()
+        }
     }
 
-    val questionsRequest = JsonObjectRequest(
-        Request.Method.GET, "https://thisorthat.ru/api/items/get/20", null,
-        Response.Listener { response ->
-            val thisText = findViewById<TextView>(R.id.thisText)
-            val thatText = findViewById<TextView>(R.id.thatText)
-            println("breakpoint")
-            response.keys().forEach { key ->
-                val question = response.get(key) as JSONObject
-                thisText.text = question.get("left_text").toString()
-                thatText.text = question.get("right_text").toString()
-                database?.questionDao()?.insertAll(
-                    Question(
-                        valueOf(key),
-                        question.get("left_text").toString(),
-                        question.get("right_text").toString()
-                    )
-                )
-            }
-        },
-        Response.ErrorListener {
-            println("breakpoint")
-        })
+    val setNextQuestionToView = {
+        val question = currentQuestionPool!!.poll()
+        val thisText = findViewById<TextView>(R.id.thisText)
+        val thatText = findViewById<TextView>(R.id.thatText)
+        thisText.text = question.thisText
+        thatText.text = question.thatText
+        currentQuestion = question
+    }
+
+    val getUnansweredQuestions = {
+        currentQuestionPool = LinkedList(database?.questionDao()?.getUnansweredQuestions())
+    }
 
 
-    private fun getQuestions() {
-        HttpClient.getInstance(this.applicationContext).addToRequestQueue(questionsRequest)
-
+    private fun getNewQuestions() {
+        HttpClient.getInstance(this.applicationContext)
+            .addToRequestQueue(questionsRequest(database!!, getUnansweredQuestions, setNextQuestionToView))
     }
 
     fun onClickListener(view: View) {
         val clickedText = findViewById<TextView>(view.id)
-        println(clickedText.text)
-        val all = database?.questionDao()?.getAll()
-        println(all)
+        currentQuestion!!.userChoice = clickedText.text == currentQuestion!!.thisText
+        database?.questionDao()?.saveUserChoice(currentQuestion!!)
+        setNextQuestionToView()
     }
 }

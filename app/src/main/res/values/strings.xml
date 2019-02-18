@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">thisorthat</string>
-    <string name="thisText">this</string>
-    <string name="thatText">that</string>
+    <string name="this_text">this</string>
+    <string name="that_text">that</string>
+
+    <string name="history_text">History</string>
+    <string name="my_questions_text">My questions</string>
+    <string name="commented_text">Commented</string>
+    <string name="menu_button">Menu</string>
 </resources>

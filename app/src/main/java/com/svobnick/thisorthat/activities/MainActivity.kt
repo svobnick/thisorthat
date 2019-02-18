@@ -1,11 +1,13 @@
-package com.svobnick.thisorthat
+package com.svobnick.thisorthat.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
+import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import com.svobnick.thisorthat.service.HttpClient
@@ -61,5 +63,10 @@ class MainActivity : AppCompatActivity() {
         currentQuestion!!.userChoice = clickedText.text == currentQuestion!!.thisText
         database?.questionDao()?.saveUserChoice(currentQuestion!!)
         setNextQuestionToView()
+    }
+
+    fun onMenuButtonClick(view: View) {
+        val intent = Intent(this, MenuActivity::class.java)
+        startActivity(intent)
     }
 }

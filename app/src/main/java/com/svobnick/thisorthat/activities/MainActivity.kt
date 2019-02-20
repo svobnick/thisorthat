@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.RequestQueue
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.HttpClient
 import com.svobnick.thisorthat.service.questionsRequest
 import java.util.*
 import javax.inject.Inject
@@ -18,6 +18,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var questionDao: QuestionDao
+    @Inject lateinit var requestQueue: RequestQueue
     var currentQuestion: Question? = null
     var currentQuestionPool: Queue<Question>? = null
 
@@ -37,11 +38,15 @@ class MainActivity : AppCompatActivity() {
 
     val setNextQuestionToView = {
         val question = currentQuestionPool!!.poll()
-        val thisText = findViewById<TextView>(R.id.thisText)
-        val thatText = findViewById<TextView>(R.id.thatText)
-        thisText.text = question.thisText
-        thatText.text = question.thatText
-        currentQuestion = question
+        if (question != null) {
+            val thisText = findViewById<TextView>(R.id.thisText)
+            val thatText = findViewById<TextView>(R.id.thatText)
+            thisText.text = question.thisText
+            thatText.text = question.thatText
+            currentQuestion = question
+        } else {
+            getNewQuestions()
+        }
     }
 
     val getUnansweredQuestions = {
@@ -50,8 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getNewQuestions() {
-        HttpClient.getInstance(this.applicationContext)
-            .addToRequestQueue(questionsRequest(questionDao, getUnansweredQuestions, setNextQuestionToView))
+        requestQueue.add(questionsRequest(questionDao, getUnansweredQuestions, setNextQuestionToView))
     }
 
     fun onClickListener(view: View) {

@@ -12,7 +12,7 @@ interface QuestionDao {
     @Query("SELECT * FROM question WHERE user_choice IS null")
     fun getUnansweredQuestions(): List<Question>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg questions: Question)
 
     @Update

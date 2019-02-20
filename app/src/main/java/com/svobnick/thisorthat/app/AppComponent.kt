@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.app
 
+import com.android.volley.RequestQueue
 import com.svobnick.thisorthat.activities.MainActivity
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.service.ApplicationDatabase
@@ -15,5 +16,6 @@ interface AppComponent {
     fun application(): ThisOrThatApp
     fun database(): ApplicationDatabase
     fun questionsDao(): QuestionDao
+    fun httpClient(): RequestQueue
 
 }

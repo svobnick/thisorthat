@@ -6,30 +6,26 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.ApplicationDatabase
 import com.svobnick.thisorthat.service.HttpClient
 import com.svobnick.thisorthat.service.questionsRequest
 import java.util.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private var database: ApplicationDatabase? = null
-    private var currentQuestion: Question? = null
-    private var currentQuestionPool: Queue<Question>? = null
+    @Inject lateinit var questionDao: QuestionDao
+    var currentQuestion: Question? = null
+    var currentQuestionPool: Queue<Question>? = null
 
     @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // todo must be standalone component with own lifecycle (remove from activity)
-        database = Room.databaseBuilder(this, ApplicationDatabase::class.java, "database")
-            // todo requests must be done with asyncTasks, not in main thread
-            .allowMainThreadQueries()
-            .build()
+        (application as ThisOrThatApp).appComponent.inject(this)
 
         getUnansweredQuestions()
         if (currentQuestionPool != null && !currentQuestionPool?.isEmpty()!!) {
@@ -49,19 +45,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     val getUnansweredQuestions = {
-        currentQuestionPool = LinkedList(database?.questionDao()?.getUnansweredQuestions())
+        currentQuestionPool = LinkedList(questionDao.getUnansweredQuestions())
     }
 
 
     private fun getNewQuestions() {
         HttpClient.getInstance(this.applicationContext)
-            .addToRequestQueue(questionsRequest(database!!, getUnansweredQuestions, setNextQuestionToView))
+            .addToRequestQueue(questionsRequest(questionDao, getUnansweredQuestions, setNextQuestionToView))
     }
 
     fun onClickListener(view: View) {
         val clickedText = findViewById<TextView>(view.id)
         currentQuestion!!.userChoice = clickedText.text == currentQuestion!!.thisText
-        database?.questionDao()?.saveUserChoice(currentQuestion!!)
+        questionDao.saveUserChoice(currentQuestion!!)
         setNextQuestionToView()
     }
 

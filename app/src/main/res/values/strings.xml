@@ -6,5 +6,6 @@
     <string name="history_text">History</string>
     <string name="my_questions_text">My questions</string>
     <string name="commented_text">Commented</string>
+    <string name="new_question_text">New question</string>
     <string name="menu_button">Menu</string>
 </resources>

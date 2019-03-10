@@ -9,7 +9,7 @@ import org.json.JSONObject
 
 fun questionsRequest(questionDao: QuestionDao, unansweredQuestions: () -> Unit, nextQuestionToView: () -> Unit) =
     JsonObjectRequest(
-        Request.Method.GET, "https://thisorthat.ru/api/items/get/20", null,
+        Request.Method.GET, " http://dev.thisorthat.ru/api/items/get/20", null,
         Response.Listener { response ->
             response.keys().forEach { key ->
                 val question = response.get(key) as JSONObject

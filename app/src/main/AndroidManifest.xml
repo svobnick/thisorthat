@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MenuActivity"/>
+        <activity android:name=".activities.NewQuestionActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

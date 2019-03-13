@@ -12,6 +12,8 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.questionsRequest
+import com.svobnick.thisorthat.service.registrationRequest
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -21,12 +23,22 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var requestQueue: RequestQueue
     var currentQuestion: Question? = null
     var currentQuestionPool: Queue<Question>? = null
+    lateinit var token: String
 
     @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         (application as ThisOrThatApp).appComponent.inject(this)
+
+        val tokenFile = File(applicationContext.filesDir, "token")
+        if (tokenFile.exists()) {
+            token = tokenFile.readText()
+            println("Read token $token from file")
+        } else {
+            // todo when request will be done – we need to store global token
+            requestQueue.add(registrationRequest(tokenFile))
+        }
 
         getUnansweredQuestions()
         if (currentQuestionPool != null && !currentQuestionPool?.isEmpty()!!) {

@@ -4,12 +4,12 @@ import android.app.Application
 
 class ThisOrThatApp : Application() {
 
-    lateinit var appComponent: AppComponent
+    lateinit var injector: InjectorComponent
 
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder()
+        injector = DaggerInjectorComponent.builder()
             .appModule(AppModule(this))
             .build()
     }

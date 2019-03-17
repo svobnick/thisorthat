@@ -1,7 +1,7 @@
 package com.svobnick.thisorthat.app
 
 import com.android.volley.RequestQueue
-import com.svobnick.thisorthat.activities.MainActivity
+import com.svobnick.thisorthat.activities.ChoiceActivity
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import dagger.Component
@@ -9,9 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(AppModule::class))
-interface AppComponent {
+interface InjectorComponent {
 
-    fun inject(mainActivity: MainActivity)
+    fun inject(chooseActivity: ChoiceActivity)
 
     fun application(): ThisOrThatApp
     fun database(): ApplicationDatabase

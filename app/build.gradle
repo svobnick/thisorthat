@@ -37,6 +37,14 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // mvp provider
+    def moxy_version = "1.5.5"
+    implementation "com.arello-mobile:moxy:$moxy_version"
+    implementation "com.arello-mobile:moxy-app-compat:$moxy_version"
+    kapt "com.arello-mobile:moxy-compiler:$moxy_version"
+    // androidx support for moxy
+    implementation 'com.github.zabochen:moxy-androidx:0.1'
+
     // network
     implementation 'com.android.volley:volley:1.1.1'
 

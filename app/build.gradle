@@ -45,12 +45,17 @@ dependencies {
     // androidx support for moxy
     implementation 'com.github.zabochen:moxy-androidx:0.1'
 
+    // reactive programming
+    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
     // network
     implementation 'com.android.volley:volley:1.1.1'
 
     // database
     def room_version = "2.1.0-alpha04"
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.12'

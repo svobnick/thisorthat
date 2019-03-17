@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.presenters
 
+import android.util.Log
 import com.android.volley.RequestQueue
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -9,7 +10,11 @@ import com.svobnick.thisorthat.service.questionsRequest
 import com.svobnick.thisorthat.view.ChoiceView
 import java.util.*
 import com.android.volley.Response
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
+import kotlin.collections.ArrayList
 
 
 @InjectViewState
@@ -34,9 +39,10 @@ class ChoicePresenter(
         requestQueue.add(
             questionsRequest(
                 Response.Listener { response ->
+                    val questions2save = ArrayList<Question>()
                     response.keys().forEach { key ->
                         val question = response.get(key) as JSONObject
-                        questionDao.insertAll(
+                        questions2save.add(
                             Question(
                                 key.toLong(),
                                 question.get("left_text").toString(),
@@ -45,6 +51,14 @@ class ChoicePresenter(
                             )
                         )
                     }
+                    Single.fromCallable { questionDao.insertAll(questions2save) }
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Log.i(this::class.java.name, "Successfully saved ${questions2save.size} new questions")
+                        }, {
+                            viewState.showError(it.localizedMessage)
+                        })
                     getUnansweredQuestions()
                     setNextQuestion()
                 },
@@ -57,7 +71,14 @@ class ChoicePresenter(
 
     fun saveChoice(choice: CharSequence) {
         currentQuestion!!.userChoice = choice == currentQuestion!!.thisText
-        questionDao.saveUserChoice(currentQuestion!!)
+        Single.fromCallable { questionDao.saveUserChoice(currentQuestion!!) }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.i(this::class.java.name, "Choice saved successfully")
+            }, {
+                viewState.showError(it.localizedMessage)
+            })
     }
 
     fun skipQuestion() {
@@ -76,6 +97,15 @@ class ChoicePresenter(
     }
 
     fun getUnansweredQuestions() {
-        currentQuestionQueue.addAll(questionDao.getUnansweredQuestions())
+        questionDao
+            .getUnansweredQuestions()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                currentQuestionQueue.addAll(it)
+                Log.i(this::class.java.name, "Receive ${it.size} unanswered questions")
+            }, {
+                viewState.showError(it.localizedMessage)
+            })
     }
 }

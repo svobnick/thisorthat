@@ -16,8 +16,6 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
 
     private var database: ApplicationDatabase =
         Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "database")
-            // todo requests must be done with asyncTasks, not in main thread
-            .allowMainThreadQueries()
             .build()
 
     private var requestQueue: RequestQueue =

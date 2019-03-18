@@ -16,7 +16,6 @@ import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import kotlin.collections.ArrayList
 
-
 @InjectViewState
 class ChoicePresenter(
     private val questionDao: QuestionDao,
@@ -70,7 +69,7 @@ class ChoicePresenter(
     }
 
     fun saveChoice(choice: CharSequence) {
-        currentQuestion!!.userChoice = choice == currentQuestion!!.thisText
+        currentQuestion!!.userChoice = choice == currentQuestion!!.firstText
         Single.fromCallable { questionDao.saveUserChoice(currentQuestion!!) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())

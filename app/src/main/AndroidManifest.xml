@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".activities.MenuActivity"/>
         <activity android:name=".activities.NewQuestionActivity"/>
+        <activity android:name=".activities.AnsweredQuestionsActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

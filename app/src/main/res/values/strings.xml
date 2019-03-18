@@ -8,4 +8,5 @@
     <string name="commented_text">Commented</string>
     <string name="new_question_text">New question</string>
     <string name="menu_button">Menu</string>
+    <string name="placeholder">placeholder</string>
 </resources>

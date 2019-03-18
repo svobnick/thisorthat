@@ -69,8 +69,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun setNewQuestion(question: Question) {
         val thisText = findViewById<TextView>(R.id.thisText)
         val thatText = findViewById<TextView>(R.id.thatText)
-        thisText.text = question.thisText
-        thatText.text = question.thatText
+        thisText.text = question.firstText
+        thatText.text = question.second
     }
 
     override fun skipQuestion() {

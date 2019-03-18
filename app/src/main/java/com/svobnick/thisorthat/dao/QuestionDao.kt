@@ -10,6 +10,9 @@ interface QuestionDao {
     @Query("SELECT * FROM question WHERE user_choice IS null")
     fun getUnansweredQuestions(): Single<List<Question>>
 
+    @Query("SELECT * FROM question WHERE user_choice IS NOT null")
+    fun getAnsweredQuestions(): Single<List<Question>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(questions: List<Question>)
 

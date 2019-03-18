@@ -14,7 +14,8 @@ class MenuActivity : Activity() {
     }
 
     fun onHistoryButtonClick(view: View) {
-
+        val intent = Intent(this, AnsweredQuestionsActivity::class.java)
+        startActivity(intent)
     }
 
     fun onMyQuestionsButtonClick(view: View) {

@@ -10,6 +10,7 @@ import com.svobnick.thisorthat.service.questionsRequest
 import com.svobnick.thisorthat.view.ChoiceView
 import java.util.*
 import com.android.volley.Response
+import com.svobnick.thisorthat.app.ThisOrThatApp
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,6 +19,7 @@ import kotlin.collections.ArrayList
 
 @InjectViewState
 class ChoicePresenter(
+    private val application: ThisOrThatApp,
     private val questionDao: QuestionDao,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<ChoiceView>() {
@@ -37,6 +39,7 @@ class ChoicePresenter(
     private fun getNewQuestions() {
         requestQueue.add(
             questionsRequest(
+                application.authToken(),
                 Response.Listener { response ->
                     val questions2save = ArrayList<Question>()
                     response.keys().forEach { key ->
@@ -62,7 +65,7 @@ class ChoicePresenter(
                     setNextQuestion()
                 },
                 Response.ErrorListener {
-                    System.err.println(it.message)
+                    Log.e(this::class.java.name, it.message)
                     it.printStackTrace()
                 })
         )

@@ -12,8 +12,8 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class))
 interface InjectorComponent {
 
+    fun inject(application: ThisOrThatApp)
     fun inject(chooseActivity: ChoiceActivity)
-
     fun inject(answeredQuestionsActivity: AnsweredQuestionsActivity)
 
     fun application(): ThisOrThatApp

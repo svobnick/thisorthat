@@ -31,19 +31,12 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
 
         fun bind(question: Question) {
             firstText.text = question.firstText
-            secondText.text = question.second
+            secondText.text = question.secondText
         }
-
-        // todo initialize fields of answered question layout
     }
 
     fun setAnsweredQuestions(answeredQuestions: List<Question>) {
         answeredQuestionsList.addAll(answeredQuestions)
-        notifyDataSetChanged()
-    }
-
-    // todo do request to server api
-    fun updateAnsweredQuestions() {
         notifyDataSetChanged()
     }
 }

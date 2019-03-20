@@ -1,26 +1,83 @@
 package com.svobnick.thisorthat.service
 
-import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.google.firebase.iid.FirebaseInstanceId
+import com.svobnick.thisorthat.model.Answer
+import com.svobnick.thisorthat.model.Claim
 import org.json.JSONObject
 
+// todo get api address from properties during application build
+const val apiAddress = "http://dev.thisorthat.ru/api/"
+
+/**
+ * https://github.com/antonlukin/thisorthat-api/wiki/API:items#get-itemsget
+ */
 fun questionsRequest(authToken: String, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
-    object: JsonObjectRequest("http://dev.thisorthat.ru/api/items/get/20", null, responseListener, errorListener) {
-        override fun getParams(): MutableMap<String, String> {
-            val params = HashMap<String, String>()
-            Log.i(this::class.java.name, "Add authToken $authToken to params")
-            params["Authorization"] = "Basic $authToken"
-            return params
+    object: JsonObjectRequest(
+        Method.GET,
+        "${apiAddress}items/get/20",
+        null,
+        responseListener,
+        errorListener) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+            headers["Authorization"] = "Basic $authToken"
+            return headers
         }
     }
 
-fun registrationRequest(responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
-    JsonObjectRequest(
-        "http://dev.thisorthat.ru/api/users/add/",
+/**
+ * https://github.com/antonlukin/thisorthat-api/wiki/API:views#post-viewsadd
+ */
+fun sendAnswersRequest(authToken: String, answers: Collection<Answer>, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+    object: JsonObjectRequest(
+        Method.POST,
+        "${apiAddress}views/add/",
+        buildJsonAnswersRequest(answers),
+        responseListener,
+        errorListener) {
+
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+            headers["Authorization"] = "Basic $authToken"
+            return headers
+        }
+    }
+
+private fun buildJsonAnswersRequest(answers: Collection<Answer>): JSONObject {
+    val views = JSONObject()
+    answers.forEach { views.put(it.id.toString(), it.userChoice) }
+    return JSONObject().put("views", views)
+}
+
+/**
+ * https://github.com/antonlukin/thisorthat-api/wiki/API:abuse#post-abuseadd
+ */
+fun sendClaimsRequest(authToken: String, claims: Collection<Claim>, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+    object: JsonObjectRequest(
+        Method.POST,
+        "${apiAddress}abuse/add/",
+        JSONObject().put("abuse", claims.map { it.id to it.claimReason.toLowerCase() }.toMap()),
+        responseListener,
+        errorListener) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+            headers["Authorization"] = "Basic $authToken"
+            return headers
+        }
+    }
+
+/**
+ * https://github.com/antonlukin/thisorthat-api/wiki/API:users#post-usersadd
+ */
+fun registrationRequest(instanceId: String, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+    object: JsonObjectRequest(
+        Method.POST,
+        "${apiAddress}users/add/",
         JSONObject()
             .put("client", "android")
-            .put("unique", FirebaseInstanceId.getInstance().id),
+            .put("unique", instanceId),
         responseListener,
-        errorListener)
+        errorListener) {
+
+    }

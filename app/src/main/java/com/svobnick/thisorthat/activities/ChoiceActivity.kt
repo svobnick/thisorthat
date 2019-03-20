@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +12,8 @@ import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.dao.AnswerDao
+import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
@@ -22,6 +23,8 @@ import javax.inject.Inject
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     @Inject lateinit var questionDao: QuestionDao
+    @Inject lateinit var answerDao: AnswerDao
+    @Inject lateinit var claimDao: ClaimDao
     @Inject lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
@@ -29,10 +32,9 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideChoicePresenter(): ChoicePresenter {
-        return ChoicePresenter(application as ThisOrThatApp, questionDao, requestQueue)
+        return ChoicePresenter(application as ThisOrThatApp, questionDao, answerDao, claimDao, requestQueue)
     }
 
-    @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
@@ -57,7 +59,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val thisText = findViewById<TextView>(R.id.thisText)
         val thatText = findViewById<TextView>(R.id.thatText)
         thisText.text = question.firstText
-        thatText.text = question.second
+        thatText.text = question.secondText
     }
 
     override fun skipQuestion() {

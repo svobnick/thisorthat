@@ -3,6 +3,8 @@ package com.svobnick.thisorthat.app
 import com.android.volley.RequestQueue
 import com.svobnick.thisorthat.activities.AnsweredQuestionsActivity
 import com.svobnick.thisorthat.activities.ChoiceActivity
+import com.svobnick.thisorthat.dao.AnswerDao
+import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import dagger.Component
@@ -19,6 +21,8 @@ interface InjectorComponent {
     fun application(): ThisOrThatApp
     fun database(): ApplicationDatabase
     fun questionsDao(): QuestionDao
+    fun claimsDao(): ClaimDao
+    fun answersDao(): AnswerDao
     fun httpClient(): RequestQueue
 
 }

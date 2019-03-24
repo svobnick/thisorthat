@@ -12,7 +12,9 @@ const val apiAddress = "http://dev.thisorthat.ru/api/"
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:items#get-itemsget
  */
-fun questionsRequest(authToken: String, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+fun questionsRequest(authToken: String,
+                     responseListener: Response.Listener<JSONObject>,
+                     errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
         Method.GET,
         "${apiAddress}items/get/20",
@@ -29,7 +31,9 @@ fun questionsRequest(authToken: String, responseListener: Response.Listener<JSON
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:views#post-viewsadd
  */
-fun sendAnswersRequest(authToken: String, answers: Collection<Answer>, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+fun sendAnswersRequest(authToken: String, answers: Collection<Answer>,
+                       responseListener: Response.Listener<JSONObject>,
+                       errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
         Method.POST,
         "${apiAddress}views/add/",
@@ -53,11 +57,13 @@ private fun buildJsonAnswersRequest(answers: Collection<Answer>): JSONObject {
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:abuse#post-abuseadd
  */
-fun sendClaimsRequest(authToken: String, claims: Collection<Claim>, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+fun sendClaimsRequest(authToken: String, json: JSONObject,
+                      responseListener: Response.Listener<JSONObject>,
+                      errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
         Method.POST,
         "${apiAddress}abuse/add/",
-        JSONObject().put("abuse", claims.map { it.id to it.claimReason.toLowerCase() }.toMap()),
+        json,
         responseListener,
         errorListener) {
         override fun getHeaders(): MutableMap<String, String> {
@@ -70,7 +76,9 @@ fun sendClaimsRequest(authToken: String, claims: Collection<Claim>, responseList
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:users#post-usersadd
  */
-fun registrationRequest(instanceId: String, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+fun registrationRequest(instanceId: String,
+                        responseListener: Response.Listener<JSONObject>,
+                        errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
         Method.POST,
         "${apiAddress}users/add/",
@@ -82,7 +90,12 @@ fun registrationRequest(instanceId: String, responseListener: Response.Listener<
 
     }
 
-fun sendNewQuestion(authToken: String, json: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+/**
+ * https://github.com/antonlukin/thisorthat-api/wiki/API:items#post-itemsadd
+ */
+fun sendNewQuestion(authToken: String, json: JSONObject,
+                    responseListener: Response.Listener<JSONObject>,
+                    errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
         Method.POST,
         "${apiAddress}items/add/",

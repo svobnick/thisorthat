@@ -137,18 +137,18 @@ class ChoicePresenter(
             })
     }
 
-    fun claimQuestion(claimReason: CharSequence) {
-        val reason = claimReason.toString()
-        var claim = Claim(currentQuestion!!.id, reason)
-        claimDao.saveClaim(claim)
+    fun claimQuestion(claimReason: String) {
+        val claim = Claim(currentQuestion!!.id, claimReason)
+        var disposable = Single.fromCallable {  claimDao.saveClaim(claim) }
+            .subscribeOn(Schedulers.newThread())
+        val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
         requestQueue.add(
-            sendClaimsRequest(application.authToken(), listOf(claim),
+            sendClaimsRequest(application.authToken(), json,
                 Response.Listener { response ->
-
+                    Log.i(this::class.java.name, response.toString())
                 },
                 Response.ErrorListener {
-
-
+                    Log.e(this::class.java.name, String(it.networkResponse.data))
                 })
         )
         setNextQuestion()

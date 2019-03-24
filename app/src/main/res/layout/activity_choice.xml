@@ -7,6 +7,17 @@
         android:layout_height="match_parent"
         tools:context=".activities.ChoiceActivity">
 
+    <Button
+            android:id="@+id/reportButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/background"
+            android:drawableLeft="@drawable/icon_report_problem"
+            android:onClick="reportQuestion"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+    />
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/firstCard"
             android:layout_weight=".5"
@@ -18,7 +29,7 @@
             android:gravity="center"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reportButton"
             app:layout_constraintBottom_toTopOf="@+id/secondCard"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="24dp"

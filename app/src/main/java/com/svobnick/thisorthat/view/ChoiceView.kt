@@ -10,7 +10,7 @@ import com.svobnick.thisorthat.model.Question
 interface ChoiceView: MvpView {
 
     fun makeChoice(choice: View)
-    fun reportQuestion()
     fun showError(errorMsg: String)
     fun setNewQuestion(question: Question)
+    fun reportQuestion(selected: View)
 }

@@ -44,7 +44,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.setNextQuestion()
     }
 
-    fun onMenuButtonClick(view: View) {
+    fun onMenuButtonClick(selected: View) {
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
     }
@@ -62,8 +62,9 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         thatText.text = question.secondText
     }
 
-    override fun reportQuestion() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun reportQuestion(selected: View) {
+        choicePresenter.claimQuestion("clone")
+        choicePresenter.setNextQuestion()
     }
 
     override fun showError(errorMsg: String) {

@@ -4,13 +4,9 @@ import android.view.View
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.svobnick.thisorthat.model.Question
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface ChoiceView: MvpView {
+interface NewQuestionView: MvpView {
 
-    fun makeChoice(choice: View)
-    fun reportQuestion()
-    fun showError(errorMsg: String)
-    fun setNewQuestion(question: Question)
+    fun onSendQuestionButtonClick(selected: View)
 }

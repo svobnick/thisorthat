@@ -12,19 +12,29 @@
             android:layout_weight=".5"
             android:layout_width="match_parent"
             android:background="@color/first"
-            android:layout_height="350dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/newThatLayout">
+            app:layout_constraintBottom_toTopOf="@+id/newThatLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintVertical_bias="0.44">
         <EditText
                 android:id="@+id/newThisText"
+                android:hint="@string/this_text"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" android:inputType=""/>
+                app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,28 +42,37 @@
             android:layout_weight=".5"
             android:layout_width="match_parent"
             android:background="@color/second"
-            android:layout_height="358dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newThisLayout">
+            app:layout_constraintTop_toBottomOf="@+id/newThisLayout"
+            app:layout_constraintBottom_toTopOf="@+id/send_question"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp">
         <EditText
                 android:id="@+id/newThatText"
+                android:hint="@string/that_text"
                 android:layout_width="0dp"
                 android:layout_height="354dp"
                 android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:inputType=""/>
+                app:layout_constraintStart_toStartOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-            android:id="@+id/menu_button"
-            android:text="@string/menu_button"
+            android:id="@+id/send_question"
+            android:text="@string/send_question_button"
             android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:onClick="onMenuButtonClick"
+            android:onClick="onSendQuestionButtonClick"
             android:clickable="true"
             android:focusable="true"
             android:background="@color/background"

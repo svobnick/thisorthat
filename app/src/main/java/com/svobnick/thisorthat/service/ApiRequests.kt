@@ -81,3 +81,17 @@ fun registrationRequest(instanceId: String, responseListener: Response.Listener<
         errorListener) {
 
     }
+
+fun sendNewQuestion(authToken: String, json: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) =
+    object: JsonObjectRequest(
+        Method.POST,
+        "${apiAddress}items/add/",
+        json,
+        responseListener,
+        errorListener) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+            headers["Authorization"] = "Basic $authToken"
+            return headers
+        }
+    }

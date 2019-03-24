@@ -6,47 +6,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.ChoiceActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/thisLayout"
+
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/firstCard"
             android:layout_weight=".5"
             android:layout_width="match_parent"
-            android:background="@color/first"
-            android:layout_height="350dp"
-            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/first"
+            android:onClick="makeChoice"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/thatLayout">
+            app:layout_constraintBottom_toTopOf="@+id/secondCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintVertical_bias="0.44">
         <TextView
                 android:id="@+id/thisText"
                 android:text="@string/this_text"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:onClick="makeChoice"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
+                android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/thatLayout"
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/secondCard"
             android:layout_weight=".5"
             android:layout_width="match_parent"
-            android:background="@color/second"
-            android:layout_height="358dp"
-            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/second"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thisLayout">
+            app:layout_constraintTop_toBottomOf="@+id/firstCard"
+            app:layout_constraintBottom_toTopOf="@+id/menu_button"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp">
 
         <TextView
                 android:id="@+id/thatText"
                 android:text="@string/that_text"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:onClick="makeChoice"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
@@ -54,19 +76,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-        />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <Button
             android:id="@+id/menu_button"
             android:text="@string/menu_button"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:onClick="onMenuButtonClick"
             android:clickable="true"
             android:focusable="true"
             android:background="@color/background"
+            app:layout_constraintTop_toBottomOf="@+id/secondCard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

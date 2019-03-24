@@ -13,20 +13,20 @@ class MenuActivity : Activity() {
         setContentView(R.layout.activity_statistics_menu)
     }
 
-    fun onHistoryButtonClick(view: View) {
+    fun onHistoryButtonClick(selected: View) {
         val intent = Intent(this, AnsweredQuestionsActivity::class.java)
         startActivity(intent)
     }
 
-    fun onMyQuestionsButtonClick(view: View) {
+    fun onMyQuestionsButtonClick(selected: View) {
 
     }
 
-    fun onCommentedButtonClick(view: View) {
+    fun onCommentedButtonClick(selected: View) {
 
     }
 
-    fun onNewQuestionButtonClick(view: View) {
+    fun onNewQuestionButtonClick(selected: View) {
         val intent = Intent(this, NewQuestionActivity::class.java)
         startActivity(intent)
     }

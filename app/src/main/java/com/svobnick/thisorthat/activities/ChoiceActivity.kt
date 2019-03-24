@@ -28,7 +28,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     @Inject lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var presenter: ChoicePresenter
+    lateinit var choicePresenter: ChoicePresenter
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideChoicePresenter(): ChoicePresenter {
@@ -38,10 +38,10 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        presenter.attachView(this)
+        setContentView(R.layout.activity_choice)
+        choicePresenter.attachView(this)
 
-        presenter.setNextQuestion()
+        choicePresenter.setNextQuestion()
     }
 
     fun onMenuButtonClick(view: View) {
@@ -51,8 +51,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     override fun makeChoice(choice: View) {
         val clickedText = findViewById<TextView>(choice.id)
-        presenter.saveChoice(clickedText.text!!)
-        presenter.setNextQuestion()
+        choicePresenter.saveChoice(clickedText.text!!)
+        choicePresenter.setNextQuestion()
     }
 
     override fun setNewQuestion(question: Question) {
@@ -62,7 +62,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         thatText.text = question.secondText
     }
 
-    override fun skipQuestion() {
+    override fun reportQuestion() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

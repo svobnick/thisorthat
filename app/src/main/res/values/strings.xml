@@ -11,4 +11,5 @@
     <string name="menu_button">Меню</string>
     <string name="send_question_button">Отправить вопрос</string>
     <string name="placeholder">placeholder</string>
+    <string name="or_button">Или</string>
 </resources>

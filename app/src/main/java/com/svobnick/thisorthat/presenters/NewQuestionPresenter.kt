@@ -26,15 +26,17 @@ class NewQuestionPresenter(
                     .put("right_text", secondText)
             )
         json.put("items", items)
-        requestQueue.add(
-            sendNewQuestion(app.authToken(),
-                json,
-                Response.Listener { response ->
-                    Log.i(this::class.java.name, "$response")
-                },
-                Response.ErrorListener {
-                    Log.e(this::class.java.name, String(it.networkResponse.data))
-                })
-        )
+        if (app.authToken() != null) {
+            requestQueue.add(
+                sendNewQuestion(app.authToken()!!,
+                    json,
+                    Response.Listener { response ->
+                        Log.i(this::class.java.name, "$response")
+                    },
+                    Response.ErrorListener {
+                        Log.e(this::class.java.name, String(it.networkResponse.data))
+                    })
+            )
+        }
     }
 }

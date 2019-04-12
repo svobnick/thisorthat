@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">То или Это</string>
-    <string name="this_text">this</string>
-    <string name="that_text">that</string>
+    <string name="this_text">То</string>
+    <string name="that_text">Это</string>
 
 
-    <string name="history_text">History</string>
-    <string name="my_questions_text">My questions</string>
-    <string name="commented_text">Commented</string>
-    <string name="new_question_text">New question</string>
-    <string name="menu_button">Menu</string>
-    <string name="send_question_button">Send question</string>
+    <string name="history_text">История</string>
+    <string name="my_questions_text">Мои вопросы</string>
+    <string name="commented_text">Комментарии</string>
+    <string name="new_question_text">Добавить вопрос</string>
+    <string name="menu_button">Меню</string>
+    <string name="send_question_button">Отправить вопрос</string>
     <string name="placeholder">placeholder</string>
 </resources>

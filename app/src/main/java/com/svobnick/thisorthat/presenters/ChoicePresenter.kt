@@ -109,16 +109,25 @@ class ChoicePresenter(
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (it.size >= 10) {
+                if (it.size >= 10 && application.authToken() != null) {
                     Log.i(this::class.java.name, "Answers size is ${it.size}, try to send it to server")
                     val value = JSONObject();
-                    it.forEach { answer ->  value.put(answer.id.toString(), answer.userChoice) }
+                    it.forEach { answer -> value.put(answer.id.toString(), answer.userChoice) }
                     requestQueue.add(sendAnswersRequest(
-                        application.authToken(),
+                        application.authToken()!!,
                         it,
                         Response.Listener {
                             Log.i(this::class.java.name, "Answers successfully was sent to server!")
-                            Single.fromCallable { answerDao.clear() }.subscribeOn(Schedulers.newThread())
+                            Single.fromCallable {
+                                answerDao.clear()
+                            }
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(Schedulers.newThread())
+                                .subscribe({
+                                    Log.i(this::class.java.name, "Answers table successfully cleared!")
+                                }, {
+                                    Log.e(this::class.java.name, "Failed to clear answers table: ${it.localizedMessage}")
+                                })
                         },
                         Response.ErrorListener { err ->
                             Log.e(
@@ -139,18 +148,20 @@ class ChoicePresenter(
 
     fun claimQuestion(claimReason: String) {
         val claim = Claim(currentQuestion!!.id, claimReason)
-        var disposable = Single.fromCallable {  claimDao.saveClaim(claim) }
+        var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
-        val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
-        requestQueue.add(
-            sendClaimsRequest(application.authToken(), json,
-                Response.Listener { response ->
-                    Log.i(this::class.java.name, response.toString())
-                },
-                Response.ErrorListener {
-                    Log.e(this::class.java.name, String(it.networkResponse.data))
-                })
-        )
+        if (application.authToken() != null) {
+            val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
+            requestQueue.add(
+                sendClaimsRequest(application.authToken()!!, json,
+                    Response.Listener { response ->
+                        Log.i(this::class.java.name, response.toString())
+                    },
+                    Response.ErrorListener {
+                        Log.e(this::class.java.name, String(it.networkResponse.data))
+                    })
+            )
+        }
         setNextQuestion()
     }
 
@@ -168,7 +179,7 @@ class ChoicePresenter(
         val disposable = questionDao
             .getUnansweredQuestions()
             .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(Schedulers.newThread())
             .subscribe({
                 currentQuestionQueue.addAll(it)
                 Log.i(this::class.java.name, "Receive ${it.size} unanswered questions")

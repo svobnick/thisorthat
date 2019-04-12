@@ -3,7 +3,6 @@ package com.svobnick.thisorthat.service
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.svobnick.thisorthat.model.Answer
-import com.svobnick.thisorthat.model.Claim
 import org.json.JSONObject
 
 // todo get api address from properties during application build
@@ -12,7 +11,7 @@ const val apiAddress = "http://dev.thisorthat.ru/api/"
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:items#get-itemsget
  */
-fun questionsRequest(authToken: String,
+fun questionsRequest(authToken: String?,
                      responseListener: Response.Listener<JSONObject>,
                      errorListener: Response.ErrorListener) =
     object: JsonObjectRequest(
@@ -23,7 +22,9 @@ fun questionsRequest(authToken: String,
         errorListener) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = HashMap<String, String>()
-            headers["Authorization"] = "Basic $authToken"
+            if (authToken != null) {
+                headers["Authorization"] = "Basic $authToken"
+            }
             return headers
         }
     }

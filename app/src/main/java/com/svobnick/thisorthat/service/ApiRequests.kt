@@ -6,7 +6,8 @@ import com.svobnick.thisorthat.model.Answer
 import org.json.JSONObject
 
 // todo get api address from properties during application build
-const val apiAddress = "http://dev.thisorthat.ru/api/"
+const val apiAddress = "https://thisorthat.ru/api/"
+//const val apiAddress = "http://dev.thisorthat.ru/api/"
 
 /**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:items#get-itemsget

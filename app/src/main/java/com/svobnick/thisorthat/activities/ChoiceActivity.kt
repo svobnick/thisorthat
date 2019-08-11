@@ -103,7 +103,11 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     fun setupPieChart(): PieChart {
         val chart = findViewById<PieChart>(R.id.result_chart)
         chart.translationZ = 0f
-        chart.setNoDataText("")
+        chart.holeRadius = 80f
+        chart.setHoleColor(Color.TRANSPARENT)
+        chart.description.isEnabled = false
+        chart.legend.isEnabled = false
+        chart.setNoDataText(null)
         chart.invalidate()
         return chart
     }

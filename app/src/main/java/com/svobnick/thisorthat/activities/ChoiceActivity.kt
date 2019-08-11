@@ -1,6 +1,7 @@
 package com.svobnick.thisorthat.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -10,6 +11,10 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
@@ -75,6 +80,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val secondText = findViewById<TextView>(R.id.secondText)
         firstText.text = question.firstRate.toString()
         secondText.text = question.secondRate.toString()
+        setupPieChart()
     }
 
     override fun reportQuestion(selected: View) {
@@ -84,6 +90,17 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     override fun showError(errorMsg: String) {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+    }
+
+    fun setupPieChart() {
+        val pieEntries = mutableListOf(PieEntry(82F), PieEntry(18F))
+        val pieDataSet = PieDataSet(pieEntries, "result")
+        pieDataSet.setColors(Color.parseColor("#F07140"), Color.parseColor("#8A5DA7"))
+        val pieData = PieData(pieDataSet)
+
+        val chart = findViewById<PieChart>(R.id.result_chart)
+        chart.data = pieData
+        chart.invalidate()
     }
 
     fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION

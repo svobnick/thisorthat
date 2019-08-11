@@ -24,14 +24,20 @@ import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.view.ChoiceView
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     lateinit var state: STATE
+    lateinit var chart: PieChart
 
-    @Inject lateinit var questionDao: QuestionDao
-    @Inject lateinit var answerDao: AnswerDao
-    @Inject lateinit var claimDao: ClaimDao
-    @Inject lateinit var requestQueue: RequestQueue
+    @Inject
+    lateinit var questionDao: QuestionDao
+    @Inject
+    lateinit var answerDao: AnswerDao
+    @Inject
+    lateinit var claimDao: ClaimDao
+    @Inject
+    lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
@@ -48,6 +54,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
+        this.chart = setupPieChart()
         choicePresenter.setNextQuestion()
     }
 
@@ -73,6 +80,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val thatText = findViewById<TextView>(R.id.secondText)
         thisText.text = question.firstText
         thatText.text = question.secondText
+        hideChart()
     }
 
     override fun setResultToView(question: Question) {
@@ -80,7 +88,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val secondText = findViewById<TextView>(R.id.secondText)
         firstText.text = question.firstRate.toString()
         secondText.text = question.secondRate.toString()
-        setupPieChart()
+        setDataToChart(question.firstRate, question.secondRate)
     }
 
     override fun reportQuestion(selected: View) {
@@ -92,14 +100,30 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 
-    fun setupPieChart() {
-        val pieEntries = mutableListOf(PieEntry(82F), PieEntry(18F))
+    fun setupPieChart(): PieChart {
+        val chart = findViewById<PieChart>(R.id.result_chart)
+        chart.translationZ = 0f
+        chart.setNoDataText("")
+        chart.invalidate()
+        return chart
+    }
+
+    fun hideChart() {
+        chart.data = null
+        chart.translationZ = 0f
+        chart.invalidate()
+    }
+
+    fun setDataToChart(firstRate: Int, secondRate: Int) {
+        val sum = firstRate + secondRate
+        val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
+        val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
+        val pieEntries = mutableListOf(PieEntry(firstPercent.toFloat()), PieEntry(secondPercent.toFloat()))
         val pieDataSet = PieDataSet(pieEntries, "result")
         pieDataSet.setColors(Color.parseColor("#F07140"), Color.parseColor("#8A5DA7"))
         val pieData = PieData(pieDataSet)
-
-        val chart = findViewById<PieChart>(R.id.result_chart)
         chart.data = pieData
+        chart.translationZ = 2f
         chart.invalidate()
     }
 

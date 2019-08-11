@@ -44,7 +44,7 @@
             android:layout_marginStart="24dp"
             app:layout_constraintTop_toTopOf="@id/reportButton">
         <TextView
-                android:id="@+id/thisText"
+                android:id="@+id/firstText"
                 android:text="@string/this_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,7 +79,7 @@
             app:layout_constraintHorizontal_bias="0.0">
 
         <TextView
-                android:id="@+id/thatText"
+                android:id="@+id/secondText"
                 android:text="@string/that_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

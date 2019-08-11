@@ -23,14 +23,10 @@ import javax.inject.Inject
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     lateinit var state: STATE
 
-    @Inject
-    lateinit var questionDao: QuestionDao
-    @Inject
-    lateinit var answerDao: AnswerDao
-    @Inject
-    lateinit var claimDao: ClaimDao
-    @Inject
-    lateinit var requestQueue: RequestQueue
+    @Inject lateinit var questionDao: QuestionDao
+    @Inject lateinit var answerDao: AnswerDao
+    @Inject lateinit var claimDao: ClaimDao
+    @Inject lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
@@ -68,17 +64,17 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun setNewQuestion(question: Question) {
-        val thisText = findViewById<TextView>(R.id.thisText)
-        val thatText = findViewById<TextView>(R.id.thatText)
+        val thisText = findViewById<TextView>(R.id.firstText)
+        val thatText = findViewById<TextView>(R.id.secondText)
         thisText.text = question.firstText
         thatText.text = question.secondText
     }
 
     override fun setResultToView(question: Question) {
-        val thisText = findViewById<TextView>(R.id.thisText)
-        val thatText = findViewById<TextView>(R.id.thatText)
-        thisText.text = question.firstRate.toString()
-        thatText.text = question.secondRate.toString()
+        val firstText = findViewById<TextView>(R.id.firstText)
+        val secondText = findViewById<TextView>(R.id.secondText)
+        firstText.text = question.firstRate.toString()
+        secondText.text = question.secondRate.toString()
     }
 
     override fun reportQuestion(selected: View) {

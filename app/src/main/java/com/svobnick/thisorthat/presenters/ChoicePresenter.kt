@@ -85,8 +85,8 @@ class ChoicePresenter(
 
     @SuppressLint("CheckResult")
     fun saveChoice(choice: CharSequence) {
-        currentQuestion!!.userChoice = choice == currentQuestion!!.firstText
-        Single.fromCallable { questionDao.saveUserChoice(currentQuestion!!) }
+        currentQuestion.userChoice = choice == currentQuestion.firstText
+        Single.fromCallable { questionDao.saveUserChoice(currentQuestion) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -95,8 +95,8 @@ class ChoicePresenter(
                 viewState.showError(it.localizedMessage)
             })
 
-        val choice = if (choice == currentQuestion!!.firstText) "left" else "right"
-        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion!!.id, choice)) }
+        val choice = if (choice == currentQuestion.firstText) "left" else "right"
+        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, choice)) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -147,7 +147,7 @@ class ChoicePresenter(
     }
 
     fun claimQuestion(claimReason: String) {
-        val claim = Claim(currentQuestion!!.id, claimReason)
+        val claim = Claim(currentQuestion.id, claimReason)
         var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
         if (application.authToken() != null) {

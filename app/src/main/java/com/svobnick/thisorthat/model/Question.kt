@@ -1,7 +1,6 @@
 package com.svobnick.thisorthat.model
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -20,4 +19,10 @@ data class Question(
      * null is unanswered question
      * */
     @ColumnInfo(name = "user_choice") var userChoice: Boolean?
-)
+) {
+
+    companion object {
+        private val EMPTY = Question(-1, "", "", 0, 0, null)
+        fun empty() = EMPTY
+    }
+}

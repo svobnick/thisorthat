@@ -9,8 +9,9 @@ import com.svobnick.thisorthat.model.Question
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface ChoiceView: MvpView {
 
-    fun makeChoice(choice: View)
+    fun onChoiceClick(choice: View)
     fun showError(errorMsg: String)
     fun setNewQuestion(question: Question)
+    fun setResultToView(question: Question)
     fun reportQuestion(selected: View)
 }

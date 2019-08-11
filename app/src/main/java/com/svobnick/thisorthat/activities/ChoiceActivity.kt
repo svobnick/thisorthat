@@ -21,11 +21,16 @@ import com.svobnick.thisorthat.view.ChoiceView
 import javax.inject.Inject
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
+    lateinit var state: STATE
 
-    @Inject lateinit var questionDao: QuestionDao
-    @Inject lateinit var answerDao: AnswerDao
-    @Inject lateinit var claimDao: ClaimDao
-    @Inject lateinit var requestQueue: RequestQueue
+    @Inject
+    lateinit var questionDao: QuestionDao
+    @Inject
+    lateinit var answerDao: AnswerDao
+    @Inject
+    lateinit var claimDao: ClaimDao
+    @Inject
+    lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
@@ -41,6 +46,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         setContentView(R.layout.activity_choice)
         choicePresenter.attachView(this)
 
+        this.state = STATE.QUESTION
         choicePresenter.setNextQuestion()
     }
 
@@ -49,10 +55,16 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         startActivity(intent)
     }
 
-    override fun makeChoice(choice: View) {
-        val clickedText = findViewById<TextView>(choice.id)
-        choicePresenter.saveChoice(clickedText.text!!)
-        choicePresenter.setNextQuestion()
+    override fun onChoiceClick(choice: View) {
+        if (state == STATE.RESULT) {
+            val clickedText = findViewById<TextView>(choice.id)
+            choicePresenter.saveChoice(clickedText.text!!)
+            choicePresenter.setNextQuestion()
+        } else {
+            setResultToView(choicePresenter.currentQuestion)
+        }
+
+        state = changeState()
     }
 
     override fun setNewQuestion(question: Question) {
@@ -62,6 +74,13 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         thatText.text = question.secondText
     }
 
+    override fun setResultToView(question: Question) {
+        val thisText = findViewById<TextView>(R.id.thisText)
+        val thatText = findViewById<TextView>(R.id.thatText)
+        thisText.text = question.firstRate.toString()
+        thatText.text = question.secondRate.toString()
+    }
+
     override fun reportQuestion(selected: View) {
         choicePresenter.claimQuestion("clone")
         choicePresenter.setNextQuestion()
@@ -69,5 +88,13 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     override fun showError(errorMsg: String) {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+    }
+
+    fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION
+
+    enum class STATE {
+        QUESTION,
+        RESULT;
+
     }
 }

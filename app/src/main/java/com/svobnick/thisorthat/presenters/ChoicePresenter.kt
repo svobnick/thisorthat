@@ -3,26 +3,25 @@ package com.svobnick.thisorthat.presenters
 import android.annotation.SuppressLint
 import android.util.Log
 import com.android.volley.RequestQueue
+import com.android.volley.Response
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.svobnick.thisorthat.dao.QuestionDao
-import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.questionsRequest
-import com.svobnick.thisorthat.view.ChoiceView
-import java.util.*
-import com.android.volley.Response
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
+import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
-import com.svobnick.thisorthat.model.ClaimReason
+import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.service.questionsRequest
 import com.svobnick.thisorthat.service.sendAnswersRequest
 import com.svobnick.thisorthat.service.sendClaimsRequest
+import com.svobnick.thisorthat.view.ChoiceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
+import java.util.*
 import kotlin.collections.ArrayList
 
 @InjectViewState
@@ -34,10 +33,11 @@ class ChoicePresenter(
     private val requestQueue: RequestQueue
 ) : MvpPresenter<ChoiceView>() {
 
-    var currentQuestion: Question? = null
+    var currentQuestion: Question = Question.empty()
     var currentQuestionQueue: Queue<Question> = LinkedList()
 
     init {
+        currentQuestion
         getUnansweredQuestions()
         if (!currentQuestionQueue.isEmpty()) {
             setNextQuestion()

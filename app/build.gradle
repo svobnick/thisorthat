@@ -27,6 +27,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.firebase:firebase-core:17.0.1'
 
+    // ads support
+    implementation 'com.google.firebase:firebase-ads:18.1.1'
+
     // common android libraries
     implementation 'com.android.support:appcompat-v7:29.0.0'
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"

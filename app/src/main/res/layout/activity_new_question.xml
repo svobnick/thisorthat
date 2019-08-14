@@ -25,7 +25,7 @@
             app:layout_constraintVertical_bias="0.44">
         <EditText
                 android:id="@+id/newThisText"
-                android:hint="@string/this_text"
+                android:hint="@string/first_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -54,7 +54,7 @@
             android:layout_marginRight="24dp">
         <EditText
                 android:id="@+id/newThatText"
-                android:hint="@string/that_text"
+                android:hint="@string/second_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

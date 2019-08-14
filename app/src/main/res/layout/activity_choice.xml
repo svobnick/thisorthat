@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="@id/reportButton">
         <TextView
                 android:id="@+id/firstText"
-                android:text="@string/this_text"
+                android:text="@string/first_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:onClick="onChoiceClick"
@@ -80,7 +80,7 @@
 
         <TextView
                 android:id="@+id/secondText"
-                android:text="@string/that_text"
+                android:text="@string/second_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:onClick="onChoiceClick"

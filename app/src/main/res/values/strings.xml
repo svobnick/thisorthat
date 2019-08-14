@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">То или Это</string>
-    <string name="this_text">То</string>
-    <string name="that_text">Это</string>
+    <string name="first_text">То</string>
+    <string name="second_text">Это</string>
 
 
     <string name="history_text">История</string>
@@ -12,4 +12,7 @@
     <string name="send_question_button">Отправить вопрос</string>
     <string name="placeholder">placeholder</string>
     <string name="or_button">Или</string>
+
+    <string name="application_ad_id">"ca-app-pub-7005450343890487~7223429492"</string>
+    <string name="new_question_interstitial_ad_id">ca-app-pub-7005450343890487/7572721777</string>
 </resources>

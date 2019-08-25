@@ -7,7 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.svobnick.thisorthat.model.Question
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface ChoiceView: MvpView {
+interface ChoiceView : MvpView {
 
     fun onChoiceClick(choice: View)
     fun showError(errorMsg: String)

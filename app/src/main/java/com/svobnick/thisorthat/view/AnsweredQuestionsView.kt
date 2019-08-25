@@ -6,7 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.svobnick.thisorthat.model.Question
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface AnsweredQuestionsView: MvpView {
+interface AnsweredQuestionsView : MvpView {
 
     fun setAnsweredQuestions(it: List<Question>)
     fun updateQuestions()

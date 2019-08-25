@@ -16,13 +16,14 @@
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="@string/application_ad_id"/>
 
-        <activity android:name="com.svobnick.thisorthat.activities.ChoiceActivity">
+        <activity android:name="com.svobnick.thisorthat.activities.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.svobnick.thisorthat.activities.ChoiceActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.MenuActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.NewQuestionActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.AnsweredQuestionsActivity"/>

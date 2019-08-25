@@ -26,7 +26,6 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
     @Singleton
     fun getDatabase() = database
 
-
     @Provides
     @Singleton
     fun getQuestionsDao() = database.questionDao()

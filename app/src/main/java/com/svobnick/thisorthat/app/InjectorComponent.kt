@@ -4,6 +4,7 @@ import com.android.volley.RequestQueue
 import com.svobnick.thisorthat.activities.AnsweredQuestionsActivity
 import com.svobnick.thisorthat.activities.ChoiceActivity
 import com.svobnick.thisorthat.activities.NewQuestionActivity
+import com.svobnick.thisorthat.activities.StartupActivity
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 interface InjectorComponent {
 
     fun inject(application: ThisOrThatApp)
+    fun inject(startupActivity: StartupActivity)
     fun inject(chooseActivity: ChoiceActivity)
     fun inject(newQuestionActivity: NewQuestionActivity)
     fun inject(answeredQuestionsActivity: AnsweredQuestionsActivity)

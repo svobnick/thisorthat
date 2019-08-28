@@ -13,16 +13,16 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.questionsRequest
+import com.svobnick.thisorthat.service.getNextQuestions
 import com.svobnick.thisorthat.service.sendAnswersRequest
 import com.svobnick.thisorthat.service.sendClaimsRequest
 import com.svobnick.thisorthat.view.ChoiceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 @InjectViewState
 class ChoicePresenter(
@@ -48,36 +48,42 @@ class ChoicePresenter(
 
     private fun getNewQuestions() {
         requestQueue.add(
-            questionsRequest(
-                application.authToken(),
+            getNextQuestions(
+                application.authToken!!,
                 Response.Listener { response ->
                     val questions2save = ArrayList<Question>()
-                    response.keys().forEach { key ->
-                        val question = response.get(key) as JSONObject
-                        questions2save.add(
-                            Question(
-                                key.toLong(),
-                                question.get("left_text").toString(),
-                                question.get("right_text").toString(),
-                                question.get("left_vote").toString().toInt(),
-                                question.get("right_vote").toString().toInt(),
-                                null
-                            )
-                        )
-                    }
-                    Single.fromCallable { questionDao.insertAll(questions2save) }
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            Log.i(this::class.java.name, "Successfully saved ${questions2save.size} new questions")
-                        }, {
-                            viewState.showError(it.localizedMessage)
-                        })
-                    getUnansweredQuestions()
-                    setNextQuestion()
+                    val json = JSONObject(response)
+                    val items = (json["result"] as JSONObject)["items"] as JSONArray
+                    println(items)
+//                    for (i: Int = 0; i < items.length(); i++) {
+//
+//                }
+//                    response.keys().forEach { key ->
+//                        val question = response.get(key) as JSONObject
+//                        questions2save.add(
+//                            Question(
+//                                key.toLong(),
+//                                question.get("left_text").toString(),
+//                                question.get("right_text").toString(),
+//                                question.get("left_vote").toString().toInt(),
+//                                question.get("right_vote").toString().toInt(),
+//                                null
+//                            )
+//                        )
+//                    }
+//                    Single.fromCallable { questionDao.insertAll(questions2save) }
+//                        .subscribeOn(Schedulers.newThread())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({
+//                            Log.i(this::class.java.name, "Successfully saved ${questions2save.size} new questions")
+//                        }, {
+//                            viewState.showError(it.localizedMessage)
+//                        })
+//                    getUnansweredQuestions()
+//                    setNextQuestion()
                 },
                 Response.ErrorListener {
-                    Log.e(this::class.java.name, String(it.networkResponse.data))
+                    Log.e(this::class.java.name, JSONObject(String(it.networkResponse.data)).toString())
                     it.printStackTrace()
                 })
         )

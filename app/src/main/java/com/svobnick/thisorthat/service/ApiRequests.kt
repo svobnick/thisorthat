@@ -23,7 +23,7 @@ fun registrationRequest(
         errorListener
     ) {
         override fun getParams(): MutableMap<String, String> {
-            return mutableMapOf<String, String>(
+            return mutableMapOf(
                 Pair("client", "android_v2"),
                 Pair("uniqid", instanceId)
             )
@@ -31,26 +31,47 @@ fun registrationRequest(
     }
 
 /**
- * https://github.com/antonlukin/thisorthat-api/wiki/API:items#get-itemsget
+ * https://docs.thisorthat.ru/#getitems
  */
-fun questionsRequest(
-    authToken: String?,
-    responseListener: Response.Listener<JSONObject>,
+fun getNextQuestions(
+    authToken: String,
+    responseListener: Response.Listener<String>,
     errorListener: Response.ErrorListener
 ) =
-    object : JsonObjectRequest(
-        Method.GET,
-        "${apiAddress}items/get/20",
-        null,
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}getItems",
         responseListener,
         errorListener
     ) {
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = HashMap<String, String>()
-            if (authToken != null) {
-                headers["Authorization"] = "Basic $authToken"
-            }
-            return headers
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("status", "approved")
+            )
+        }
+    }
+
+/**
+ * https://docs.thisorthat.ru/#additem
+ */
+fun sendNewQuestion(
+    json: JSONObject,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}addItem",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", json["token"] as String),
+                Pair("first_text", json["first_text"] as String),
+                Pair("last_text", json["last_text"] as String)
+            )
         }
     }
 
@@ -94,28 +115,6 @@ fun sendClaimsRequest(
     object : JsonObjectRequest(
         Method.POST,
         "${apiAddress}abuse/add/",
-        json,
-        responseListener,
-        errorListener
-    ) {
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = HashMap<String, String>()
-            headers["Authorization"] = "Basic $authToken"
-            return headers
-        }
-    }
-
-/**
- * https://github.com/antonlukin/thisorthat-api/wiki/API:items#post-itemsadd
- */
-fun sendNewQuestion(
-    authToken: String, json: JSONObject,
-    responseListener: Response.Listener<JSONObject>,
-    errorListener: Response.ErrorListener
-) =
-    object : JsonObjectRequest(
-        Method.POST,
-        "${apiAddress}items/add/",
         json,
         responseListener,
         errorListener

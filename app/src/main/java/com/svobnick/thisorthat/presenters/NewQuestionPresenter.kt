@@ -8,7 +8,6 @@ import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.sendNewQuestion
 import com.svobnick.thisorthat.view.NewQuestionView
-import org.json.JSONArray
 import org.json.JSONObject
 
 @InjectViewState
@@ -19,16 +18,12 @@ class NewQuestionPresenter(
 
     fun send(firstText: String, secondText: String) {
         val json = JSONObject()
-        val items = JSONArray()
-            .put(
-                JSONObject()
-                    .put("left_text", firstText)
-                    .put("right_text", secondText)
-            )
-        json.put("items", items)
+            .put("first_text", firstText)
+            .put("last_text", secondText)
+            .put("token", app.authToken)
         if (app.authToken() != null) {
             requestQueue.add(
-                sendNewQuestion(app.authToken()!!,
+                sendNewQuestion(
                     json,
                     Response.Listener { response ->
                         Log.i(this::class.java.name, "$response")

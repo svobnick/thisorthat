@@ -1,10 +1,7 @@
 package com.svobnick.thisorthat.app
 
 import com.android.volley.RequestQueue
-import com.svobnick.thisorthat.activities.AnsweredQuestionsActivity
-import com.svobnick.thisorthat.activities.ChoiceActivity
-import com.svobnick.thisorthat.activities.NewQuestionActivity
-import com.svobnick.thisorthat.activities.StartupActivity
+import com.svobnick.thisorthat.activities.*
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
@@ -21,6 +18,7 @@ interface InjectorComponent {
     fun inject(chooseActivity: ChoiceActivity)
     fun inject(newQuestionActivity: NewQuestionActivity)
     fun inject(answeredQuestionsActivity: AnsweredQuestionsActivity)
+    fun inject(myQuestionsActivity: MyQuestionsActivity)
 
     fun application(): ThisOrThatApp
     fun database(): ApplicationDatabase

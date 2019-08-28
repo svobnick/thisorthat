@@ -42,7 +42,8 @@ class MenuActivity : Activity() {
     }
 
     fun onMyQuestionsButtonClick(selected: View) {
-
+        val intent = Intent(this, MyQuestionsActivity::class.java)
+        startActivity(intent)
     }
 
     fun onCommentedButtonClick(selected: View) {

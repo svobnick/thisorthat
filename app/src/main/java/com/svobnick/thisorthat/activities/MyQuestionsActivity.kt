@@ -9,15 +9,15 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.adapters.AnsweredQuestionsAdapter
+import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.presenters.AnsweredQuestionsPresenter
-import com.svobnick.thisorthat.view.AnsweredQuestionsView
+import com.svobnick.thisorthat.presenters.MyQuestionsPresenter
+import com.svobnick.thisorthat.view.MyQuestionsView
 import javax.inject.Inject
 
-class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView {
+class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -25,35 +25,35 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
     lateinit var requestQueue: RequestQueue
 
     @InjectPresenter
-    lateinit var presenter: AnsweredQuestionsPresenter
+    lateinit var presenter: MyQuestionsPresenter
 
     @ProvidePresenter
-    fun provideAnsweredQuestionsPresenter(): AnsweredQuestionsPresenter {
-        return AnsweredQuestionsPresenter(questionDao, requestQueue)
+    fun provideMyQuestionsPresenter(): MyQuestionsPresenter {
+        return MyQuestionsPresenter(application as ThisOrThatApp, requestQueue)
     }
 
-    lateinit var answeredQuestionsList: RecyclerView
-    lateinit var adapter: AnsweredQuestionsAdapter
+    lateinit var myQuestionsList: RecyclerView
+    lateinit var adapter: MyQuestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_answered_questions)
+        setContentView(R.layout.activity_my_questions)
         presenter.attachView(this)
 
-        answeredQuestionsList = findViewById(R.id.answered_questions_list)
-        answeredQuestionsList.layoutManager = LinearLayoutManager(this)
-        adapter = AnsweredQuestionsAdapter()
-        answeredQuestionsList.adapter = adapter
+        myQuestionsList = findViewById(R.id.my_questions_list)
+        myQuestionsList.layoutManager = LinearLayoutManager(this)
+        adapter = MyQuestionsAdapter()
+        myQuestionsList.adapter = adapter
 
-        presenter.getAnsweredQuestions()
+        presenter.getMyQuestions()
     }
 
-    override fun setAnsweredQuestions(it: List<Question>) {
-        adapter.setAnsweredQuestions(it)
+    override fun setMyQuestions(it: List<Question>) {
+        adapter.setMyQuestions(it)
     }
 
-    override fun updateQuestions() {
+    override fun updateMyQuestions() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

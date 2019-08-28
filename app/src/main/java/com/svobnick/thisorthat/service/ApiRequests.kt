@@ -76,6 +76,31 @@ fun sendNewQuestion(
     }
 
 /**
+ * https://docs.thisorthat.ru/#getmyitems
+ */
+fun getMyQuestions(
+    json: JSONObject,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object: StringRequest(
+        Method.POST,
+        "${apiAddress}getMyItems",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", json["token"] as String),
+                Pair("limit", json["limit"] as String),
+                Pair("offset", json["offset"] as String)
+            )
+        }
+    }
+
+
+
+/**
  * https://github.com/antonlukin/thisorthat-api/wiki/API:views#post-viewsadd
  */
 fun sendAnswersRequest(

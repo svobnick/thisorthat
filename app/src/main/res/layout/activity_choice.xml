@@ -12,7 +12,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@color/background"
-            android:drawableLeft="@drawable/icon_report_problem"
+            android:drawableStart="@drawable/icon_report_problem"
             android:onClick="reportQuestion"
             android:clickable="true"
             android:focusable="true"
@@ -23,6 +23,24 @@
             app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp" app:layout_constraintVertical_bias="0.0"/>
+
+    <Button
+            android:id="@+id/favoriteButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:background="@color/background"
+            android:clickable="true"
+            android:drawableStart="@drawable/icon_add_favorite"
+            android:focusable="true"
+            android:onClick="addFavoriteQuestion"
+            app:layout_constraintBottom_toBottomOf="@id/firstCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.955"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/firstCard"
             android:layout_weight=".5"

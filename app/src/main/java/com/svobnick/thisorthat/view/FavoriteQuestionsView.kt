@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.view
 
+import android.view.View
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
@@ -10,5 +11,6 @@ interface FavoriteQuestionsView : MvpView {
 
     fun setFavoriteQuestions(it: List<Question>)
     fun updateFavoriteQuestions()
+    fun deleteFavoriteQuestion(selected: View)
     fun showError(errorMsg: String)
 }

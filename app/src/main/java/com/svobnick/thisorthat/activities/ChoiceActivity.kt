@@ -96,6 +96,10 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.setNextQuestion()
     }
 
+    override fun addFavoriteQuestion(selected: View) {
+        choicePresenter.addFavoriteQuestion()
+    }
+
     override fun showError(errorMsg: String) {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }

@@ -29,7 +29,7 @@ class NewQuestionPresenter(
                     Log.i(TAG, "$response")
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, String(it.networkResponse.data))
+                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
                 })
         )
     }

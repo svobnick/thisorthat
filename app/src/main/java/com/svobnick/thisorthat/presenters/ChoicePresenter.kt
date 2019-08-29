@@ -13,6 +13,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.service.addFavoriteRequest
 import com.svobnick.thisorthat.service.getNextQuestions
 import com.svobnick.thisorthat.service.sendAnswersRequest
 import com.svobnick.thisorthat.service.sendReportRequest
@@ -130,12 +131,21 @@ class ChoicePresenter(
                                 .subscribe({
                                     Log.i(TAG, "Answers table successfully cleared!")
                                 }, {
-                                    Log.e(TAG, "Failed to clear answers table: ${it.localizedMessage}")
+                                    Log.e(
+                                        TAG,
+                                        "Failed to clear answers table: ${it.localizedMessage}"
+                                    )
                                 })
                         },
                         Response.ErrorListener {
-                            Log.e(TAG, "Sending answers to server failed cause: ${it.localizedMessage}")
-                            Log.e(TAG, "Server response data: ${JSONObject(String(it.networkResponse.data))}")
+                            Log.e(
+                                TAG,
+                                "Sending answers to server failed cause: ${it.localizedMessage}"
+                            )
+                            Log.e(
+                                TAG,
+                                "Server response data: ${JSONObject(String(it.networkResponse.data))}"
+                            )
                         }
                     ))
                 }
@@ -149,17 +159,32 @@ class ChoicePresenter(
         var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
         requestQueue.add(
-            sendReportRequest(application.authToken!!,
+            sendReportRequest(
+                application.authToken!!,
                 currentQuestion.id,
                 reportReason,
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, String(it.networkResponse.data))
+                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
                 })
         )
         setNextQuestion()
+    }
+
+    fun addFavoriteQuestion() {
+        requestQueue.add(
+            addFavoriteRequest(
+                application.authToken!!,
+                currentQuestion.id.toString(),
+                Response.Listener { response ->
+                    Log.i(TAG, response.toString())
+                },
+                Response.ErrorListener {
+                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                })
+        )
     }
 
     fun setNextQuestion() {
@@ -172,7 +197,7 @@ class ChoicePresenter(
         }
     }
 
-    fun getUnansweredQuestions() {
+    private fun getUnansweredQuestions() {
         val disposable = questionDao
             .getUnansweredQuestions()
             .subscribeOn(Schedulers.newThread())

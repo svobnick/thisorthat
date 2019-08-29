@@ -1,6 +1,8 @@
 package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +53,11 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
 
     override fun setFavoriteQuestions(it: List<Question>) {
         adapter.setFavoriteQuestions(it)
+    }
+
+    override fun deleteFavoriteQuestion(selected: View) {
+        val hiddenId: TextView = findViewById<TextView>(R.id.hidden_id)
+        presenter.deleteFavoriteQiestion(hiddenId.text.toString())
     }
 
     override fun updateFavoriteQuestions() {

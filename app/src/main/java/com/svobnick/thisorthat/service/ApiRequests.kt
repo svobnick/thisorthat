@@ -146,3 +146,73 @@ fun sendReportRequest(
             )
         }
     }
+
+/**
+ * https://docs.thisorthat.ru/#getfavorite
+ */
+fun getFavoriteRequest(
+    json: JSONObject,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}getFavorite",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", json["token"] as String),
+                Pair("limit", json["limit"] as String),
+                Pair("offset", json["offset"] as String)
+            )
+        }
+    }
+
+/**
+ * https://docs.thisorthat.ru/#addfavorite
+ */
+fun addFavoriteRequest(
+    authToken: String,
+    itemId: String,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}addFavorite",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("item_id", itemId)
+            )
+        }
+    }
+
+/**
+ * https://docs.thisorthat.ru/#deletefavorite
+ */
+fun deleteFavoriteRequest(
+    authToken: String,
+    itemId: String,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}deleteFavorite",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("item_id", itemId)
+            )
+        }
+    }
+

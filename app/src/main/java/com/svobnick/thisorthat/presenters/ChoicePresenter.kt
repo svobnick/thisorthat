@@ -98,6 +98,7 @@ class ChoicePresenter(
                 viewState.showError(it.localizedMessage)
             })
 
+        // todo this thing needs refactoring
         val answer = if (choice.toInt() == currentQuestion.firstRate) "first" else "last"
         Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, answer)) }
             .subscribeOn(Schedulers.newThread())

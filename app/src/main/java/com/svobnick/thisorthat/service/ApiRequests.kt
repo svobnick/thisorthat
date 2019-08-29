@@ -1,7 +1,6 @@
 package com.svobnick.thisorthat.service
 
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.svobnick.thisorthat.model.Answer
 import org.json.JSONObject
@@ -123,30 +122,27 @@ fun sendAnswersRequest(
         }
     }
 
-private fun buildJsonAnswersRequest(answers: Collection<Answer>): JSONObject {
-    val views = JSONObject()
-    answers.forEach { views.put(it.id.toString(), it.userChoice) }
-    return JSONObject().put("views", views)
-}
-
 /**
- * https://github.com/antonlukin/thisorthat-api/wiki/API:abuse#post-abuseadd
+ * https://docs.thisorthat.ru/#sendreport
  */
-fun sendClaimsRequest(
-    authToken: String, json: JSONObject,
-    responseListener: Response.Listener<JSONObject>,
+fun sendReportRequest(
+    authToken: String,
+    itemId: Long,
+    reason: String,
+    responseListener: Response.Listener<String>,
     errorListener: Response.ErrorListener
 ) =
-    object : JsonObjectRequest(
+    object : StringRequest(
         Method.POST,
-        "${apiAddress}abuse/add/",
-        json,
+        "${apiAddress}sendReport",
         responseListener,
         errorListener
     ) {
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = HashMap<String, String>()
-            headers["Authorization"] = "Basic $authToken"
-            return headers
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("item_id", itemId.toString()),
+                Pair("reason", reason)
+            )
         }
     }

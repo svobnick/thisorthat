@@ -15,7 +15,7 @@ import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.getNextQuestions
 import com.svobnick.thisorthat.service.sendAnswersRequest
-import com.svobnick.thisorthat.service.sendClaimsRequest
+import com.svobnick.thisorthat.service.sendReportRequest
 import com.svobnick.thisorthat.view.ChoiceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -143,13 +143,14 @@ class ChoicePresenter(
             })
     }
 
-    fun claimQuestion(claimReason: String) {
-        val claim = Claim(currentQuestion.id, claimReason)
+    fun reportQuestion(reportReason: String) {
+        val claim = Claim(currentQuestion.id, reportReason)
         var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
-        val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
         requestQueue.add(
-            sendClaimsRequest(application.authToken!!, json,
+            sendReportRequest(application.authToken!!,
+                currentQuestion.id,
+                reportReason,
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
                 },

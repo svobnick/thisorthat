@@ -92,7 +92,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun reportQuestion(selected: View) {
-        choicePresenter.claimQuestion("clone")
+        choicePresenter.reportQuestion("clone")
         choicePresenter.setNextQuestion()
     }
 

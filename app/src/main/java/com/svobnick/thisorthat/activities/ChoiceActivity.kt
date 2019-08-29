@@ -66,7 +66,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun onChoiceClick(choice: View) {
         if (state == STATE.RESULT) {
             val clickedText = findViewById<TextView>(choice.id)
-            choicePresenter.saveChoice(clickedText.text!!)
+            choicePresenter.saveChoice(clickedText.text!!.toString())
             choicePresenter.setNextQuestion()
         } else {
             setResultToView(choicePresenter.currentQuestion)

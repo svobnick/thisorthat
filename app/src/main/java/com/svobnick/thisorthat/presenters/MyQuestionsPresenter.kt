@@ -17,6 +17,7 @@ class MyQuestionsPresenter(
     private val app: ThisOrThatApp,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<MyQuestionsView>() {
+    private val TAG = this::class.java.name
 
     fun getMyQuestions() {
         val json = JSONObject()
@@ -40,12 +41,12 @@ class MyQuestionsPresenter(
                             null
                         ))
                     }
-                    Log.i(this::class.java.name, "Receive my questions")
+                    Log.i(TAG, "Receive my questions")
                     viewState.setMyQuestions(questions)
                 },
                 Response.ErrorListener {
                     val errData = JSONObject(String(it.networkResponse.data)).toString();
-                    Log.e(this::class.java.name, errData)
+                    Log.e(TAG, errData)
                     viewState.showError(errData)
                 })
         )

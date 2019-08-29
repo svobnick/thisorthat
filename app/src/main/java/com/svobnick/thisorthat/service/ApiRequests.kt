@@ -83,7 +83,7 @@ fun getMyQuestions(
     responseListener: Response.Listener<String>,
     errorListener: Response.ErrorListener
 ) =
-    object: StringRequest(
+    object : StringRequest(
         Method.POST,
         "${apiAddress}getMyItems",
         responseListener,
@@ -99,27 +99,27 @@ fun getMyQuestions(
     }
 
 
-
 /**
- * https://github.com/antonlukin/thisorthat-api/wiki/API:views#post-viewsadd
+ * https://docs.thisorthat.ru/#setviewed
  */
 fun sendAnswersRequest(
-    authToken: String, answers: Collection<Answer>,
-    responseListener: Response.Listener<JSONObject>,
+    authToken: String,
+    answers: Collection<Answer>,
+    responseListener: Response.Listener<String>,
     errorListener: Response.ErrorListener
 ) =
-    object : JsonObjectRequest(
+    object : StringRequest(
         Method.POST,
-        "${apiAddress}views/add/",
-        buildJsonAnswersRequest(answers),
+        "${apiAddress}setViewed",
         responseListener,
         errorListener
     ) {
-
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = HashMap<String, String>()
-            headers["Authorization"] = "Basic $authToken"
-            return headers
+        override fun getParams(): MutableMap<String, String> {
+            val result = mutableMapOf(Pair("token", authToken))
+            answers.forEach {
+                result["views[${it.id}]"] = it.userChoice
+            }
+            return result
         }
     }
 

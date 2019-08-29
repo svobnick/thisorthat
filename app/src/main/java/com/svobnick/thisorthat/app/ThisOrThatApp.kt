@@ -16,8 +16,4 @@ class ThisOrThatApp : Application() {
 
         injector.inject(this)
     }
-
-    fun authToken(): String? {
-        return authToken
-    }
 }

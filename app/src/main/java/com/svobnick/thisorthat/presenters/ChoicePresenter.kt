@@ -32,6 +32,7 @@ class ChoicePresenter(
     private val claimDao: ClaimDao,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<ChoiceView>() {
+    private val TAG = this::class.java.name
 
     var currentQuestion: Question = Question.empty()
     var currentQuestionQueue: Queue<Question> = LinkedList()
@@ -54,59 +55,55 @@ class ChoicePresenter(
                     val questions2save = ArrayList<Question>()
                     val json = JSONObject(response)
                     val items = (json["result"] as JSONObject)["items"] as JSONArray
-                    println(items)
-//                    for (i: Int = 0; i < items.length(); i++) {
-//
-//                }
-//                    response.keys().forEach { key ->
-//                        val question = response.get(key) as JSONObject
-//                        questions2save.add(
-//                            Question(
-//                                key.toLong(),
-//                                question.get("left_text").toString(),
-//                                question.get("right_text").toString(),
-//                                question.get("left_vote").toString().toInt(),
-//                                question.get("right_vote").toString().toInt(),
-//                                null
-//                            )
-//                        )
-//                    }
-//                    Single.fromCallable { questionDao.insertAll(questions2save) }
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({
-//                            Log.i(this::class.java.name, "Successfully saved ${questions2save.size} new questions")
-//                        }, {
-//                            viewState.showError(it.localizedMessage)
-//                        })
-//                    getUnansweredQuestions()
-//                    setNextQuestion()
+                    for (i in 0 until items.length()) {
+                        val json = items.get(i) as JSONObject
+                        questions2save.add(
+                            Question(
+                                (json["item_id"] as String).toLong(),
+                                json["first_text"] as String,
+                                json["last_text"] as String,
+                                json["first_vote"] as Int,
+                                json["last_vote"] as Int,
+                                null
+                            )
+                        )
+                    }
+                    Single.fromCallable { questionDao.insertAll(questions2save) }
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Log.i(TAG, "Successfully saved ${questions2save.size} new questions")
+                        }, {
+                            viewState.showError(it.localizedMessage)
+                        })
+                    getUnansweredQuestions()
+                    setNextQuestion()
                 },
                 Response.ErrorListener {
-                    Log.e(this::class.java.name, JSONObject(String(it.networkResponse.data)).toString())
+                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
                     it.printStackTrace()
                 })
         )
     }
 
     @SuppressLint("CheckResult")
-    fun saveChoice(choice: CharSequence) {
-        currentQuestion.userChoice = choice == currentQuestion.firstText
+    fun saveChoice(choice: String) {
+        currentQuestion.userChoice = choice.toInt() == currentQuestion.firstRate
         Single.fromCallable { questionDao.saveUserChoice(currentQuestion) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i(this::class.java.name, "Choice saved successfully")
+                Log.i(TAG, "Choice saved successfully")
             }, {
                 viewState.showError(it.localizedMessage)
             })
 
-        val choice = if (choice == currentQuestion.firstText) "left" else "right"
-        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, choice)) }
+        val answer = if (choice.toInt() == currentQuestion.firstRate) "first" else "last"
+        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, answer)) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i(this::class.java.name, "Answer saved successfully")
+                Log.i(TAG, "Answer saved successfully")
             }, {
                 viewState.showError(it.localizedMessage)
             })
@@ -115,35 +112,29 @@ class ChoicePresenter(
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (it.size >= 10 && application.authToken() != null) {
-                    Log.i(this::class.java.name, "Answers size is ${it.size}, try to send it to server")
+                if (it.size >= 10) {
+                    Log.i(TAG, "Answers size is ${it.size}, try to send it to server")
                     val value = JSONObject();
                     it.forEach { answer -> value.put(answer.id.toString(), answer.userChoice) }
                     requestQueue.add(sendAnswersRequest(
-                        application.authToken()!!,
+                        application.authToken!!,
                         it,
                         Response.Listener {
-                            Log.i(this::class.java.name, "Answers successfully was sent to server!")
+                            Log.i(TAG, "Answers successfully was sent to server!")
                             Single.fromCallable {
                                 answerDao.clear()
                             }
                                 .subscribeOn(Schedulers.newThread())
                                 .observeOn(Schedulers.newThread())
                                 .subscribe({
-                                    Log.i(this::class.java.name, "Answers table successfully cleared!")
+                                    Log.i(TAG, "Answers table successfully cleared!")
                                 }, {
-                                    Log.e(this::class.java.name, "Failed to clear answers table: ${it.localizedMessage}")
+                                    Log.e(TAG, "Failed to clear answers table: ${it.localizedMessage}")
                                 })
                         },
-                        Response.ErrorListener { err ->
-                            Log.e(
-                                this::class.java.name,
-                                "Sending answers to server failed cause: ${err.localizedMessage}"
-                            )
-                            Log.e(
-                                this::class.java.name,
-                                "Server response data: ${String(err.networkResponse.data)}"
-                            )
+                        Response.ErrorListener {
+                            Log.e(TAG, "Sending answers to server failed cause: ${it.localizedMessage}")
+                            Log.e(TAG, "Server response data: ${JSONObject(String(it.networkResponse.data))}")
                         }
                     ))
                 }
@@ -156,18 +147,16 @@ class ChoicePresenter(
         val claim = Claim(currentQuestion.id, claimReason)
         var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
-        if (application.authToken() != null) {
-            val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
-            requestQueue.add(
-                sendClaimsRequest(application.authToken()!!, json,
-                    Response.Listener { response ->
-                        Log.i(this::class.java.name, response.toString())
-                    },
-                    Response.ErrorListener {
-                        Log.e(this::class.java.name, String(it.networkResponse.data))
-                    })
-            )
-        }
+        val json = JSONObject().put("abuse", JSONObject().put(claim.id.toString(), claimReason))
+        requestQueue.add(
+            sendClaimsRequest(application.authToken!!, json,
+                Response.Listener { response ->
+                    Log.i(TAG, response.toString())
+                },
+                Response.ErrorListener {
+                    Log.e(TAG, String(it.networkResponse.data))
+                })
+        )
         setNextQuestion()
     }
 
@@ -188,7 +177,7 @@ class ChoicePresenter(
             .observeOn(Schedulers.newThread())
             .subscribe({
                 currentQuestionQueue.addAll(it)
-                Log.i(this::class.java.name, "Receive ${it.size} unanswered questions")
+                Log.i(TAG, "Receive ${it.size} unanswered questions")
             }, {
                 viewState.showError(it.localizedMessage)
             })

@@ -19,6 +19,7 @@ class StartupPresenter(
     val application: ThisOrThatApp,
     val requestQueue: RequestQueue
 ) : MvpPresenter<StartupView>() {
+    private val TAG = this::class.java.name
 
     fun checkRegistration() {
         val instanceId = FirebaseInstanceId.getInstance().id
@@ -28,7 +29,7 @@ class StartupPresenter(
         if (tokenFile.exists()) {
             val authToken = tokenFile.readText()
             application.authToken = authToken
-            Log.i(this::class.java.name, "Read authToken $authToken from file")
+            Log.i(TAG, "Read authToken $authToken from file")
         } else {
             signUp(instanceId, tokenFile)
         }
@@ -40,7 +41,7 @@ class StartupPresenter(
             instanceId,
             future,
             Response.ErrorListener {
-                Log.e(this::class.java.name, JSONObject(String(it.networkResponse.data)).toString())
+                Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
                 it.printStackTrace()
                 // todo what we can do if registration failed?
             })

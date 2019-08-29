@@ -15,23 +15,22 @@ class NewQuestionPresenter(
     val app: ThisOrThatApp,
     val requestQueue: RequestQueue
 ) : MvpPresenter<NewQuestionView>() {
+    private val TAG = this::class.java.name
 
     fun send(firstText: String, secondText: String) {
         val json = JSONObject()
             .put("first_text", firstText)
             .put("last_text", secondText)
             .put("token", app.authToken)
-        if (app.authToken() != null) {
-            requestQueue.add(
-                sendNewQuestion(
-                    json,
-                    Response.Listener { response ->
-                        Log.i(this::class.java.name, "$response")
-                    },
-                    Response.ErrorListener {
-                        Log.e(this::class.java.name, String(it.networkResponse.data))
-                    })
-            )
-        }
+        requestQueue.add(
+            sendNewQuestion(
+                json,
+                Response.Listener { response ->
+                    Log.i(TAG, "$response")
+                },
+                Response.ErrorListener {
+                    Log.e(TAG, String(it.networkResponse.data))
+                })
+        )
     }
 }

@@ -14,6 +14,7 @@ class AnsweredQuestionsPresenter(
     private val questionDao: QuestionDao,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<AnsweredQuestionsView>() {
+    private val TAG = this::class.java.name
 
     fun getAnsweredQuestions() {
         questionDao.getAnsweredQuestions()
@@ -21,7 +22,7 @@ class AnsweredQuestionsPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 viewState.setAnsweredQuestions(it)
-                Log.i(this::class.java.name, "Choice saved successfully")
+                Log.i(TAG, "Choice saved successfully")
             }, {
                 viewState.showError(it.localizedMessage)
             })

@@ -8,24 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
 
-class MyQuestionsAdapter: RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsViewHolder>() {
+class FavoriteQuestionsAdapter: RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
+    private val favoriteQuestionsList = ArrayList<Question>()
 
-    private val myQuestionsList = ArrayList<Question>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyQuestionsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteQuestionsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.single_question_view, parent, false)
-        return MyQuestionsViewHolder(view)
+        return FavoriteQuestionsViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return myQuestionsList.size
+        return favoriteQuestionsList.size
     }
 
-    override fun onBindViewHolder(holder: MyQuestionsViewHolder, position: Int) {
-        holder.bind(myQuestionsList[position])
+    override fun onBindViewHolder(holder: FavoriteQuestionsViewHolder, position: Int) {
+        holder.bind(favoriteQuestionsList[position])
     }
 
-    class MyQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class FavoriteQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private var firstText: TextView = view.findViewById(R.id.first_text)
         private var secondText: TextView = view.findViewById(R.id.last_text)
 
@@ -35,8 +34,8 @@ class MyQuestionsAdapter: RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVie
         }
     }
 
-    fun setMyQuestions(answeredQuestions: List<Question>) {
-        myQuestionsList.addAll(answeredQuestions)
+    fun setFavoriteQuestions(favoriteQuestions: List<Question>) {
+        favoriteQuestionsList.addAll(favoriteQuestions)
         notifyDataSetChanged()
     }
 }

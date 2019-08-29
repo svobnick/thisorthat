@@ -26,6 +26,17 @@
             android:layout_marginBottom="64dp"
             android:textColor="@color/text"
             android:onClick="onMyQuestionsButtonClick"
+            app:layout_constraintBottom_toTopOf="@+id/favorite_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+            android:id="@+id/favorite_item"
+            android:text="@string/favorite_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:textColor="@color/text"
+            android:onClick="onFavoriteButtonClick"
             app:layout_constraintBottom_toTopOf="@+id/menu_commented_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

@@ -46,6 +46,11 @@ class MenuActivity : Activity() {
         startActivity(intent)
     }
 
+    fun onFavoriteButtonClick(selected: View) {
+        val intent = Intent(this, FavoriteQuestionsActivity::class.java)
+        startActivity(intent)
+    }
+
     fun onCommentedButtonClick(selected: View) {
 
     }

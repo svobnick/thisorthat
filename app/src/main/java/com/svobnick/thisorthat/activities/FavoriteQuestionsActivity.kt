@@ -9,15 +9,15 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.adapters.AnsweredQuestionsAdapter
+import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.presenters.AnsweredQuestionsPresenter
-import com.svobnick.thisorthat.view.AnsweredQuestionsView
+import com.svobnick.thisorthat.presenters.FavoriteQuestionsPresenter
+import com.svobnick.thisorthat.view.FavoriteQuestionsView
 import javax.inject.Inject
 
-class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView {
+class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView {
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -25,36 +25,35 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
     lateinit var requestQueue: RequestQueue
 
     @InjectPresenter
-    lateinit var presenter: AnsweredQuestionsPresenter
+    lateinit var presenter: FavoriteQuestionsPresenter
 
     @ProvidePresenter
-    fun provideAnsweredQuestionsPresenter(): AnsweredQuestionsPresenter {
-        return AnsweredQuestionsPresenter(questionDao, requestQueue)
+    fun provideFavoriteQuestionsPresenter(): FavoriteQuestionsPresenter {
+        return FavoriteQuestionsPresenter(application as ThisOrThatApp, requestQueue)
     }
 
-    lateinit var answeredQuestionsList: RecyclerView
-    lateinit var adapter: AnsweredQuestionsAdapter
+    lateinit var myQuestionsList: RecyclerView
+    lateinit var adapter: FavoriteQuestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_answered_questions)
+        setContentView(R.layout.activity_favorite_questions)
         presenter.attachView(this)
 
-        answeredQuestionsList = findViewById(R.id.answered_questions_list)
-        answeredQuestionsList.layoutManager = LinearLayoutManager(this)
-        adapter = AnsweredQuestionsAdapter()
-        answeredQuestionsList.adapter = adapter
+        myQuestionsList = findViewById(R.id.favorite_questions_list)
+        myQuestionsList.layoutManager = LinearLayoutManager(this)
+        adapter = FavoriteQuestionsAdapter()
+        myQuestionsList.adapter = adapter
 
-        presenter.getAnsweredQuestions()
+        presenter.getFavoriteQuestions()
     }
 
-    override fun setAnsweredQuestions(it: List<Question>) {
-        adapter.setAnsweredQuestions(it)
+    override fun setFavoriteQuestions(it: List<Question>) {
+        adapter.setFavoriteQuestions(it)
     }
 
-    // todo add swipe-to-refresh to update the list
-    override fun updateQuestions() {
+    override fun updateFavoriteQuestions() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

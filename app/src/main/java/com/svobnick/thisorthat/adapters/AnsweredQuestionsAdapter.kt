@@ -13,7 +13,7 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
     private val answeredQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnsweredQuestionsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.answered_question_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_question_view, parent, false)
         return AnsweredQuestionsViewHolder(view)
     }
 
@@ -26,8 +26,8 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
     }
 
     class AnsweredQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        private var firstText: TextView = view.findViewById(R.id.first_answered_text)
-        private var secondText: TextView = view.findViewById(R.id.second_answered_text)
+        private var firstText: TextView = view.findViewById(R.id.first_text)
+        private var secondText: TextView = view.findViewById(R.id.last_text)
 
         fun bind(question: Question) {
             firstText.text = question.firstText

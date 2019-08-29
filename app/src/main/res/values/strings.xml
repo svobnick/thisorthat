@@ -15,4 +15,5 @@
 
     <string name="application_ad_id">"ca-app-pub-7005450343890487~7223429492"</string>
     <string name="new_question_interstitial_ad_id">ca-app-pub-7005450343890487/7572721777</string>
+    <string name="favorite_text">Избранные вопросы</string>
 </resources>

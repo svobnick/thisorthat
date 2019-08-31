@@ -20,6 +20,7 @@ interface InjectorComponent {
     fun inject(answeredQuestionsActivity: AnsweredQuestionsActivity)
     fun inject(myQuestionsActivity: MyQuestionsActivity)
     fun inject(favoriteQuestionsActivity: FavoriteQuestionsActivity)
+    fun inject(commentsActivity: CommentsActivity)
 
     fun application(): ThisOrThatApp
     fun database(): ApplicationDatabase

@@ -53,7 +53,7 @@ class FavoriteQuestionsPresenter(
         )
     }
 
-    fun deleteFavoriteQiestion(hiddenId: String) {
+    fun deleteFavoriteQuestion(hiddenId: String) {
         requestQueue.add(
             deleteFavoriteRequest(
                 app.authToken!!,

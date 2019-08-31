@@ -57,7 +57,7 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
 
     override fun deleteFavoriteQuestion(selected: View) {
         val hiddenId: TextView = findViewById<TextView>(R.id.hidden_id)
-        presenter.deleteFavoriteQiestion(hiddenId.text.toString())
+        presenter.deleteFavoriteQuestion(hiddenId.text.toString())
     }
 
     override fun updateFavoriteQuestions() {

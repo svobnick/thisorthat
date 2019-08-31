@@ -96,6 +96,11 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.setNextQuestion()
     }
 
+    override fun getComments(selected: View) {
+        val intent = Intent(this, CommentsActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun addFavoriteQuestion(selected: View) {
         choicePresenter.addFavoriteQuestion()
     }

@@ -4,16 +4,12 @@ import android.view.View
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.model.Comment
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface ChoiceView : MvpView {
-
-    fun onChoiceClick(choice: View)
+interface CommentsView: MvpView {
+    fun setComments(it: List<Comment>)
+    fun updateComments()
+    fun addComment(sendView: View)
     fun showError(errorMsg: String)
-    fun setNewQuestion(question: Question)
-    fun setResultToView(question: Question)
-    fun reportQuestion(selected: View)
-    fun addFavoriteQuestion(selected: View)
-    fun getComments(selected: View)
 }

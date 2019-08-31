@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.ChoiceActivity">
@@ -11,18 +10,37 @@
             android:id="@+id/reportButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
             android:background="@color/background"
-            android:drawableStart="@drawable/icon_report_problem"
-            android:onClick="reportQuestion"
             android:clickable="true"
+            android:drawableStart="@drawable/icon_report_problem"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="reportQuestion"
             app:layout_constraintBottom_toBottomOf="@id/firstCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp" app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+            android:id="@+id/iconButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:background="@color/background"
+            android:clickable="true"
+            android:drawableStart="@drawable/icon_comments"
+            android:focusable="true"
+            android:onClick="getComments"
+            app:layout_constraintBottom_toBottomOf="@id/firstCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/firstCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     <Button
             android:id="@+id/favoriteButton"
@@ -43,114 +61,116 @@
 
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/firstCard"
-            android:layout_weight=".5"
             android:layout_width="match_parent"
-            app:cardBackgroundColor="@color/first"
-            android:onClick="onChoiceClick"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_weight=".5"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/secondCard"
+            android:onClick="onChoiceClick"
+            app:cardBackgroundColor="@color/first"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/secondCard"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
             app:layout_constraintTop_toTopOf="@id/reportButton">
+
         <TextView
                 android:id="@+id/firstText"
-                android:text="@string/first_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="onChoiceClick"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
+                android:onClick="onChoiceClick"
+                android:text="@string/first_text"
                 android:textAlignment="center"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/secondCard"
-            android:layout_weight=".5"
             android:layout_width="match_parent"
-            app:cardBackgroundColor="@color/second"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstCard"
-            app:layout_constraintBottom_toTopOf="@+id/menu_button"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            app:layout_constraintHorizontal_bias="0.0">
+            android:layout_marginBottom="24dp"
+            android:layout_weight=".5"
+            app:cardBackgroundColor="@color/second"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/menu_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstCard">
 
         <TextView
                 android:id="@+id/secondText"
-                android:text="@string/second_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="onChoiceClick"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="onChoiceClick"
+                android:text="@string/second_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
     </com.google.android.material.card.MaterialCardView>
 
     <Button
             android:id="@+id/push_button"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="@string/or_button"
             android:background="@drawable/button_round"
+            android:text="@string/or_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/menu_button"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/result_chart"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/menu_button"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <Button
             android:id="@+id/menu_button"
-            android:text="@string/menu_button"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:onClick="onMenuButtonClick"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/background"
-            app:layout_constraintTop_toBottomOf="@+id/secondCard"
+            android:onClick="onMenuButtonClick"
+            android:text="@string/menu_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secondCard" />
 
     />
 </androidx.constraintlayout.widget.ConstraintLayout>

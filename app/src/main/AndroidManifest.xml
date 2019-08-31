@@ -29,6 +29,7 @@
         <activity android:name="com.svobnick.thisorthat.activities.AnsweredQuestionsActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.MyQuestionsActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.FavoriteQuestionsActivity"/>
+        <activity android:name="com.svobnick.thisorthat.activities.CommentsActivity"/>
 
     </application>
 </manifest>

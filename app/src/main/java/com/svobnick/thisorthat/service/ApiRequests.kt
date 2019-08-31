@@ -216,3 +216,60 @@ fun deleteFavoriteRequest(
         }
     }
 
+
+/**
+ * https://docs.thisorthat.ru/#getcomments
+ */
+fun getCommentsRequest(
+    authToken: String,
+    itemId: String,
+    limit: String,
+    offset: String,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}getComments",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("item_id", itemId),
+                Pair("limit", limit),
+                Pair("offset", offset)
+            )
+        }
+    }
+
+
+
+/**
+ * https://docs.thisorthat.ru/#addcomment
+ */
+fun addCommentRequest(
+    authToken: String,
+    itemId: String,
+    text: String,
+    parent: String,
+    responseListener: Response.Listener<String>,
+    errorListener: Response.ErrorListener
+) =
+    object : StringRequest(
+        Method.POST,
+        "${apiAddress}addComment",
+        responseListener,
+        errorListener
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            return mutableMapOf(
+                Pair("token", authToken),
+                Pair("item_id", itemId),
+                Pair("text", text),
+                Pair("parent", parent)
+            )
+        }
+    }
+

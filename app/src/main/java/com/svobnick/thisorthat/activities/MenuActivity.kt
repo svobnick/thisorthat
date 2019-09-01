@@ -51,10 +51,6 @@ class MenuActivity : Activity() {
         startActivity(intent)
     }
 
-    fun onCommentedButtonClick(selected: View) {
-
-    }
-
     fun onNewQuestionButtonClick(selected: View) {
         if (mInterstitialAd.isLoaded) {
             mInterstitialAd.show()

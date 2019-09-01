@@ -3,6 +3,7 @@ package com.svobnick.thisorthat.activities
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,8 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
@@ -23,10 +26,13 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.view.ChoiceView
+import java.text.DecimalFormat
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
+    private val TAG = this::class.java.name
+
     lateinit var state: STATE
     lateinit var chart: PieChart
 
@@ -112,11 +118,12 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     fun setupPieChart(): PieChart {
         val chart = findViewById<PieChart>(R.id.result_chart)
         chart.translationZ = 0f
-        chart.holeRadius = 80f
+        chart.holeRadius = 50f
         chart.setHoleColor(Color.TRANSPARENT)
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
         chart.setNoDataText(null)
+        chart.setUsePercentValues(true)
         chart.invalidate()
         return chart
     }
@@ -133,8 +140,15 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
         val pieEntries = mutableListOf(PieEntry(firstPercent.toFloat()), PieEntry(secondPercent.toFloat()))
         val pieDataSet = PieDataSet(pieEntries, "result")
-        pieDataSet.setColors(Color.parseColor("#F07140"), Color.parseColor("#8A5DA7"))
+        pieDataSet.setColors(Color.parseColor("#C53B23"), Color.parseColor("#4F3876"))
+        pieDataSet.valueFormatter = DefaultValueFormatter(0)
         val pieData = PieData(pieDataSet)
+        val percentFormatter = PercentFormatter(chart)
+        percentFormatter.mFormat = DecimalFormat("00")
+        pieData.setValueFormatter(percentFormatter)
+        val rotationAngle = (firstPercent.toFloat() / 2)
+        Log.i(TAG, "Rotation angle: " + rotationAngle)
+        chart.rotationAngle = rotationAngle
         chart.data = pieData
         chart.translationZ = 2f
         chart.invalidate()

@@ -2,10 +2,11 @@
 <resources>
     <color name="icon_launcher_background">#FFFFFF</color>
 
+    <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
     <color name="background">#3a3a3c</color>
     <color name="first">#F07140</color>
     <color name="first_dark">#C53B23</color>
-    <color name="second">#8A5DA7</color>
-    <color name="second_dark">#4F3876</color>
+    <color name="last">#8A5DA7</color>
+    <color name="last_dark">#4F3876</color>
 </resources>

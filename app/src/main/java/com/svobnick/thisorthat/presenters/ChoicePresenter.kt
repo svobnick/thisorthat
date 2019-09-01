@@ -116,7 +116,7 @@ class ChoicePresenter(
             .subscribe({
                 if (it.size >= 10) {
                     Log.i(TAG, "Answers size is ${it.size}, try to send it to server")
-                    val value = JSONObject();
+                    val value = JSONObject()
                     it.forEach { answer -> value.put(answer.id.toString(), answer.userChoice) }
                     requestQueue.add(sendAnswersRequest(
                         application.authToken!!,

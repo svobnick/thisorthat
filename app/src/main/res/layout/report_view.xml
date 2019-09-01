@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <Button
+            android:id="@+id/typo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onReportClickHandler"
+            android:text="@string/typo" />
+
+    <Button
+            android:id="@+id/abuse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onReportClickHandler"
+
+            android:text="@string/abuse" />
+
+    <Button
+            android:id="@+id/clone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onReportClickHandler"
+            android:text="@string/clone" />
+</LinearLayout>

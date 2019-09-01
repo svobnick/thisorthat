@@ -2,9 +2,15 @@ package com.svobnick.thisorthat.activities
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
@@ -35,6 +41,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     lateinit var state: STATE
     lateinit var chart: PieChart
+    lateinit var popupWindow: PopupWindow
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -50,7 +57,13 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideChoicePresenter(): ChoicePresenter {
-        return ChoicePresenter(application as ThisOrThatApp, questionDao, answerDao, claimDao, requestQueue)
+        return ChoicePresenter(
+            application as ThisOrThatApp,
+            questionDao,
+            answerDao,
+            claimDao,
+            requestQueue
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +74,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
         this.state = STATE.QUESTION
         this.chart = setupPieChart()
+        this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
     }
 
@@ -98,7 +112,21 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun reportQuestion(selected: View) {
-        choicePresenter.reportQuestion("clone")
+        val button = findViewById<Button>(R.id.push_button)
+        popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0)
+    }
+
+    fun onReportClickHandler(selected: View) {
+        val reportReason = when (selected.id) {
+            R.id.clone -> "clone"
+            R.id.abuse -> "abuse"
+            R.id.typo -> "typo"
+            else -> ""
+        }
+        choicePresenter.reportQuestion(reportReason)
+        // todo choicePresenter.saveChoice()
+        showError("Вопрос пропущен, а его рейтинг снижен")
+        popupWindow.dismiss()
         choicePresenter.setNextQuestion()
     }
 
@@ -128,6 +156,19 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         return chart
     }
 
+    fun setupPopupWindow(): PopupWindow {
+        val popupWindow = PopupWindow(this)
+        val reportView = LayoutInflater.from(this).inflate(R.layout.report_view, null)
+        popupWindow.contentView = reportView
+        popupWindow.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        popupWindow.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        popupWindow.isFocusable = true
+        popupWindow.isOutsideTouchable = true
+        popupWindow.update()
+        return popupWindow
+    }
+
     fun hideChart() {
         chart.data = null
         chart.translationZ = 0f
@@ -138,7 +179,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val sum = firstRate + secondRate
         val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
         val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
-        val pieEntries = mutableListOf(PieEntry(firstPercent.toFloat()), PieEntry(secondPercent.toFloat()))
+        val pieEntries =
+            mutableListOf(PieEntry(firstPercent.toFloat()), PieEntry(secondPercent.toFloat()))
         val pieDataSet = PieDataSet(pieEntries, "result")
         pieDataSet.setColors(Color.parseColor("#C53B23"), Color.parseColor("#4F3876"))
         pieDataSet.valueFormatter = DefaultValueFormatter(0)
@@ -158,7 +200,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     enum class STATE {
         QUESTION,
-        RESULT;
+        RESULT
 
     }
 }

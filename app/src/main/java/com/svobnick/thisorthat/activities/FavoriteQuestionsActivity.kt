@@ -20,6 +20,7 @@ import com.svobnick.thisorthat.view.FavoriteQuestionsView
 import javax.inject.Inject
 
 class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView {
+    private val adapter = FavoriteQuestionsAdapter()
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -35,7 +36,6 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
     }
 
     lateinit var myQuestionsList: RecyclerView
-    lateinit var adapter: FavoriteQuestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -45,7 +45,6 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
 
         myQuestionsList = findViewById(R.id.favorite_questions_list)
         myQuestionsList.layoutManager = LinearLayoutManager(this)
-        adapter = FavoriteQuestionsAdapter()
         myQuestionsList.adapter = adapter
 
         presenter.getFavoriteQuestions()

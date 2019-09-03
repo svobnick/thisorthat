@@ -18,6 +18,7 @@ import com.svobnick.thisorthat.view.MyQuestionsView
 import javax.inject.Inject
 
 class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
+    private val adapter = MyQuestionsAdapter()
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -33,7 +34,6 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
     }
 
     lateinit var myQuestionsList: RecyclerView
-    lateinit var adapter: MyQuestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -43,7 +43,6 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
 
         myQuestionsList = findViewById(R.id.my_questions_list)
         myQuestionsList.layoutManager = LinearLayoutManager(this)
-        adapter = MyQuestionsAdapter()
         myQuestionsList.adapter = adapter
 
         presenter.getMyQuestions()

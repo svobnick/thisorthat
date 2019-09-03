@@ -18,6 +18,7 @@ import com.svobnick.thisorthat.view.AnsweredQuestionsView
 import javax.inject.Inject
 
 class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView {
+    private val adapter = AnsweredQuestionsAdapter()
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -33,7 +34,6 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
     }
 
     lateinit var answeredQuestionsList: RecyclerView
-    lateinit var adapter: AnsweredQuestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -43,7 +43,6 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
 
         answeredQuestionsList = findViewById(R.id.answered_questions_list)
         answeredQuestionsList.layoutManager = LinearLayoutManager(this)
-        adapter = AnsweredQuestionsAdapter()
         answeredQuestionsList.adapter = adapter
 
         presenter.getAnsweredQuestions()

@@ -19,6 +19,7 @@ import com.svobnick.thisorthat.view.CommentsView
 import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
+    private val adapter = CommentsAdapter()
 
     @Inject
     lateinit var requestQueue: RequestQueue
@@ -32,7 +33,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     lateinit var commentsList: RecyclerView
-    lateinit var adapter: CommentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -42,7 +42,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         commentsList = findViewById(R.id.comments_list)
         commentsList.layoutManager = LinearLayoutManager(this)
-        adapter = CommentsAdapter()
         commentsList.adapter = adapter
 
         presenter.getComments(4)

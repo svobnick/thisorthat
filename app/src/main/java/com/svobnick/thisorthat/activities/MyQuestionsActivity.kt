@@ -9,6 +9,7 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
@@ -34,6 +35,7 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
     }
 
     lateinit var myQuestionsList: RecyclerView
+    lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -42,18 +44,23 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
         presenter.attachView(this)
 
         myQuestionsList = findViewById(R.id.my_questions_list)
-        myQuestionsList.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        myQuestionsList.layoutManager = linearLayoutManager
         myQuestionsList.adapter = adapter
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                presenter.getMyQuestions(30.toString(), (page * 30).toString())
+            }
+        }
+        myQuestionsList.addOnScrollListener(scrollListener);
 
-        presenter.getMyQuestions()
+        presenter.getMyQuestions(30.toString(), 0.toString())
     }
 
     override fun setMyQuestions(it: List<Question>) {
         adapter.setMyQuestions(it)
-    }
-
-    override fun updateMyQuestions() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showError(errorMsg: String) {

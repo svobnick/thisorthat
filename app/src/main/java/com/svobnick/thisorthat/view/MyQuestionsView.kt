@@ -9,6 +9,5 @@ import com.svobnick.thisorthat.model.Question
 interface MyQuestionsView : MvpView {
 
     fun setMyQuestions(it: List<Question>)
-    fun updateMyQuestions()
     fun showError(errorMsg: String)
 }

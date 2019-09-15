@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,12 +17,6 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.DefaultValueFormatter
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
@@ -32,7 +25,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.view.ChoiceView
-import java.text.DecimalFormat
+import com.svobnick.thisorthat.view.PieChart
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -40,6 +33,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
     lateinit var state: STATE
+    //    lateinit var chart: PieChart
     lateinit var chart: PieChart
     lateinit var popupWindow: PopupWindow
 
@@ -73,7 +67,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-        this.chart = setupPieChart()
+        this.chart = findViewById(R.id.pie_chart)
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
     }
@@ -143,19 +137,6 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 
-    fun setupPieChart(): PieChart {
-        val chart = findViewById<PieChart>(R.id.result_chart)
-        chart.translationZ = 0f
-        chart.holeRadius = 50f
-        chart.setHoleColor(Color.TRANSPARENT)
-        chart.description.isEnabled = false
-        chart.legend.isEnabled = false
-        chart.setNoDataText(null)
-        chart.setUsePercentValues(true)
-        chart.invalidate()
-        return chart
-    }
-
     fun setupPopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(this)
         val reportView = LayoutInflater.from(this).inflate(R.layout.report_view, null)
@@ -169,9 +150,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         return popupWindow
     }
 
-    fun hideChart() {
-        chart.data = null
-        chart.translationZ = 0f
+    private fun hideChart() {
+        chart.visibility = View.INVISIBLE
         chart.invalidate()
     }
 
@@ -179,20 +159,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val sum = firstRate + secondRate
         val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
         val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
-        val pieEntries =
-            mutableListOf(PieEntry(firstPercent.toFloat()), PieEntry(secondPercent.toFloat()))
-        val pieDataSet = PieDataSet(pieEntries, "result")
-        pieDataSet.setColors(Color.parseColor("#C53B23"), Color.parseColor("#4F3876"))
-        pieDataSet.valueFormatter = DefaultValueFormatter(0)
-        val pieData = PieData(pieDataSet)
-        val percentFormatter = PercentFormatter(chart)
-        percentFormatter.mFormat = DecimalFormat("00")
-        pieData.setValueFormatter(percentFormatter)
-        val rotationAngle = (firstPercent.toFloat() / 2)
-        Log.i(TAG, "Rotation angle: " + rotationAngle)
-        chart.rotationAngle = rotationAngle
-        chart.data = pieData
-        chart.translationZ = 2f
+        chart.setUpPercents(secondPercent)
+        chart.visibility = View.VISIBLE
         chart.invalidate()
     }
 

@@ -36,9 +36,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    // library provides implementation for ui charts
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
     // dependency injection
     def dagger_version = "2.21"
     implementation "com.google.dagger:dagger:$dagger_version"

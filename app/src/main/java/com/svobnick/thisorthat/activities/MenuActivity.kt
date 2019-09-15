@@ -36,21 +36,6 @@ class MenuActivity : Activity() {
 
     }
 
-    fun onHistoryButtonClick(selected: View) {
-        val intent = Intent(this, AnsweredQuestionsActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun onMyQuestionsButtonClick(selected: View) {
-        val intent = Intent(this, MyQuestionsActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun onFavoriteButtonClick(selected: View) {
-        val intent = Intent(this, FavoriteQuestionsActivity::class.java)
-        startActivity(intent)
-    }
-
     fun onNewQuestionButtonClick(selected: View) {
         if (mInterstitialAd.isLoaded) {
             mInterstitialAd.show()

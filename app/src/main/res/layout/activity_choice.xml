@@ -6,57 +6,6 @@
         android:layout_height="match_parent"
         tools:context=".activities.ChoiceActivity">
 
-    <Button
-            android:id="@+id/reportButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="24dp"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:drawableStart="@drawable/icon_report_problem"
-            android:focusable="true"
-            android:onClick="reportQuestion"
-            app:layout_constraintBottom_toBottomOf="@id/firstCard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-            android:id="@+id/iconButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:drawableStart="@drawable/icon_comments"
-            android:focusable="true"
-            android:onClick="getComments"
-            app:layout_constraintBottom_toBottomOf="@id/firstCard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/firstCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-            android:id="@+id/favoriteButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:drawableStart="@drawable/icon_add_favorite"
-            android:focusable="true"
-            android:onClick="addFavoriteQuestion"
-            app:layout_constraintBottom_toBottomOf="@id/firstCard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/firstCard"
             android:layout_width="match_parent"
@@ -76,7 +25,7 @@
             app:layout_constraintBottom_toTopOf="@+id/secondCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/reportButton">
+            app:layout_constraintTop_toTopOf="parent">
 
         <TextView
                 android:id="@+id/firstText"
@@ -107,7 +56,7 @@
             android:layout_weight=".5"
             app:cardBackgroundColor="@color/last"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/menu_button"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,11 +87,12 @@
             android:layout_centerHorizontal="true"
             android:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/menu_button"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     <Button
             android:id="@+id/push_button"
             android:layout_width="80dp"
@@ -150,24 +100,32 @@
             android:background="@drawable/button_round"
             android:text="@string/or_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/menu_button"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-            android:id="@+id/menu_button"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="onMenuButtonClick"
-            android:text="@string/menu_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secondCard" />
+            app:layout_constraintTop_toBottomOf="@+id/secondCard">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/menu_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fabAlignmentMode="center"
+                app:fabCradleMargin="0dp"
+                app:fabCradleVerticalOffset="0dp"
+                app:backgroundTint="@color/background"
+                app:navigationIcon="@drawable/icon_menu"
+                android:theme="@style/Widget.MaterialComponents.BottomAppBar"
+                />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

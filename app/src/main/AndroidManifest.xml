@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.svobnick.thisorthat.activities.ChoiceActivity"/>
-        <activity android:name="com.svobnick.thisorthat.activities.MenuActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.NewQuestionActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.AnsweredQuestionsActivity"/>
         <activity android:name="com.svobnick.thisorthat.activities.MyQuestionsActivity"/>

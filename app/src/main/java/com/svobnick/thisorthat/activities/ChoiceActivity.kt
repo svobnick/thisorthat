@@ -4,10 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
@@ -22,10 +19,12 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
+import com.svobnick.thisorthat.fragments.BottomSheetDialog
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.view.ChoiceView
 import com.svobnick.thisorthat.view.PieChart
+import kotlinx.android.synthetic.main.activity_choice.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -33,7 +32,6 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
     lateinit var state: STATE
-    //    lateinit var chart: PieChart
     lateinit var chart: PieChart
     lateinit var popupWindow: PopupWindow
 
@@ -70,11 +68,32 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         this.chart = findViewById(R.id.pie_chart)
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
+
+        setSupportActionBar(menu_bar)
     }
 
     fun onMenuButtonClick(selected: View) {
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.navigation_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                val fragment = BottomSheetDialog()
+                fragment.show(supportFragmentManager, fragment.tag)
+            }
+            R.id.add_favorite -> addFavoriteQuestion()
+            R.id.comments -> getComments()
+            R.id.report_problem -> reportQuestion()
+            R.id.share -> println("top kek")
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onChoiceClick(choice: View) {
@@ -105,11 +124,6 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         setDataToChart(question.firstRate, question.secondRate)
     }
 
-    override fun reportQuestion(selected: View) {
-        val button = findViewById<Button>(R.id.push_button)
-        popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0)
-    }
-
     fun onReportClickHandler(selected: View) {
         val reportReason = when (selected.id) {
             R.id.clone -> "clone"
@@ -124,12 +138,17 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.setNextQuestion()
     }
 
-    override fun getComments(selected: View) {
+    override fun reportQuestion() {
+        val button = findViewById<Button>(R.id.push_button)
+        popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0)
+    }
+
+    override fun getComments() {
         val intent = Intent(this, CommentsActivity::class.java)
         startActivity(intent)
     }
 
-    override fun addFavoriteQuestion(selected: View) {
+    override fun addFavoriteQuestion() {
         choicePresenter.addFavoriteQuestion()
     }
 

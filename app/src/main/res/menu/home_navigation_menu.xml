@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="none">
+        <item
+                android:id="@+id/menu_history_item"
+                android:title="@string/history_text" />
+        <item
+                android:id="@+id/menu_my_questions_item"
+                android:title="@string/my_questions_text" />
+        <item
+                android:id="@+id/favorite_item"
+                android:title="@string/favorite_text" />
+        <item
+                android:id="@+id/new_question_item"
+                android:title="@string/new_question_text" />
+    </group>
+</menu>

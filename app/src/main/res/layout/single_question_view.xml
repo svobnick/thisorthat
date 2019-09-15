@@ -52,7 +52,7 @@
             android:layout_marginTop="28dp"
             android:background="@color/background"
             android:clickable="true"
-            android:drawableStart="@drawable/icon_add_favorite"
+            android:drawableStart="@drawable/icon_favorite"
             android:focusable="true"
 
             android:onClick="deleteFavoriteQuestion"

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/report_problem"
+        android:icon="@drawable/icon_report_problem"
+        android:title="Report"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/add_favorite"
+        android:icon="@drawable/icon_favorite"
+        android:title="Favorite"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/share"
+        android:icon="@drawable/icon_share"
+        android:title="Share"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/comments"
+        android:icon="@drawable/icon_comments"
+        android:title="Comments"
+        app:showAsAction="always"/>
+
+</menu>

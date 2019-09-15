@@ -38,7 +38,8 @@ class CommentsPresenter(
                                 (commentJson["comment_id"] as String).toLong(),
                                 (commentJson["user_id"] as String).toLong(),
                                 (commentJson["parent"] as String).toLong(),
-                                (commentJson["text"] as String)
+                                (commentJson["text"] as String),
+                                (commentJson["avatar"] as String)
                             )
                         )
                     }

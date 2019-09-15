@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Comment
+import de.hdodenhof.circleimageview.CircleImageView
 
 class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
 
@@ -28,13 +30,15 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>
     class CommentsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var userId: TextView = view.findViewById(R.id.user_id)
         private var commentText: TextView = view.findViewById(R.id.comment_text)
+        private var avatar: CircleImageView = view.findViewById(R.id.avatar)
 //        private var commentId: TextView = view.findViewById(R.id.comment_id)
 //        private var parentId: TextView = view.findViewById(R.id.parent_id)
 
         fun bind(comment: Comment) {
             userId.text = comment.text
-//            commentId.text = comment.commentId.toString()
             commentText.text = comment.text
+            Picasso.get().load(comment.avatarUrl).into(avatar)
+//            commentId.text = comment.commentId.toString()
 //            parentId.text = comment.parentId.toString()
         }
     }

@@ -44,7 +44,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         commentsList.layoutManager = LinearLayoutManager(this)
         commentsList.adapter = adapter
 
-        presenter.getComments(4)
+        presenter.getComments(1)
     }
 
     override fun setComments(it: List<Comment>) {

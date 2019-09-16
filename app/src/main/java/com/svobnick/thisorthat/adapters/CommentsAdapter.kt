@@ -10,13 +10,12 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Comment
 import de.hdodenhof.circleimageview.CircleImageView
 
-class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
-
+class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     private val commentsList = ArrayList<Comment>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.comment_view, parent, false)
-        return CommentsViewHolder(view)
+        return CommentsViewHolder(view, picasso)
     }
 
     override fun getItemCount(): Int {
@@ -27,19 +26,23 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>
         holder.bind(commentsList[position])
     }
 
-    class CommentsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    override fun getItemId(position: Int): Long {
+        return commentsList[position].commentId
+    }
+
+    class CommentsViewHolder(view: View, private val picasso: Picasso) : RecyclerView.ViewHolder(view) {
         private var userId: TextView = view.findViewById(R.id.user_id)
         private var commentText: TextView = view.findViewById(R.id.comment_text)
         private var avatar: CircleImageView = view.findViewById(R.id.avatar)
-//        private var commentId: TextView = view.findViewById(R.id.comment_id)
-//        private var parentId: TextView = view.findViewById(R.id.parent_id)
+        private var commentId: TextView = view.findViewById(R.id.comment_id)
+        private var parentId: TextView = view.findViewById(R.id.parent_id)
 
         fun bind(comment: Comment) {
+            picasso.load(comment.avatarUrl).into(avatar)
             userId.text = comment.text
             commentText.text = comment.text
-            Picasso.get().load(comment.avatarUrl).into(avatar)
-//            commentId.text = comment.commentId.toString()
-//            parentId.text = comment.parentId.toString()
+            commentId.text = comment.commentId.toString()
+            parentId.text = comment.parentId.toString()
         }
     }
 

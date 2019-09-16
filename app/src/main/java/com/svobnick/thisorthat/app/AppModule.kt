@@ -2,6 +2,7 @@ package com.svobnick.thisorthat.app
 
 import androidx.room.Room
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,8 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
     private var database =
         Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "database")
             .build()
+
+    private val picasso = Picasso.get()
 
     private var requestQueue = Volley.newRequestQueue(thisOrThatApp.applicationContext)
 
@@ -41,4 +44,8 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
     @Provides
     @Singleton
     fun getHttpClient() = requestQueue
+
+    @Provides
+    @Singleton
+    fun getPicasso() = picasso
 }

@@ -151,7 +151,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 
-    fun setupPopupWindow(): PopupWindow {
+    private fun setupPopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(this)
         val reportView = LayoutInflater.from(this).inflate(R.layout.report_view, null)
         popupWindow.contentView = reportView
@@ -169,7 +169,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         chart.invalidate()
     }
 
-    fun setDataToChart(firstRate: Int, secondRate: Int) {
+    private fun setDataToChart(firstRate: Int, secondRate: Int) {
         val sum = firstRate + secondRate
         val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
         val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
@@ -178,7 +178,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         chart.invalidate()
     }
 
-    fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION
+    private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION
 
     enum class STATE {
         QUESTION,

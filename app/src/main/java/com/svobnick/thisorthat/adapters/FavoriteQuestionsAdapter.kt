@@ -26,6 +26,10 @@ class FavoriteQuestionsAdapter :
         holder.bind(favoriteQuestionsList[position])
     }
 
+    override fun getItemId(position: Int): Long {
+        return favoriteQuestionsList[position].id
+    }
+
     class FavoriteQuestionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var firstText: TextView = view.findViewById(R.id.first_text)
         private var secondText: TextView = view.findViewById(R.id.last_text)

@@ -40,6 +40,7 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
 
         answeredQuestionsList = findViewById(R.id.answered_questions_list)
         answeredQuestionsList.layoutManager = LinearLayoutManager(this)
+        adapter.setHasStableIds(true)
         answeredQuestionsList.adapter = adapter
 
         presenter.getAnsweredQuestions()

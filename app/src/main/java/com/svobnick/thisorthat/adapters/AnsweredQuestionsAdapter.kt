@@ -25,6 +25,10 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
         holder.bind(answeredQuestionsList[position])
     }
 
+    override fun getItemId(position: Int): Long {
+        return answeredQuestionsList[position].id
+    }
+
     class AnsweredQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private var firstText: TextView = view.findViewById(R.id.first_text)
         private var secondText: TextView = view.findViewById(R.id.last_text)

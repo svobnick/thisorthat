@@ -49,6 +49,7 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
         favQuestionsList = findViewById(R.id.favorite_questions_list)
         val linearLayoutManager = LinearLayoutManager(this)
         favQuestionsList.layoutManager = linearLayoutManager
+        adapter.setHasStableIds(true)
         favQuestionsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {

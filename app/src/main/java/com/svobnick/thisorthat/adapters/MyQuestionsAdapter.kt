@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
 
-class MyQuestionsAdapter: RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsViewHolder>() {
+class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsViewHolder>() {
     private val VIEW_QUESTIONS = 1
     private val VIEW_PROGRESS_BAR = 0
 
-    private val myQuestionsList = ArrayList<Question?>()
+    private val myQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyQuestionsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_question_view, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.single_question_view, parent, false)
         return MyQuestionsViewHolder(view)
     }
 
@@ -24,14 +25,18 @@ class MyQuestionsAdapter: RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVie
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (myQuestionsList.get(position) != null) VIEW_QUESTIONS else VIEW_PROGRESS_BAR;
+        return if (myQuestionsList[position] != null) VIEW_QUESTIONS else VIEW_PROGRESS_BAR
     }
 
     override fun onBindViewHolder(holder: MyQuestionsViewHolder, position: Int) {
-        holder.bind(myQuestionsList[position]!!)
+        holder.bind(myQuestionsList[position])
     }
 
-    class MyQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    override fun getItemId(position: Int): Long {
+        return myQuestionsList[position].id
+    }
+
+    class MyQuestionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var firstText: TextView = view.findViewById(R.id.first_text)
         private var secondText: TextView = view.findViewById(R.id.last_text)
 

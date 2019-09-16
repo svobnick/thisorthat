@@ -46,6 +46,7 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
         myQuestionsList = findViewById(R.id.my_questions_list)
         val linearLayoutManager = LinearLayoutManager(this)
         myQuestionsList.layoutManager = linearLayoutManager
+        adapter.setHasStableIds(true)
         myQuestionsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {

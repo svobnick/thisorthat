@@ -34,8 +34,8 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
         return MyQuestionsPresenter(application as ThisOrThatApp, requestQueue)
     }
 
-    lateinit var myQuestionsList: RecyclerView
-    lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var myQuestionsList: RecyclerView
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -54,7 +54,7 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
                 presenter.getMyQuestions(30.toString(), (page * 30).toString())
             }
         }
-        myQuestionsList.addOnScrollListener(scrollListener);
+        myQuestionsList.addOnScrollListener(scrollListener)
 
         presenter.getMyQuestions(30.toString(), 0.toString())
     }

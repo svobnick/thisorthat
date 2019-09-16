@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
@@ -35,7 +36,9 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
         return FavoriteQuestionsPresenter(application as ThisOrThatApp, requestQueue)
     }
 
-    lateinit var myQuestionsList: RecyclerView
+    private lateinit var favQuestionsList: RecyclerView
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -43,11 +46,20 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
         setContentView(R.layout.activity_favorite_questions)
         presenter.attachView(this)
 
-        myQuestionsList = findViewById(R.id.favorite_questions_list)
-        myQuestionsList.layoutManager = LinearLayoutManager(this)
-        myQuestionsList.adapter = adapter
+        favQuestionsList = findViewById(R.id.favorite_questions_list)
+        val linearLayoutManager = LinearLayoutManager(this)
+        favQuestionsList.layoutManager = linearLayoutManager
+        favQuestionsList.adapter = adapter
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                presenter.getFavoriteQuestions(page * 100L)
+            }
+        }
+        favQuestionsList.addOnScrollListener(scrollListener)
 
-        presenter.getFavoriteQuestions()
+        presenter.getFavoriteQuestions(0)
     }
 
     override fun setFavoriteQuestions(it: List<Question>) {
@@ -55,7 +67,7 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
     }
 
     override fun deleteFavoriteQuestion(selected: View) {
-        val hiddenId: TextView = findViewById<TextView>(R.id.hidden_id)
+        val hiddenId: TextView = findViewById(R.id.hidden_id)
         presenter.deleteFavoriteQuestion(hiddenId.text.toString())
     }
 

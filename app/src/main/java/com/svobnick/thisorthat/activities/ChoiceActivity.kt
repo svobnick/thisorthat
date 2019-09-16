@@ -72,11 +72,6 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         setSupportActionBar(menu_bar)
     }
 
-    fun onMenuButtonClick(selected: View) {
-        val intent = Intent(this, MenuActivity::class.java)
-        startActivity(intent)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.navigation_menu, menu)
         return true

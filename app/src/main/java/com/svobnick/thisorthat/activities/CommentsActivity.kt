@@ -12,6 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.CommentsAdapter
+import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.presenters.CommentsPresenter
@@ -32,7 +33,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         return CommentsPresenter(application as ThisOrThatApp, requestQueue)
     }
 
-    lateinit var commentsList: RecyclerView
+    private lateinit var commentsList: RecyclerView
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -41,10 +43,19 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         presenter.attachView(this)
 
         commentsList = findViewById(R.id.comments_list)
-        commentsList.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        commentsList.layoutManager = linearLayoutManager
         commentsList.adapter = adapter
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                presenter.getComments(1, page * 100L)
+            }
+        }
+        commentsList.addOnScrollListener(scrollListener)
 
-        presenter.getComments(1)
+        presenter.getComments(1, 0)
     }
 
     override fun setComments(it: List<Comment>) {

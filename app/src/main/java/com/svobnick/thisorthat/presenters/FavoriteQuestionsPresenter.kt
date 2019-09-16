@@ -18,11 +18,11 @@ class FavoriteQuestionsPresenter(
     private val app: ThisOrThatApp,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<FavoriteQuestionsView>() {
-    fun getFavoriteQuestions() {
+    fun getFavoriteQuestions(offset: Long) {
         val json = JSONObject()
             .put("token", app.authToken)
             .put("limit", "100")
-            .put("offset", "0")
+            .put("offset", offset.toString())
         requestQueue.add(
             getFavoriteRequest(
                 json,

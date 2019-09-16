@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
@@ -22,18 +21,16 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
 
     @Inject
     lateinit var questionDao: QuestionDao
-    @Inject
-    lateinit var requestQueue: RequestQueue
 
     @InjectPresenter
     lateinit var presenter: AnsweredQuestionsPresenter
 
     @ProvidePresenter
     fun provideAnsweredQuestionsPresenter(): AnsweredQuestionsPresenter {
-        return AnsweredQuestionsPresenter(questionDao, requestQueue)
+        return AnsweredQuestionsPresenter(questionDao)
     }
 
-    lateinit var answeredQuestionsList: RecyclerView
+    private lateinit var answeredQuestionsList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)

@@ -20,13 +20,13 @@ class CommentsPresenter(
 ) : MvpPresenter<CommentsView>() {
     private val TAG = this::class.java.name
 
-    fun getComments(questionId: Long) {
+    fun getComments(questionId: Long, offset: Long) {
         requestQueue.add(
             getCommentsRequest(
                 app.authToken!!,
                 questionId.toString(),
                 100.toString(),
-                0.toString(),
+                offset.toString(),
                 Response.Listener { response ->
                     val commentsJson =
                         (JSONObject(response)["result"] as JSONObject)["comments"] as JSONArray

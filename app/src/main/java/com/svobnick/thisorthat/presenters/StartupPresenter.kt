@@ -41,9 +41,9 @@ class StartupPresenter(
             instanceId,
             future,
             Response.ErrorListener {
-                Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
-                it.printStackTrace()
-                // todo what we can do if registration failed?
+                val errorMsg = JSONObject(String(it.networkResponse.data)).toString();
+                Log.e(TAG, errorMsg)
+                viewState.showError(errorMsg)
             })
         requestQueue.add(request)
         val response = future.get()

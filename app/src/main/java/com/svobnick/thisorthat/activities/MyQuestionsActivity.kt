@@ -52,12 +52,12 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                presenter.getMyQuestions(30.toString(), (page * 30).toString())
+                presenter.getMyQuestions(page * presenter.LIMIT)
             }
         }
         myQuestionsList.addOnScrollListener(scrollListener)
 
-        presenter.getMyQuestions(30.toString(), 0.toString())
+        presenter.getMyQuestions(0L)
     }
 
     override fun setMyQuestions(it: List<Question>) {

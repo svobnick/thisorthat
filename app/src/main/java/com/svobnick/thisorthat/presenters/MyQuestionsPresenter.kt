@@ -19,17 +19,17 @@ class MyQuestionsPresenter(
 ) : MvpPresenter<MyQuestionsView>() {
     private val TAG = this::class.java.name
 
-    fun getMyQuestions(limit: String, offset: String) {
-        Log.i(TAG, "Get my questions with offset $offset")
+    val LIMIT = 30L
+
+    fun getMyQuestions(offset: Long) {
         val json = JSONObject()
             .put("token", app.authToken)
-//            .put("token", "1:0994f52572ab3f9432c77615c104db9c") used for tests
-            .put("limit", limit)
-            .put("offset", offset)
+            .put("limit", LIMIT.toString())
+            .put("offset", offset.toString())
         requestQueue.add(
             getMyQuestions(
                 json,
-                Response.Listener { response -> // todo handle end of list
+                Response.Listener { response ->
                     val items = (JSONObject(response)["result"] as JSONObject)["items"] as JSONArray
                     val questions = mutableListOf<Question>()
                     for (i in 0 until items.length()) {

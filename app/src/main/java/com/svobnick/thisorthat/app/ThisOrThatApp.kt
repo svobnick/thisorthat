@@ -5,7 +5,7 @@ import android.app.Application
 class ThisOrThatApp : Application() {
 
     lateinit var injector: InjectorComponent
-    internal var authToken: String? = null
+    lateinit var authToken: String
 
     override fun onCreate() {
         super.onCreate()

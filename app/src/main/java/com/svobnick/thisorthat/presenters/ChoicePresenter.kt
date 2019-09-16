@@ -51,7 +51,7 @@ class ChoicePresenter(
     private fun getNewQuestions() {
         requestQueue.add(
             getNextQuestions(
-                application.authToken!!,
+                application.authToken,
                 Response.Listener { response ->
                     val questions2save = ArrayList<Question>()
                     val json = JSONObject(response)
@@ -119,7 +119,7 @@ class ChoicePresenter(
                     val value = JSONObject()
                     it.forEach { answer -> value.put(answer.id.toString(), answer.userChoice) }
                     requestQueue.add(sendAnswersRequest(
-                        application.authToken!!,
+                        application.authToken,
                         it,
                         Response.Listener {
                             Log.i(TAG, "Answers successfully was sent to server!")
@@ -160,7 +160,7 @@ class ChoicePresenter(
             .subscribeOn(Schedulers.newThread())
         requestQueue.add(
             sendReportRequest(
-                application.authToken!!,
+                application.authToken,
                 currentQuestion.id,
                 reportReason,
                 Response.Listener { response ->
@@ -176,7 +176,7 @@ class ChoicePresenter(
     fun addFavoriteQuestion() {
         requestQueue.add(
             addFavoriteRequest(
-                application.authToken!!,
+                application.authToken,
                 currentQuestion.id.toString(),
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())

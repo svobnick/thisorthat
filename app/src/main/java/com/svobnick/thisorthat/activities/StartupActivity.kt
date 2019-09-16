@@ -3,6 +3,7 @@ package com.svobnick.thisorthat.activities
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -45,13 +46,18 @@ class StartupActivity : MvpAppCompatActivity(), StartupView {
         startActivity(intent)
     }
 
+    override fun showError(errorMsg: String) {
+        Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+    }
+
+    // todo remove activity from constructor
     class RegistrationAsyncTask(private val activity: StartupActivity) : AsyncTask<Void, Void, Unit>() {
         override fun onPostExecute(result: Unit) {
             super.onPostExecute(result)
             activity.onStartupEnd()
         }
 
-        override fun doInBackground(vararg p0: Void): Unit {
+        override fun doInBackground(vararg p0: Void) {
             activity.startup()
         }
     }

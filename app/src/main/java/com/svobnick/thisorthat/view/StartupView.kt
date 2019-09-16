@@ -9,4 +9,5 @@ interface StartupView : MvpView {
 
     fun startup()
     fun onStartupEnd()
+    fun showError(errorMsg: String)
 }

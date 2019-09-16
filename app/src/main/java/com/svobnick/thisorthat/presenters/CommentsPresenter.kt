@@ -27,7 +27,7 @@ class CommentsPresenter(
     fun getComments(questionId: Long, offset: Long) {
         requestQueue.add(
             getCommentsRequest(
-                app.authToken!!,
+                app.authToken,
                 questionId.toString(),
                 LIMIT.toString(),
                 offset.toString(),
@@ -68,7 +68,7 @@ class CommentsPresenter(
     fun addComment(text: String) {
         requestQueue.add(
             addCommentRequest(
-                app.authToken!!,
+                app.authToken,
                 4.toString(),
                 text,
                 0.toString(),

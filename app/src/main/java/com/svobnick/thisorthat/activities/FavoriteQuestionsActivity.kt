@@ -55,7 +55,7 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                presenter.getFavoriteQuestions(page * 100L)
+                presenter.getFavoriteQuestions(page * presenter.LIMIT)
             }
         }
         favQuestionsList.addOnScrollListener(scrollListener)

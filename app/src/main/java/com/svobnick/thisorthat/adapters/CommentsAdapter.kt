@@ -3,12 +3,11 @@ package com.svobnick.thisorthat.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Comment
-import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.comment_view.view.*
 
 class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     private val commentsList = ArrayList<Comment>()
@@ -31,18 +30,13 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
     }
 
     class CommentsViewHolder(view: View, private val picasso: Picasso) : RecyclerView.ViewHolder(view) {
-        private var userId: TextView = view.findViewById(R.id.user_id)
-        private var commentText: TextView = view.findViewById(R.id.comment_text)
-        private var avatar: CircleImageView = view.findViewById(R.id.avatar)
-        private var commentId: TextView = view.findViewById(R.id.comment_id)
-        private var parentId: TextView = view.findViewById(R.id.parent_id)
-
         fun bind(comment: Comment) {
-            picasso.load(comment.avatarUrl).into(avatar)
-            userId.text = comment.text
-            commentText.text = comment.text
-            commentId.text = comment.commentId.toString()
-            parentId.text = comment.parentId.toString()
+            itemView.user_id
+            picasso.load(comment.avatarUrl).into(itemView.avatar)
+            itemView.user_id.text = comment.text
+            itemView.comment_text.text = comment.text
+            itemView.comment_id.text = comment.commentId.toString()
+            itemView.parent_id.text = comment.parentId.toString()
         }
     }
 

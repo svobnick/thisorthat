@@ -3,10 +3,10 @@ package com.svobnick.thisorthat.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
+import kotlinx.android.synthetic.main.single_question_view.view.*
 
 class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.AnsweredQuestionsViewHolder>() {
 
@@ -30,12 +30,9 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
     }
 
     class AnsweredQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        private var firstText: TextView = view.findViewById(R.id.first_text)
-        private var secondText: TextView = view.findViewById(R.id.last_text)
-
         fun bind(question: Question) {
-            firstText.text = question.firstText
-            secondText.text = question.secondText
+            itemView.first_text.text = question.firstText
+            itemView.last_text.text = question.secondText
         }
     }
 

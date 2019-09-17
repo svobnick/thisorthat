@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
-import kotlinx.android.synthetic.main.single_question_view.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.single_question_view.*
 
 class FavoriteQuestionsAdapter :
     RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
@@ -30,11 +31,14 @@ class FavoriteQuestionsAdapter :
         return favoriteQuestionsList[position].id
     }
 
-    class FavoriteQuestionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class FavoriteQuestionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+        override val containerView: View
+            get() = itemView
+
         fun bind(question: Question) {
-            itemView.first_text.text = question.firstText
-            itemView.last_text.text = question.secondText
-            itemView.hidden_id.text = question.id.toString()
+            first_text.text = question.firstText
+            last_text.text = question.secondText
+            hidden_id.text = question.id.toString()
         }
     }
 

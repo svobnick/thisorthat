@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Comment
-import kotlinx.android.synthetic.main.comment_view.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.comment_view.*
 
 class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     private val commentsList = ArrayList<Comment>()
@@ -29,14 +30,16 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
         return commentsList[position].commentId
     }
 
-    class CommentsViewHolder(view: View, private val picasso: Picasso) : RecyclerView.ViewHolder(view) {
+    class CommentsViewHolder(itemView: View, private val picasso: Picasso) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+        override val containerView: View
+            get() = itemView
+
         fun bind(comment: Comment) {
-            itemView.user_id
-            picasso.load(comment.avatarUrl).into(itemView.avatar)
-            itemView.user_id.text = comment.text
-            itemView.comment_text.text = comment.text
-            itemView.comment_id.text = comment.commentId.toString()
-            itemView.parent_id.text = comment.parentId.toString()
+            picasso.load(comment.avatarUrl).into(avatar)
+            user_id.text = comment.text
+            comment_text.text = comment.text
+            comment_id.text = comment.commentId.toString()
+            parent_id.text = comment.parentId.toString()
         }
     }
 

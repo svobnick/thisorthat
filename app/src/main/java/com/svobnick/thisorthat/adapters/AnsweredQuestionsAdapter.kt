@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
-import kotlinx.android.synthetic.main.single_question_view.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.single_question_view.*
 
 class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.AnsweredQuestionsViewHolder>() {
 
@@ -29,10 +30,13 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
         return answeredQuestionsList[position].id
     }
 
-    class AnsweredQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class AnsweredQuestionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), LayoutContainer {
+        override val containerView: View
+            get() = itemView
+
         fun bind(question: Question) {
-            itemView.first_text.text = question.firstText
-            itemView.last_text.text = question.secondText
+            first_text.text = question.firstText
+            last_text.text = question.secondText
         }
     }
 

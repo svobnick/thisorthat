@@ -89,7 +89,14 @@ class ChoicePresenter(
 
     @SuppressLint("CheckResult")
     fun saveChoice(choice: String) {
-        currentQuestion.userChoice = choice.toInt() == currentQuestion.firstRate
+        val resultChoice = when (choice) {
+            Question.SKIPPED -> Question.SKIPPED
+            currentQuestion.firstRate.toString() -> Question.FIRST
+            currentQuestion.lastRate.toString() -> Question.LAST
+            else -> throw IllegalArgumentException("Strange choice $choice")
+        }
+        currentQuestion.choice = resultChoice
+
         Single.fromCallable { questionDao.saveUserChoice(currentQuestion) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -99,9 +106,7 @@ class ChoicePresenter(
                 viewState.showError(it.localizedMessage)
             })
 
-        // todo this thing needs refactoring
-        val answer = if (choice.toInt() == currentQuestion.firstRate) "first" else "last"
-        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, answer)) }
+        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, resultChoice)) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -110,14 +115,14 @@ class ChoicePresenter(
                 viewState.showError(it.localizedMessage)
             })
 
-        val disposable = answerDao.getAnswers()
+        answerDao.getAnswers()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .subscribe({ it ->
                 if (it.size >= 10) {
                     Log.i(TAG, "Answers size is ${it.size}, try to send it to server")
                     val value = JSONObject()
-                    it.forEach { answer -> value.put(answer.id.toString(), answer.userChoice) }
+                    it.forEach { answer -> value.put(answer.id.toString(), answer.choice) }
                     requestQueue.add(sendAnswersRequest(
                         application.authToken,
                         it,
@@ -172,6 +177,7 @@ class ChoicePresenter(
                     viewState.showError(errorMsg)
                 })
         )
+        saveChoice(Question.SKIPPED)
         setNextQuestion()
     }
 
@@ -202,7 +208,7 @@ class ChoicePresenter(
     }
 
     private fun getUnansweredQuestions() {
-        val disposable = questionDao
+        questionDao
             .getUnansweredQuestions()
             .subscribeOn(Schedulers.newThread())
             .observeOn(Schedulers.newThread())

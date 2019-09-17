@@ -54,7 +54,7 @@
             android:layout_marginRight="24dp">
         <EditText
                 android:id="@+id/newThatText"
-                android:hint="@string/second_text"
+                android:hint="@string/last_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

@@ -16,6 +16,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.FavoriteQuestionsPresenter
 import com.svobnick.thisorthat.view.FavoriteQuestionsView
+import kotlinx.android.synthetic.main.activity_favorite_questions.*
 import javax.inject.Inject
 
 class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView {
@@ -44,7 +45,7 @@ class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView 
         setContentView(R.layout.activity_favorite_questions)
         presenter.attachView(this)
 
-        favQuestionsList = findViewById(R.id.favorite_questions_list)
+        favQuestionsList = favorite_questions_list
         val linearLayoutManager = LinearLayoutManager(this)
         favQuestionsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)

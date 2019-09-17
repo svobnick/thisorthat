@@ -35,7 +35,7 @@
             app:layout_constraintLeft_toLeftOf="parent">
 
         <EditText
-                android:id="@+id/edittext_comment"
+                android:id="@+id/new_comment"
                 android:hint="Enter message"
                 android:background="@color/background"
                 android:layout_gravity="center"

@@ -41,7 +41,7 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
 
         fun bind(question: Question) {
             first_text.text = question.firstText
-            last_text.text = question.secondText
+            last_text.text = question.lastText
         }
     }
 }

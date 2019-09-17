@@ -3,7 +3,6 @@ package com.svobnick.thisorthat.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import com.android.volley.RequestQueue
@@ -14,6 +13,7 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.NewQuestionPresenter
 import com.svobnick.thisorthat.view.NewQuestionView
+import kotlinx.android.synthetic.main.activity_new_question.*
 import javax.inject.Inject
 
 class NewQuestionActivity : MvpAppCompatActivity(), NewQuestionView {
@@ -38,8 +38,8 @@ class NewQuestionActivity : MvpAppCompatActivity(), NewQuestionView {
 
     override fun onSendQuestionButtonClick(selected: View) {
         newQuestionPresenter.send(
-            findViewById<EditText>(R.id.newThisText).text.toString(),
-            findViewById<EditText>(R.id.newThatText).text.toString()
+            newThisText.text.toString(),
+            newThatText.text.toString()
         )
         val intent = Intent(this, ChoiceActivity::class.java)
         startActivity(intent)

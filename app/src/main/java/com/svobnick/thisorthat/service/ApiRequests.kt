@@ -116,7 +116,7 @@ fun sendAnswersRequest(
         override fun getParams(): MutableMap<String, String> {
             val result = mutableMapOf(Pair("token", authToken))
             answers.forEach {
-                result["views[${it.id}]"] = it.userChoice
+                result["views[${it.id}]"] = it.choice
             }
             return result
         }

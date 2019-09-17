@@ -8,21 +8,25 @@ import androidx.room.PrimaryKey
 data class Question(
     @PrimaryKey var id: Long,
     @ColumnInfo(name = "first_text") var firstText: String,
-    @ColumnInfo(name = "second_text") var secondText: String,
+    @ColumnInfo(name = "last_text") var lastText: String,
     @ColumnInfo(name = "first_rate") var firstRate: Int,
-    @ColumnInfo(name = "second_rate") var secondRate: Int,
+    @ColumnInfo(name = "last_rate") var lastRate: Int,
 
     // todo "skipped"
     /**
-     * true is 'first_text'
-     * false is 'second_text'
-     * null is unanswered question
+     * for 'first_text' – first
+     * for 'last_text' – 'last'
+     * for reported questions – 'skip'
      * */
-    @ColumnInfo(name = "user_choice") var userChoice: Boolean?
+    @ColumnInfo(name = "choice") var choice: String?
 ) {
 
     companion object {
-        private val EMPTY = Question(-1, "", "", 0, 0, null)
+        private val EMPTY = Question(-1, "", "", 0, 0, "skip")
         fun empty() = EMPTY
+
+        val SKIPPED = "skip"
+        val FIRST = "first"
+        val LAST = "last"
     }
 }

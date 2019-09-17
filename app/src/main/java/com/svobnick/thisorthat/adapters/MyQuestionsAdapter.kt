@@ -42,7 +42,7 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVi
 
         fun bind(question: Question) {
             first_text.text = question.firstText
-            last_text.text = question.secondText
+            last_text.text = question.lastText
         }
     }
 }

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -65,7 +64,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-        this.chart = findViewById(R.id.pie_chart)
+        this.chart = pie_chart
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
 
@@ -94,7 +93,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun onChoiceClick(choice: View) {
         if (state == STATE.RESULT) {
             val clickedText = findViewById<TextView>(choice.id)
-            choicePresenter.saveChoice(clickedText.text!!.toString())
+            choicePresenter.saveChoice(clickedText.text.toString())
             choicePresenter.setNextQuestion()
         } else {
             setResultToView(choicePresenter.currentQuestion)
@@ -104,19 +103,19 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun setNewQuestion(question: Question) {
-        val thisText = findViewById<TextView>(R.id.firstText)
-        val thatText = findViewById<TextView>(R.id.secondText)
+        val thisText = first_text
+        val thatText = last_text
         thisText.text = question.firstText
-        thatText.text = question.secondText
+        thatText.text = question.lastText
         hideChart()
     }
 
     override fun setResultToView(question: Question) {
-        val firstText = findViewById<TextView>(R.id.firstText)
-        val secondText = findViewById<TextView>(R.id.secondText)
+        val firstText = first_text
+        val lastText = last_text
         firstText.text = question.firstRate.toString()
-        secondText.text = question.secondRate.toString()
-        setDataToChart(question.firstRate, question.secondRate)
+        lastText.text = question.lastRate.toString()
+        setDataToChart(question.firstRate, question.lastRate)
     }
 
     fun onReportClickHandler(selected: View) {
@@ -127,15 +126,13 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
             else -> ""
         }
         choicePresenter.reportQuestion(reportReason)
-        // todo choicePresenter.saveChoice()
         showError("Вопрос пропущен, а его рейтинг снижен")
         popupWindow.dismiss()
         choicePresenter.setNextQuestion()
     }
 
     override fun reportQuestion() {
-        val button = findViewById<Button>(R.id.push_button)
-        popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0)
+        popupWindow.showAtLocation(push_button, Gravity.CENTER, 0, 0)
     }
 
     override fun getComments() {
@@ -169,11 +166,11 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         chart.invalidate()
     }
 
-    private fun setDataToChart(firstRate: Int, secondRate: Int) {
-        val sum = firstRate + secondRate
+    private fun setDataToChart(firstRate: Int, lastRate: Int) {
+        val sum = firstRate + lastRate
         val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
-        val secondPercent = ((secondRate.toDouble() / sum) * 100).roundToInt()
-        chart.setUpPercents(secondPercent)
+        val lastPercent = ((lastRate.toDouble() / sum) * 100).roundToInt()
+        chart.setUpPercents(lastPercent)
         chart.visibility = View.VISIBLE
         chart.invalidate()
     }

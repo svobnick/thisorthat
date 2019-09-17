@@ -14,6 +14,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.AnsweredQuestionsPresenter
 import com.svobnick.thisorthat.view.AnsweredQuestionsView
+import kotlinx.android.synthetic.main.activity_answered_questions.*
 import javax.inject.Inject
 
 class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView {
@@ -38,7 +39,7 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
         setContentView(R.layout.activity_answered_questions)
         presenter.attachView(this)
 
-        answeredQuestionsList = findViewById(R.id.answered_questions_list)
+        answeredQuestionsList = answered_questions_list
         answeredQuestionsList.layoutManager = LinearLayoutManager(this)
         adapter.setHasStableIds(true)
         answeredQuestionsList.adapter = adapter

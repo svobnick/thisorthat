@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Answer(
     @PrimaryKey var id: Long,
-    // might be 'first' / 'last' / 'skip'
-    var userChoice: String
+    // might be "first" / "last" / "skip"
+    var choice: String
 )

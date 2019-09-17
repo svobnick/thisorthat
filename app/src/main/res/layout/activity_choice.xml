@@ -7,7 +7,7 @@
         tools:context=".activities.ChoiceActivity">
 
     <com.google.android.material.card.MaterialCardView
-            android:id="@+id/firstCard"
+            android:id="@+id/first_card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="24dp"
@@ -22,13 +22,13 @@
             android:onClick="onChoiceClick"
             app:cardBackgroundColor="@color/first"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/secondCard"
+            app:layout_constraintBottom_toTopOf="@+id/last_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-                android:id="@+id/firstText"
+                android:id="@+id/first_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -45,7 +45,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-            android:id="@+id/secondCard"
+            android:id="@+id/last_card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="24dp"
@@ -60,10 +60,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstCard">
+            app:layout_constraintTop_toBottomOf="@+id/first_card">
 
         <TextView
-                android:id="@+id/secondText"
+                android:id="@+id/last_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -71,7 +71,7 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="onChoiceClick"
-                android:text="@string/second_text"
+                android:text="@string/last_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secondCard">
+            app:layout_constraintTop_toBottomOf="@+id/last_card">
 
         <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/menu_bar"

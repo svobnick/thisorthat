@@ -7,10 +7,10 @@ import io.reactivex.Single
 @Dao
 interface QuestionDao {
 
-    @Query("SELECT * FROM question WHERE user_choice IS null")
+    @Query("SELECT * FROM question WHERE choice IS null")
     fun getUnansweredQuestions(): Single<List<Question>>
 
-    @Query("SELECT * FROM question WHERE user_choice IS NOT null")
+    @Query("SELECT * FROM question WHERE choice IS NOT null")
     fun getAnsweredQuestions(): Single<List<Question>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

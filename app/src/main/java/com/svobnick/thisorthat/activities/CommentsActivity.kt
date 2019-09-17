@@ -2,7 +2,6 @@ package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.presenters.CommentsPresenter
 import com.svobnick.thisorthat.view.CommentsView
+import kotlinx.android.synthetic.main.activity_comments.*
 import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
@@ -48,7 +48,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         adapter = CommentsAdapter(picasso)
 
-        commentsList = findViewById(R.id.comments_list)
+        commentsList = comments_list
         commentsList.setHasFixedSize(true)
         commentsList.setItemViewCacheSize(100)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -77,8 +77,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun addComment(sendView: View) {
-        val view = findViewById<EditText>(R.id.edittext_comment)
-        presenter.addComment(view.text.toString())
+        presenter.addComment(new_comment.text.toString())
     }
 
     override fun showError(errorMsg: String) {

@@ -16,6 +16,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.MyQuestionsPresenter
 import com.svobnick.thisorthat.view.MyQuestionsView
+import kotlinx.android.synthetic.main.activity_my_questions.*
 import javax.inject.Inject
 
 class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
@@ -43,7 +44,7 @@ class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
         setContentView(R.layout.activity_my_questions)
         presenter.attachView(this)
 
-        myQuestionsList = findViewById(R.id.my_questions_list)
+        myQuestionsList = my_questions_list
         val linearLayoutManager = LinearLayoutManager(this)
         myQuestionsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)

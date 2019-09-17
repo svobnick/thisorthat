@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">То или Это</string>
     <string name="first_text">То</string>
-    <string name="second_text">Это</string>
+    <string name="last_text">Это</string>
 
     <string name="history_text">История</string>
     <string name="my_questions_text">Мои вопросы</string>

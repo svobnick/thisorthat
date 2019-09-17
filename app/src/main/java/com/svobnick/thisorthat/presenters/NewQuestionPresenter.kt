@@ -17,10 +17,10 @@ class NewQuestionPresenter(
 ) : MvpPresenter<NewQuestionView>() {
     private val TAG = this::class.java.name
 
-    fun send(firstText: String, secondText: String) {
+    fun send(firstText: String, lastText: String) {
         val json = JSONObject()
             .put("first_text", firstText)
-            .put("last_text", secondText)
+            .put("last_text", lastText)
             .put("token", app.authToken)
         requestQueue.add(
             sendNewQuestion(

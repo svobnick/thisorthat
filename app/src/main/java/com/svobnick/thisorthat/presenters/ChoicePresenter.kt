@@ -81,8 +81,8 @@ class ChoicePresenter(
                     setNextQuestion()
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
-                    it.printStackTrace()
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    viewState.showError(errorMsg)
                 })
         )
     }
@@ -135,6 +135,7 @@ class ChoicePresenter(
                                         TAG,
                                         "Failed to clear answers table: ${it.localizedMessage}"
                                     )
+                                    viewState.showError(it.localizedMessage)
                                 })
                         },
                         Response.ErrorListener {
@@ -142,10 +143,9 @@ class ChoicePresenter(
                                 TAG,
                                 "Sending answers to server failed cause: ${it.localizedMessage}"
                             )
-                            Log.e(
-                                TAG,
-                                "Server response data: ${JSONObject(String(it.networkResponse.data))}"
-                            )
+                            val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                            Log.e(TAG, "Server response data: $errorMsg")
+                            viewState.showError(errorMsg)
                         }
                     ))
                 }
@@ -156,7 +156,7 @@ class ChoicePresenter(
 
     fun reportQuestion(reportReason: String) {
         val claim = Claim(currentQuestion.id, reportReason)
-        var disposable = Single.fromCallable { claimDao.saveClaim(claim) }
+        Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
         requestQueue.add(
             sendReportRequest(
@@ -167,7 +167,9 @@ class ChoicePresenter(
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 })
         )
         setNextQuestion()
@@ -182,7 +184,9 @@ class ChoicePresenter(
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 })
         )
     }

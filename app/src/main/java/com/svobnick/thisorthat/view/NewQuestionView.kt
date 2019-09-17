@@ -9,4 +9,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface NewQuestionView : MvpView {
 
     fun onSendQuestionButtonClick(selected: View)
+    fun showError(errorMsg: String)
 }

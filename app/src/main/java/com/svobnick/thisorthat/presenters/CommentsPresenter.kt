@@ -59,7 +59,9 @@ class CommentsPresenter(
                         })
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 }
             )
         )
@@ -76,7 +78,9 @@ class CommentsPresenter(
                     print(response)
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 }
             )
 

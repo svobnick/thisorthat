@@ -10,8 +10,6 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.single_question_view.*
 
 class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsViewHolder>() {
-    private val VIEW_QUESTIONS = 1
-    private val VIEW_PROGRESS_BAR = 0
 
     private val myQuestionsList = ArrayList<Question>()
 
@@ -23,10 +21,6 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVi
 
     override fun getItemCount(): Int {
         return myQuestionsList.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (myQuestionsList[position] != null) VIEW_QUESTIONS else VIEW_PROGRESS_BAR
     }
 
     override fun onBindViewHolder(holder: MyQuestionsViewHolder, position: Int) {

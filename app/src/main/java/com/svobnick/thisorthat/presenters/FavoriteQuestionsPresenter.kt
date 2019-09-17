@@ -50,7 +50,6 @@ class FavoriteQuestionsPresenter(
                 },
                 Response.ErrorListener {
                     val errData = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errData)
                     viewState.showError(errData)
                 })
         )
@@ -65,7 +64,8 @@ class FavoriteQuestionsPresenter(
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errData = JSONObject(String(it.networkResponse.data)).toString()
+                    viewState.showError(errData)
                 })
         )
     }

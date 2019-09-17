@@ -48,9 +48,9 @@ class MyQuestionsPresenter(
                     viewState.setMyQuestions(questions)
                 },
                 Response.ErrorListener {
-                    val errData = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errData)
-                    viewState.showError(errData)
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 })
         )
     }

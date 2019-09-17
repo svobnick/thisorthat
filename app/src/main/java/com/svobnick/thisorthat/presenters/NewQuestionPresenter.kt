@@ -26,10 +26,12 @@ class NewQuestionPresenter(
             sendNewQuestion(
                 json,
                 Response.Listener { response ->
-                    Log.i(TAG, "$response")
+                    Log.i(TAG, response)
                 },
                 Response.ErrorListener {
-                    Log.e(TAG, JSONObject(String(it.networkResponse.data)).toString())
+                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                    Log.e(TAG, errorMsg)
+                    viewState.showError(errorMsg)
                 })
         )
     }

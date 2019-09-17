@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 class NewQuestionActivity : MvpAppCompatActivity(), NewQuestionView {
 
-    @Inject lateinit var requestQueue: RequestQueue
+    @Inject
+    lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var newQuestionPresenter: NewQuestionPresenter
@@ -41,5 +43,9 @@ class NewQuestionActivity : MvpAppCompatActivity(), NewQuestionView {
         )
         val intent = Intent(this, ChoiceActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun showError(errorMsg: String) {
+        Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 }

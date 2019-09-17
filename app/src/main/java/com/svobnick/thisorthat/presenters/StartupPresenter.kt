@@ -41,7 +41,7 @@ class StartupPresenter(
             instanceId,
             future,
             Response.ErrorListener {
-                val errorMsg = JSONObject(String(it.networkResponse.data)).toString();
+                val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
                 Log.e(TAG, errorMsg)
                 viewState.showError(errorMsg)
             })

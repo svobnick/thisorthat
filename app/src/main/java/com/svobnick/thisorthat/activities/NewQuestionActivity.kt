@@ -37,10 +37,7 @@ class NewQuestionActivity : MvpAppCompatActivity(), NewQuestionView {
     }
 
     override fun onSendQuestionButtonClick(selected: View) {
-        newQuestionPresenter.send(
-            newThisText.text.toString(),
-            newThatText.text.toString()
-        )
+        newQuestionPresenter.send(new_this_text.text.toString(), new_that_text.text.toString())
         val intent = Intent(this, ChoiceActivity::class.java)
         startActivity(intent)
     }

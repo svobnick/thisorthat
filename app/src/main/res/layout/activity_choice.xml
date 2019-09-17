@@ -19,7 +19,6 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
-            android:onClick="onChoiceClick"
             app:cardBackgroundColor="@color/first"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/last_card"

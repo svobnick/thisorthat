@@ -8,14 +8,14 @@
         tools:context=".activities.NewQuestionActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/newThisLayout"
+            android:id="@+id/new_this_layout"
             android:layout_weight=".5"
             android:layout_width="match_parent"
             android:background="@color/first"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/newThatLayout"
+            app:layout_constraintBottom_toTopOf="@+id/new_that_layout"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
@@ -24,7 +24,7 @@
             android:layout_marginStart="24dp"
             app:layout_constraintVertical_bias="0.44">
         <EditText
-                android:id="@+id/newThisText"
+                android:id="@+id/new_this_text"
                 android:hint="@string/first_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,13 +37,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/newThatLayout"
+            android:id="@+id/new_that_layout"
             android:layout_weight=".5"
             android:layout_width="match_parent"
             android:background="@color/last"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newThisLayout"
+            app:layout_constraintTop_toBottomOf="@+id/new_this_layout"
             app:layout_constraintBottom_toTopOf="@+id/send_question"
             android:layout_marginBottom="24dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp">
         <EditText
-                android:id="@+id/newThatText"
+                android:id="@+id/new_that_text"
                 android:hint="@string/last_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

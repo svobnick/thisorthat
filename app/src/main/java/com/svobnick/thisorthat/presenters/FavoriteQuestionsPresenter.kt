@@ -18,7 +18,8 @@ class FavoriteQuestionsPresenter(
     private val app: ThisOrThatApp,
     private val requestQueue: RequestQueue
 ) : MvpPresenter<FavoriteQuestionsView>() {
-    val LIMIT = 100L
+    private val TAG = this::class.java.name
+    internal val LIMIT = 100L
 
     fun getFavoriteQuestions(offset: Long) {
         val json = JSONObject()
@@ -55,11 +56,11 @@ class FavoriteQuestionsPresenter(
         )
     }
 
-    fun deleteFavoriteQuestion(hiddenId: String) {
+    fun deleteFavoriteQuestion(itemId: Long) {
         requestQueue.add(
             deleteFavoriteRequest(
                 app.authToken,
-                hiddenId,
+                itemId.toString(),
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
                 },
@@ -68,7 +69,4 @@ class FavoriteQuestionsPresenter(
                 })
         )
     }
-
-    private val TAG = this::class.java.name
-
 }

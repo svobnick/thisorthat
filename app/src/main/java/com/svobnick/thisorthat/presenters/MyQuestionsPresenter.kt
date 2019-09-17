@@ -18,8 +18,7 @@ class MyQuestionsPresenter(
     private val requestQueue: RequestQueue
 ) : MvpPresenter<MyQuestionsView>() {
     private val TAG = this::class.java.name
-
-    val LIMIT = 30L
+    internal val LIMIT = 30L
 
     fun getMyQuestions(offset: Long) {
         val json = JSONObject()

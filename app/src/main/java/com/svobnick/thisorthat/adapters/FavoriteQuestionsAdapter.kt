@@ -8,13 +8,17 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.single_question_view.*
+import kotlin.reflect.KFunction1
 
-class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
+class FavoriteQuestionsAdapter(private val onClick: KFunction1<@ParameterName(name = "itemId") Long, Unit>) :
+    RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
+
     private val favoriteQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteQuestionsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_question_view, parent, false)
-        return FavoriteQuestionsViewHolder(view)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.single_question_view, parent, false)
+        return FavoriteQuestionsViewHolder(view, this::removeFavoriteQuestion)
     }
 
     override fun getItemCount(): Int {
@@ -34,14 +38,25 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.F
         notifyDataSetChanged()
     }
 
-    class FavoriteQuestionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+    private fun removeFavoriteQuestion(index: Int) {
+        val question = favoriteQuestionsList.removeAt(index)
+        notifyItemRemoved(index)
+        onClick(question.id)
+    }
+
+    class FavoriteQuestionsViewHolder(
+        itemView: View,
+        private val onClick: KFunction1<@ParameterName(name = "index") Int, Unit>
+    ) : RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
             get() = itemView
 
         fun bind(question: Question) {
             first_text.text = question.firstText
             last_text.text = question.secondText
-            hidden_id.text = question.id.toString()
+            remove_favorite_button.setOnClickListener {
+                onClick(layoutPosition)
+            }
         }
     }
 }

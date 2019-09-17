@@ -22,7 +22,7 @@ class CommentsPresenter(
     private val requestQueue: RequestQueue
 ) : MvpPresenter<CommentsView>() {
     private val TAG = this::class.java.name
-    val LIMIT = 30L
+    internal val LIMIT = 30L
 
     fun getComments(questionId: Long, offset: Long) {
         requestQueue.add(

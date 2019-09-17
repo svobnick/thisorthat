@@ -10,7 +10,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = [AppModule::class])
 interface InjectorComponent {
 
     fun inject(application: ThisOrThatApp)

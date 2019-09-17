@@ -30,6 +30,11 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
         return answeredQuestionsList[position].id
     }
 
+    fun setAnsweredQuestions(answeredQuestions: List<Question>) {
+        answeredQuestionsList.addAll(answeredQuestions)
+        notifyDataSetChanged()
+    }
+
     class AnsweredQuestionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
             get() = itemView
@@ -38,10 +43,5 @@ class AnsweredQuestionsAdapter: RecyclerView.Adapter<AnsweredQuestionsAdapter.An
             first_text.text = question.firstText
             last_text.text = question.secondText
         }
-    }
-
-    fun setAnsweredQuestions(answeredQuestions: List<Question>) {
-        answeredQuestionsList.addAll(answeredQuestions)
-        notifyDataSetChanged()
     }
 }

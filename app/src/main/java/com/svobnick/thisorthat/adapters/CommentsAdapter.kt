@@ -30,7 +30,13 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
         return commentsList[position].commentId
     }
 
-    class CommentsViewHolder(itemView: View, private val picasso: Picasso) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+    fun setComments(it: List<Comment>) {
+        commentsList.addAll(it)
+        notifyDataSetChanged()
+    }
+
+    class CommentsViewHolder(itemView: View, private val picasso: Picasso) :
+        RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
             get() = itemView
 
@@ -41,10 +47,5 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
             comment_id.text = comment.commentId.toString()
             parent_id.text = comment.parentId.toString()
         }
-    }
-
-    fun setComments(it: List<Comment>) {
-        commentsList.addAll(it)
-        notifyDataSetChanged()
     }
 }

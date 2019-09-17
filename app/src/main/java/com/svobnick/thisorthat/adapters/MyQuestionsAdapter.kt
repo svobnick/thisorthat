@@ -37,6 +37,11 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVi
         return myQuestionsList[position].id
     }
 
+    fun setMyQuestions(answeredQuestions: List<Question>) {
+        myQuestionsList.addAll(answeredQuestions)
+        notifyDataSetChanged()
+    }
+
     class MyQuestionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
             get() = itemView
@@ -45,10 +50,5 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVi
             first_text.text = question.firstText
             last_text.text = question.secondText
         }
-    }
-
-    fun setMyQuestions(answeredQuestions: List<Question>) {
-        myQuestionsList.addAll(answeredQuestions)
-        notifyDataSetChanged()
     }
 }

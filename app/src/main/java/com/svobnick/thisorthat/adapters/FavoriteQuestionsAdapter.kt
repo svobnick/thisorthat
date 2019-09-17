@@ -9,13 +9,11 @@ import com.svobnick.thisorthat.model.Question
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.single_question_view.*
 
-class FavoriteQuestionsAdapter :
-    RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
+class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
     private val favoriteQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteQuestionsViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_question_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_question_view, parent, false)
         return FavoriteQuestionsViewHolder(view)
     }
 
@@ -31,6 +29,11 @@ class FavoriteQuestionsAdapter :
         return favoriteQuestionsList[position].id
     }
 
+    fun setFavoriteQuestions(favoriteQuestions: List<Question>) {
+        favoriteQuestionsList.addAll(favoriteQuestions)
+        notifyDataSetChanged()
+    }
+
     class FavoriteQuestionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
             get() = itemView
@@ -40,10 +43,5 @@ class FavoriteQuestionsAdapter :
             last_text.text = question.secondText
             hidden_id.text = question.id.toString()
         }
-    }
-
-    fun setFavoriteQuestions(favoriteQuestions: List<Question>) {
-        favoriteQuestionsList.addAll(favoriteQuestions)
-        notifyDataSetChanged()
     }
 }

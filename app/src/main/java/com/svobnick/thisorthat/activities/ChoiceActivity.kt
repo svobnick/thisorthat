@@ -21,17 +21,19 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.fragments.BottomSheetDialog
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
+import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.ChoiceView
 import com.svobnick.thisorthat.view.PieChart
 import kotlinx.android.synthetic.main.activity_choice.*
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
     lateinit var state: STATE
     lateinit var chart: PieChart
+    lateinit var firstPercent: TextView
+    lateinit var lastPercent: TextView
     lateinit var popupWindow: PopupWindow
 
     @Inject
@@ -65,6 +67,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
         this.state = STATE.QUESTION
         this.chart = pie_chart
+        this.firstPercent = findViewById(R.id.first_percent)
+        this.lastPercent = findViewById(R.id.last_percent)
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
 
@@ -107,7 +111,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val thatText = last_text
         thisText.text = question.firstText
         thatText.text = question.lastText
-        hideChart()
+        hideResults()
     }
 
     override fun setResultToView(question: Question) {
@@ -123,7 +127,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
             R.id.clone -> "clone"
             R.id.abuse -> "abuse"
             R.id.typo -> "typo"
-            else -> ""
+            else -> throw IllegalArgumentException("type ${selected.id} is not allowed here")
         }
         choicePresenter.reportQuestion(reportReason)
         showError("Вопрос пропущен, а его рейтинг снижен")
@@ -161,25 +165,37 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         return popupWindow
     }
 
-    private fun hideChart() {
+    private fun hideResults() {
+        firstPercent.visibility = View.INVISIBLE
+        firstPercent.invalidate()
+        lastPercent.visibility = View.INVISIBLE
+        lastPercent.invalidate()
         chart.visibility = View.INVISIBLE
         chart.invalidate()
     }
 
-    private fun setDataToChart(firstRate: Int, lastRate: Int) {
-        val sum = firstRate + lastRate
-        val firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
-        val lastPercent = ((lastRate.toDouble() / sum) * 100).roundToInt()
-        chart.setUpPercents(lastPercent)
+    private fun showResults() {
+        this.firstPercent.visibility = View.VISIBLE
+        this.firstPercent.invalidate()
+        this.lastPercent.visibility = View.VISIBLE
+        this.lastPercent.invalidate()
         chart.visibility = View.VISIBLE
         chart.invalidate()
     }
+
+    private fun setDataToChart(firstRate: Int, lastRate: Int) {
+        val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
+        this.firstPercent.text = "$firstPercent%"
+        this.lastPercent.text = "$lastPercent%"
+        chart.setUpPercents(lastPercent)
+        showResults()
+    }
+
 
     private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION
 
     enum class STATE {
         QUESTION,
         RESULT
-
     }
 }

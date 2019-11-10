@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.single_question_view.*
 
@@ -41,8 +42,14 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.MyQuestionsVi
             get() = itemView
 
         fun bind(question: Question) {
+            val (firstPercent, lastPercent) = computeQuestionsPercentage(
+                question.firstRate,
+                question.lastRate
+            )
             first_text.text = question.firstText
+            first_percent.text = "$firstPercent%"
             last_text.text = question.lastText
+            last_percent.text = "$lastPercent%"
         }
     }
 }

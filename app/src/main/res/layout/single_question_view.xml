@@ -23,12 +23,28 @@
                 android:maxLines="1"
                 android:gravity="center_vertical"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="@string/placeholder"
+                android:text="@string/choice_placeholder"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
                 />
+
+        <TextView
+                android:id="@+id/first_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onChoiceClick"
+                android:text="@string/percentage_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceLarge" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -51,12 +67,27 @@
                 android:maxLines="1"
                 android:gravity="center_vertical"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="@string/placeholder"
+                android:text="@string/choice_placeholder"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp" />
+
+        <TextView
+                android:id="@+id/last_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                />
+                android:layout_gravity="end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onChoiceClick"
+                android:text="@string/percentage_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceLarge" />
     </com.google.android.material.card.MaterialCardView>
 
 

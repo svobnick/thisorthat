@@ -9,7 +9,7 @@ import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
 
-@Database(entities = arrayOf(Question::class, Answer::class, Claim::class), version = 1)
+@Database(entities = [Question::class, Answer::class, Claim::class], version = 1)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun questionDao() : QuestionDao
     abstract fun answerDao() : AnswerDao

@@ -54,9 +54,9 @@ class FavoriteQuestionsAdapter(private val onClick: KFunction1<@ParameterName(na
         fun bind(question: Question) {
             first_text.text = question.firstText
             last_text.text = question.lastText
-            remove_favorite_button.setOnClickListener {
-                onClick(layoutPosition)
-            }
+//            remove_favorite_button.setOnClickListener {
+//                onClick(layoutPosition)
+//            }
         }
     }
 }

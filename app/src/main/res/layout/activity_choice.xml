@@ -19,6 +19,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
+            app:cardCornerRadius="0dp"
             app:cardBackgroundColor="@color/first"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/last_card"
@@ -53,6 +54,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginBottom="24dp"
             android:layout_weight=".5"
+            app:cardCornerRadius="0dp"
             app:cardBackgroundColor="@color/last"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
@@ -119,12 +121,11 @@
                 android:id="@+id/menu_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/Widget.MaterialComponents.BottomAppBar"
+                app:backgroundTint="@color/background"
                 app:fabAlignmentMode="center"
                 app:fabCradleMargin="0dp"
                 app:fabCradleVerticalOffset="0dp"
-                app:backgroundTint="@color/background"
-                app:navigationIcon="@drawable/icon_menu"
-                android:theme="@style/Widget.MaterialComponents.BottomAppBar"
-                />
+                app:navigationIcon="@drawable/icon_menu" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

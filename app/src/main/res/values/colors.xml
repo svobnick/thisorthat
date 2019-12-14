@@ -4,7 +4,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
-    <color name="background">#3a3a3c</color>
+    <color name="background">#FFFFFF</color>
     <color name="first">#F07140</color>
     <color name="first_dark">#C53B23</color>
     <color name="last">#8A5DA7</color>

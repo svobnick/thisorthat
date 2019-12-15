@@ -6,5 +6,11 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(OneExecutionStateStrategy::class)
-interface BottomMenuView : MvpView {
+interface MenuFirstLevelView : MvpView {
+
+    fun questionsHandler()
+
+    fun addQuestionHandler()
+
+    fun openSettingsHandler()
 }

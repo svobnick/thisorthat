@@ -36,12 +36,12 @@
         app:layout_constraintGuide_percent="0.90" />
 
     <fragment
-        android:id="@+id/bottom_menu"
-        android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
+        android:id="@+id/first_level_menu"
+        android:name="com.svobnick.thisorthat.fragments.MenuFirstLevelFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_bottom_menu"/>
+        tools:layout="@layout/fragment_menu_first_level"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

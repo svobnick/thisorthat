@@ -51,7 +51,7 @@
         android:background="@color/background"
         android:minHeight="48dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+        app:layout_constraintBottom_toTopOf="@id/bottom_first_guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
@@ -82,7 +82,14 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_guideline"
+        android:id="@+id/bottom_second_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_first_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -93,7 +100,7 @@
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
+        app:layout_constraintTop_toBottomOf="@id/bottom_second_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_bottom_menu"/>
 

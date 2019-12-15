@@ -10,17 +10,17 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.ChoiceActivity
 import com.svobnick.thisorthat.activities.FavoriteQuestionsActivity
 import com.svobnick.thisorthat.activities.MyQuestionsActivity
-import com.svobnick.thisorthat.view.QuestionsMenuView
-import kotlinx.android.synthetic.main.questions_menu_popup.*
+import com.svobnick.thisorthat.view.MenuSecondLevelView
+import kotlinx.android.synthetic.main.fragment_menu_second_level.*
 
-class QuestionsMenuFragment : MvpAppCompatFragment(), QuestionsMenuView {
+class MenuSecondLevelFragment : MvpAppCompatFragment(), MenuSecondLevelView {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.questions_menu_popup, container, false)
+        return inflater.inflate(R.layout.fragment_menu_second_level, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -43,6 +43,9 @@ dependencies {
     // dependency injection
     def dagger_version = "2.21"
     implementation "com.google.dagger:dagger:$dagger_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     // mvp provider

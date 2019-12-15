@@ -72,7 +72,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
 
-        setSupportActionBar(menu_bar)
+//        setSupportActionBar(menu_bar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

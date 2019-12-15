@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,24 +7,15 @@
     android:background="@color/background"
     tools:context=".activities.ChoiceActivity">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/header"
+    <fragment
+        android:id="@+id/header_menu"
+        android:name="com.svobnick.thisorthat.fragments.HeaderMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/background"
         android:layout_marginTop="10dp"
-        app:contentInsetStart="0dp"
         app:layout_constraintBottom_toTopOf="@id/header_guideline"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/header_logo"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/header_logo" />
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_header_menu"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/header_guideline"
@@ -34,32 +24,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10" />
 
-    <ImageButton
-        android:id="@+id/report_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_report_problem"
-        android:background="@color/transparent"
-        android:layout_marginEnd="24dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/report_guideline"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/report_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/first_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight=".5"
         android:clickable="true"
         android:focusable="true"
@@ -70,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/last_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/report_guideline">
+        app:layout_constraintTop_toBottomOf="@id/header_guideline">
 
         <TextView
             android:id="@+id/first_text"
@@ -113,14 +84,14 @@
         android:id="@+id/last_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight=".5"
         app:cardBackgroundColor="@color/last"
         app:cardCornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,11 +141,11 @@
         android:layout_centerHorizontal="true"
         android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/report_guideline" />
+        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <Button
         android:id="@+id/push_button"
@@ -183,32 +154,26 @@
         android:background="@drawable/button_round"
         android:text="@string/or_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/report_guideline" />
+        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/bottom_bar"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <fragment
+        android:id="@+id/bottom_menu"
+        android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/last_card">
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/menu_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/Widget.MaterialComponents.BottomAppBar"
-            app:backgroundTint="@color/background"
-            app:fabAlignmentMode="center"
-            app:fabCradleMargin="0dp"
-            app:fabCradleVerticalOffset="0dp"
-            app:navigationIcon="@drawable/icon_menu" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
+        tools:layout="@layout/fragment_bottom_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

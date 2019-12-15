@@ -5,26 +5,32 @@
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:gravity="center_horizontal"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/prevButton"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="Вопросы" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="Добавить вопрос" />
+        <Button
+            android:id="@+id/questions_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/questions_button" />
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="Настройки" />
+        <Button
+            android:id="@+id/add_question_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/add_question_button" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/settings_button" />
+    </LinearLayout>
 </LinearLayout>

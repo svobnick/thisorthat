@@ -19,5 +19,18 @@
 
     <string name="application_ad_id">"ca-app-pub-7005450343890487~7223429492"</string>
     <string name="new_question_interstitial_ad_id">ca-app-pub-7005450343890487/7572721777</string>
+
     <string name="favorite_text">Избранные вопросы</string>
+
+    <string name="questions_button">Вопросы</string>
+    <string name="add_question_button">Добавить вопрос</string>
+    <string name="settings_button">Настройки</string>
+    <string name="report_button">Зарепортить вопрос</string>
+    <string name="comments_button">Комментарии</string>
+    <string name="add_favorite_button">Добавить в любимые</string>
+    <string name="share_button">Поделиться</string>
+
+    <string name="all_questions_button">Все вопросы</string>
+    <string name="favorite_questions_button">Любимые вопросы</string>
+    <string name="my_questions_button">Мои вопросы</string>
 </resources>

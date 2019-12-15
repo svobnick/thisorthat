@@ -91,7 +91,7 @@
         app:cardBackgroundColor="@color/last"
         app:cardCornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/questions_menu_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +141,7 @@
         android:layout_centerHorizontal="true"
         android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/questions_menu_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,11 +154,27 @@
         android:background="@drawable/button_round"
         android:text="@string/or_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/questions_menu_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/questions_menu_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <fragment
+        android:id="@+id/questions_menu_popup"
+        android:name="com.svobnick.thisorthat.fragments.QuestionsMenuFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
+        app:layout_constraintTop_toBottomOf="@id/questions_menu_guideline"
+        tools:layout="@layout/questions_menu_popup"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottom_guideline"

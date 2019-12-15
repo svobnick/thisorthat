@@ -5,11 +5,10 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface BottomMenuView : MvpView {
+interface QuestionsMenuView : MvpView {
 
-    fun questionsHandler()
+    fun allQuestionsHandler()
+    fun favoriteQuestionsHandler()
+    fun myQuestionsHandler()
 
-    fun addQuestionHandler()
-
-    fun openSettingsHandler()
 }

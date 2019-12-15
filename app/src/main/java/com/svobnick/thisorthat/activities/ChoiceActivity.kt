@@ -18,7 +18,6 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
-import com.svobnick.thisorthat.fragments.BottomSheetDialog
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
@@ -71,27 +70,6 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         this.lastPercent = findViewById(R.id.last_percent)
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
-
-//        setSupportActionBar(menu_bar)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.navigation_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                val fragment = BottomSheetDialog()
-                fragment.show(supportFragmentManager, fragment.tag)
-            }
-            R.id.add_favorite -> addFavoriteQuestion()
-            R.id.comments -> getComments()
-            R.id.report_problem -> reportQuestion()
-            R.id.share -> println("top kek")
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onChoiceClick(choice: View) {

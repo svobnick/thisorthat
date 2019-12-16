@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background_gradient"
     tools:context=".activities.ChoiceActivity">
 
     <fragment
@@ -36,7 +36,6 @@
         android:focusable="true"
         android:gravity="center"
         app:cardBackgroundColor="@color/first"
-        app:cardCornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/last_card"
         app:layout_constraintEnd_toEndOf="parent"
@@ -133,19 +132,18 @@
             android:textSize="30sp" />
     </com.google.android.material.card.MaterialCardView>
 
-
-    <com.svobnick.thisorthat.view.PieChart
-        android:id="@+id/pie_chart"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_centerHorizontal="true"
-        android:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
+<!--    <com.svobnick.thisorthat.view.PieChart-->
+<!--        android:id="@+id/pie_chart"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="160dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:elevation="2dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/header_guideline" />-->
 
     <Button
         android:id="@+id/push_button"

@@ -9,4 +9,8 @@
     <color name="first_dark">#C53B23</color>
     <color name="last">#8A5DA7</color>
     <color name="last_dark">#4F3876</color>
+
+    <color name="gradient_start">#252148</color>
+    <color name="gradient_end">#0F0E21</color>
+
 </resources>

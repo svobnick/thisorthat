@@ -10,8 +10,8 @@
     <color name="last">#953598</color>
     <color name="last_dark">#4F3876</color>
 
-    <color name="gradient_start">#252148</color>
-    <color name="gradient_center">#0E0E21</color>
-    <color name="gradient_end">#0F0E21</color>
+    <color name="gradient_start">#312F5A</color>
+    <color name="gradient_center">#201F3E</color>
+    <color name="gradient_end">#110F26</color>
 
 </resources>

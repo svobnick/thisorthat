@@ -30,7 +30,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
     lateinit var state: STATE
-    lateinit var chart: PieChart
+//    lateinit var chart: PieChart
     lateinit var firstPercent: TextView
     lateinit var lastPercent: TextView
     lateinit var popupWindow: PopupWindow
@@ -65,7 +65,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-        this.chart = pie_chart
+//        this.chart = pie_chart
         this.firstPercent = findViewById(R.id.first_percent)
         this.lastPercent = findViewById(R.id.last_percent)
         this.popupWindow = setupPopupWindow()
@@ -148,8 +148,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         firstPercent.invalidate()
         lastPercent.visibility = View.INVISIBLE
         lastPercent.invalidate()
-        chart.visibility = View.INVISIBLE
-        chart.invalidate()
+//        chart.visibility = View.INVISIBLE
+//        chart.invalidate()
     }
 
     private fun showResults() {
@@ -157,15 +157,15 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         this.firstPercent.invalidate()
         this.lastPercent.visibility = View.VISIBLE
         this.lastPercent.invalidate()
-        chart.visibility = View.VISIBLE
-        chart.invalidate()
+//        chart.visibility = View.VISIBLE
+//        chart.invalidate()
     }
 
     private fun setDataToChart(firstRate: Int, lastRate: Int) {
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
         this.firstPercent.text = "$firstPercent%"
         this.lastPercent.text = "$lastPercent%"
-        chart.setUpPercents(lastPercent)
+//        chart.setUpPercents(lastPercent)
         showResults()
     }
 

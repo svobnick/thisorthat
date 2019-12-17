@@ -5,12 +5,13 @@
     <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
     <color name="background">#FFFFFF</color>
-    <color name="first">#F07140</color>
+    <color name="first">#FB4C35</color>
     <color name="first_dark">#C53B23</color>
-    <color name="last">#8A5DA7</color>
+    <color name="last">#953598</color>
     <color name="last_dark">#4F3876</color>
 
     <color name="gradient_start">#252148</color>
+    <color name="gradient_center">#0E0E21</color>
     <color name="gradient_end">#0F0E21</color>
 
 </resources>

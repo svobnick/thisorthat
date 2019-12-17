@@ -35,12 +35,17 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        app:cardBackgroundColor="@color/first"
+        app:cardBackgroundColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/last_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_guideline">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_top_half" />
 
         <TextView
             android:id="@+id/first_text"
@@ -87,13 +92,18 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         android:layout_weight=".5"
-        app:cardBackgroundColor="@color/last"
+        app:cardBackgroundColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/first_card">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_bottom_half" />
 
         <TextView
             android:id="@+id/last_text"
@@ -133,10 +143,10 @@
 
     <Button
         android:id="@+id/push_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:text="@string/or_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:background="@drawable/button_round"
+        android:text="@string/or_button"
         android:textColor="@color/gradient_center"
         app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintEnd_toEndOf="parent"

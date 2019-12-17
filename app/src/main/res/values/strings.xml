@@ -33,4 +33,5 @@
     <string name="all_questions_button">Все вопросы</string>
     <string name="favorite_questions_button">Любимые вопросы</string>
     <string name="my_questions_button">Мои вопросы</string>
+    <string name="comment_placeholder">Basic comment text</string>
 </resources>

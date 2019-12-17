@@ -52,7 +52,7 @@
         android:background="@color/background"
         android:minHeight="48dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/bottom_first_guideline"
+        app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
@@ -64,7 +64,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_weight="1"
-            android:background="@color/background"
+            android:background="@color/gradient_end"
             android:hint="Enter message"
             android:maxLines="6" />
 
@@ -73,7 +73,7 @@
             android:layout_width="64dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
-            android:background="@color/background"
+            android:background="@color/gradient_end"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
@@ -83,14 +83,7 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_second_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_first_guideline"
+        android:id="@+id/bottom_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -101,7 +94,7 @@
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/bottom_second_guideline"
+        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_bottom_menu"/>
 

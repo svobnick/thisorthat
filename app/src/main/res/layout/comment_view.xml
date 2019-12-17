@@ -53,7 +53,7 @@
             android:background="@drawable/rounded_rectangle_comment"
             android:maxWidth="240dp"
             android:padding="8dp"
-            android:text="Basic comment text"
+            android:text="@string/comment_placeholder"
             android:textColor="#ffffff" />
 
 </LinearLayout>

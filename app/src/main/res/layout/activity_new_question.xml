@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,8 +24,8 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/new_this_layout"
+    <ImageView
+        android:id="@+id/new_first_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -35,33 +34,31 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_weight=".5"
-        app:cardBackgroundColor="@color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/new_that_layout"
+        android:src="@drawable/choice_top_half"
+        app:layout_constraintBottom_toTopOf="@+id/new_last_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline">
+        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/choice_top_half"
-            tools:ignore="ContentDescription" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
 
-        <EditText
-            android:id="@+id/new_this_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:hint="@string/first_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.cardview.widget.CardView>
+    <EditText
+        android:id="@+id/new_this_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:hint="@string/first_text"
+        app:layout_constraintBottom_toBottomOf="@id/new_first_card"
+        app:layout_constraintEnd_toEndOf="@id/new_first_card"
+        app:layout_constraintStart_toStartOf="@id/new_first_card"
+        app:layout_constraintTop_toTopOf="@id/new_first_card" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/new_that_layout"
+    <ImageView
+        android:id="@+id/new_last_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -70,32 +67,24 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
         android:layout_weight=".5"
-        app:cardBackgroundColor="@color/transparent"
+        android:src="@drawable/choice_bottom_half"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/send_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_this_layout">
+        app:layout_constraintTop_toBottomOf="@+id/new_first_card" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/choice_bottom_half"
-            tools:ignore="ContentDescription" />
-
-        <EditText
-            android:id="@+id/new_that_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:hint="@string/last_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
-    </androidx.cardview.widget.CardView>
+    <EditText
+        android:id="@+id/new_that_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:hint="@string/last_text"
+        app:layout_constraintBottom_toBottomOf="@id/new_last_card"
+        app:layout_constraintEnd_toEndOf="@id/new_last_card"
+        app:layout_constraintStart_toStartOf="@id/new_last_card"
+        app:layout_constraintTop_toTopOf="@id/new_last_card" />
 
     <Button
         android:id="@+id/or_button"
@@ -105,9 +94,9 @@
         android:fontFamily="@font/sf_compact_display_font_family"
         android:text="@string/or_button"
         android:textColor="@color/gradient_center"
+        app:layout_constraintBottom_toTopOf="@+id/send_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/send_question"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <Button

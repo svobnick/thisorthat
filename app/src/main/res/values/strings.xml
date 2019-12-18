@@ -9,7 +9,8 @@
     <string name="menu_button">Меню</string>
     <string name="send_question_button">Отправить вопрос</string>
     <string name="choice_placeholder">Это текст плейсхолдер на 150 знаков.. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков!!!</string>
-    <string name="percentage_placeholder">74%</string>
+    <string name="percentage_placeholder">74</string>
+    <string name="percentage_symbol">%</string>
     <string name="amount_placeholder">123456</string>
     <string name="or_button">ИЛИ</string>
 

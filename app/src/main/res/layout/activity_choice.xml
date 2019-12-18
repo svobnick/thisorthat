@@ -68,21 +68,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/first_percent"
+        <fragment
+            android:id="@+id/first_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="onChoiceClick"
-            android:text="@string/percentage_placeholder"
-            android:textAlignment="center"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="30sp" />
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            tools:layout="@layout/fragment_choice_stat" />
 
     </androidx.cardview.widget.CardView>
 
@@ -128,25 +122,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/last_percent"
+        <fragment
+            android:id="@+id/last_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="onChoiceClick"
-            android:text="@string/percentage_placeholder"
-            android:textAlignment="center"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="30sp" />
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            tools:layout="@layout/fragment_choice_stat" />
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/push_button"
+        android:id="@+id/or_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:background="@drawable/button_round"
@@ -167,7 +155,7 @@
 
     <fragment
         android:id="@+id/choice_menu"
-        android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
+        android:name="com.svobnick.thisorthat.fragments.ChoiceMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="40dp"

@@ -4,7 +4,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +21,7 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
+import com.svobnick.thisorthat.fragments.ChoiceStatFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
@@ -29,8 +33,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
     lateinit var state: STATE
-    lateinit var firstPercent: TextView
-    lateinit var lastPercent: TextView
+    lateinit var firstPercent: ChoiceStatFragment
+    lateinit var lastPercent: ChoiceStatFragment
     lateinit var popupWindow: PopupWindow
 
     @Inject
@@ -63,19 +67,20 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-        this.firstPercent = findViewById(R.id.first_percent)
-        this.lastPercent = findViewById(R.id.last_percent)
+        val fragmentManager = supportFragmentManager
+        this.firstPercent = fragmentManager.findFragmentById(R.id.first_stat) as ChoiceStatFragment
+        this.lastPercent = fragmentManager.findFragmentById(R.id.last_stat) as ChoiceStatFragment
         this.popupWindow = setupPopupWindow()
         choicePresenter.setNextQuestion()
     }
 
     override fun onChoiceClick(choice: View) {
         if (state == STATE.RESULT) {
-            val clickedText = findViewById<TextView>(choice.id)
-            choicePresenter.saveChoice(clickedText.text.toString())
             choicePresenter.setNextQuestion()
         } else {
-            setResultToView(choicePresenter.currentQuestion)
+            val clickedText = findViewById<TextView>(choice.id)
+            val userChoice = choicePresenter.saveChoice(clickedText.text.toString())
+            setResultToView(choicePresenter.currentQuestion, userChoice)
         }
 
         state = changeState()
@@ -89,12 +94,13 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         hideResults()
     }
 
-    override fun setResultToView(question: Question) {
-        val firstText = first_text
-        val lastText = last_text
-        firstText.text = question.firstRate.toString()
-        lastText.text = question.lastRate.toString()
-        setDataToChart(question.firstRate, question.lastRate)
+    override fun setResultToView(question: Question, userChoice: String) {
+        val firstRate = question.firstRate
+        val lastRate = question.lastRate
+        val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
+        this.firstPercent.setStat(firstPercent, firstRate, userChoice == Question.FIRST)
+        this.lastPercent.setStat(lastPercent, lastRate, userChoice == Question.LAST)
+        showResults()
     }
 
     fun onReportClickHandler(selected: View) {
@@ -111,7 +117,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun reportQuestion() {
-        popupWindow.showAtLocation(push_button, Gravity.CENTER, 0, 0)
+        popupWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
     }
 
     override fun getComments() {
@@ -141,26 +147,18 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     private fun hideResults() {
-        firstPercent.visibility = View.INVISIBLE
-        firstPercent.invalidate()
-        lastPercent.visibility = View.INVISIBLE
-        lastPercent.invalidate()
+        supportFragmentManager.beginTransaction()
+            .hide(firstPercent)
+            .hide(lastPercent)
+            .commit()
     }
 
     private fun showResults() {
-        this.firstPercent.visibility = View.VISIBLE
-        this.firstPercent.invalidate()
-        this.lastPercent.visibility = View.VISIBLE
-        this.lastPercent.invalidate()
+        supportFragmentManager.beginTransaction()
+            .show(firstPercent)
+            .show(lastPercent)
+            .commit()
     }
-
-    private fun setDataToChart(firstRate: Int, lastRate: Int) {
-        val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
-        this.firstPercent.text = "$firstPercent%"
-        this.lastPercent.text = "$lastPercent%"
-        showResults()
-    }
-
 
     private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION
 

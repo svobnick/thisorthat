@@ -58,9 +58,9 @@ class FavoriteQuestionsAdapter(private val onClick: KFunction1<@ParameterName(na
                 question.lastRate
             )
             first_text.text = question.firstText
-            first_percent.text = "$firstPercent%"
-            last_text.text = question.lastText
-            last_percent.text = "$lastPercent%"
+//            first_percent.text = "$firstPercent%"
+//            last_text.text = question.lastText
+//            last_percent.text = "$lastPercent%"
 //            remove_favorite_button.setOnClickListener {
 //                onClick(layoutPosition)
 //            }

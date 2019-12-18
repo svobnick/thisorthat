@@ -88,11 +88,11 @@ class ChoicePresenter(
     }
 
     @SuppressLint("CheckResult")
-    fun saveChoice(choice: String) {
+    fun saveChoice(choice: String): String {
         val resultChoice = when (choice) {
             Question.SKIPPED -> Question.SKIPPED
-            currentQuestion.firstRate.toString() -> Question.FIRST
-            currentQuestion.lastRate.toString() -> Question.LAST
+            currentQuestion.firstText -> Question.FIRST
+            currentQuestion.lastText -> Question.LAST
             else -> throw IllegalArgumentException("Strange choice $choice")
         }
         currentQuestion.choice = resultChoice
@@ -157,6 +157,8 @@ class ChoicePresenter(
             }, {
                 viewState.showError(it.localizedMessage)
             })
+
+        return resultChoice
     }
 
     fun reportQuestion(reportReason: String) {

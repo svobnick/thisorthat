@@ -1,94 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/first_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/transparent">
 
-    <com.google.android.material.card.MaterialCardView
-            android:id="@+id/first_view"
+        <ImageView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_top_half"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/first_text"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="@color/first"
-            app:cardCornerRadius="0dp">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/choice_placeholder"
+            android:textAppearance="?android:textAppearanceMedium" />
 
-        <TextView
-                android:id="@+id/first_text"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:text="@string/choice_placeholder"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                />
+        <fragment
+            android:id="@+id/first_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            tools:layout="@layout/fragment_choice_stat" />
 
-        <TextView
-                android:id="@+id/first_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="end"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="onChoiceClick"
-                android:text="@string/percentage_placeholder"
-                android:textAlignment="center"
-                android:textAppearance="?android:textAppearanceLarge" />
+    </androidx.cardview.widget.CardView>
 
-    </com.google.android.material.card.MaterialCardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/last_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/transparent">
 
-    <com.google.android.material.card.MaterialCardView
-            android:id="@+id/last_view"
+        <ImageView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_bottom_half"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/last_text"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_below="@id/first_view"
-            app:cardBackgroundColor="@color/last"
-            app:cardCornerRadius="0dp">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/choice_placeholder"
+            android:textAppearance="?android:textAppearanceMedium" />
 
-        <TextView
-                android:id="@+id/last_text"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:text="@string/choice_placeholder"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp" />
-
-        <TextView
-                android:id="@+id/last_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="end"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="onChoiceClick"
-                android:text="@string/percentage_placeholder"
-                android:textAlignment="center"
-                android:textAppearance="?android:textAppearanceLarge" />
-    </com.google.android.material.card.MaterialCardView>
+        <fragment
+            android:id="@+id/last_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            tools:layout="@layout/fragment_choice_stat" />
+    </androidx.cardview.widget.CardView>
 
 
-</RelativeLayout>
+</LinearLayout>

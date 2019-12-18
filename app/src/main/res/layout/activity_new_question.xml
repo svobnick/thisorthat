@@ -35,18 +35,23 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_weight=".5"
-        app:cardBackgroundColor="@color/first"
+        app:cardBackgroundColor="@color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/new_that_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline"
-        app:layout_constraintVertical_bias="0.44">
+        app:layout_constraintTop_toBottomOf="@id/header_guideline">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_top_half"
+            tools:ignore="ContentDescription" />
 
         <EditText
             android:id="@+id/new_this_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@color/transparent"
             android:gravity="center"
             android:hint="@string/first_text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,18 +70,24 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
         android:layout_weight=".5"
-        app:cardBackgroundColor="@color/last"
+        app:cardBackgroundColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/send_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_this_layout">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/choice_bottom_half"
+            tools:ignore="ContentDescription" />
+
         <EditText
             android:id="@+id/new_that_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@color/transparent"
             android:gravity="center"
             android:hint="@string/last_text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,22 +98,24 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/push_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/or_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:background="@drawable/button_round"
+        android:fontFamily="@font/sf_compact_display_font_family"
         android:text="@string/or_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/send_question"
+        android:textColor="@color/gradient_center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/send_question"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <Button
         android:id="@+id/send_question"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onSendQuestionButtonClick"

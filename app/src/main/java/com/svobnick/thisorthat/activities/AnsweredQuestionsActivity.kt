@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_answered_questions.*
 import javax.inject.Inject
 
 class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView {
-    private val adapter = AnsweredQuestionsAdapter()
+    private val adapter = AnsweredQuestionsAdapter(applicationContext)
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -40,7 +40,8 @@ class AnsweredQuestionsActivity : MvpAppCompatActivity(), AnsweredQuestionsView 
         presenter.attachView(this)
 
         answeredQuestionsList = answered_questions_list
-        answeredQuestionsList.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        answeredQuestionsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)
         answeredQuestionsList.adapter = adapter
 

@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_my_questions.*
 import javax.inject.Inject
 
 class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
-    private val adapter = MyQuestionsAdapter()
+    private val adapter = MyQuestionsAdapter(applicationContext)
 
     @Inject
     lateinit var questionDao: QuestionDao

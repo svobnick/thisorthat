@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/first_text"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -40,7 +40,7 @@
             android:id="@+id/first_stat"
             android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
             android:background="@color/transparent"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/last_text"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -81,7 +81,7 @@
             android:id="@+id/last_stat"
             android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_gravity="end"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"

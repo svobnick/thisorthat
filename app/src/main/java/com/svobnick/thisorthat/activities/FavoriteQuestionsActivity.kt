@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_favorite_questions.*
 import javax.inject.Inject
 
 class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView {
-    private val adapter = FavoriteQuestionsAdapter(this::deleteFavoriteQuestion)
+    private val adapter = FavoriteQuestionsAdapter(applicationContext, this::deleteFavoriteQuestion)
 
     @Inject
     lateinit var questionDao: QuestionDao

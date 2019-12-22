@@ -116,7 +116,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         choicePresenter.setNextQuestion()
     }
 
-    override fun reportQuestion(view: View) {
+    override fun reportQuestion(selected: View) {
         popupWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
     }
 

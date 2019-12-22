@@ -13,7 +13,7 @@ interface ChoiceView : MvpView {
     fun showError(errorMsg: String)
     fun setNewQuestion(question: Question)
     fun setResultToView(question: Question, userChoice: String)
-    fun reportQuestion(view: View)
+    fun reportQuestion(selected: View)
     fun addFavoriteQuestion()
     fun getComments()
 }

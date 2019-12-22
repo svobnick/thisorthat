@@ -24,110 +24,103 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10" />
 
-    <ImageView
-        android:id="@+id/first_card"
+    <FrameLayout
+        android:id="@+id/first_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_weight=".5"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:src="@drawable/choice_top_half"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/last_card"
+        app:layout_constraintBottom_toTopOf="@+id/last_card_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toBottomOf="@id/header_guideline">
 
-    <TextView
-        android:id="@+id/first_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/transparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/sf_ui_display_font_family"
-        android:gravity="center"
-        android:onClick="onChoiceClick"
-        android:text="@string/choice_placeholder"
-        android:textAlignment="center"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toBottomOf="@id/first_card"
-        app:layout_constraintEnd_toEndOf="@id/first_card"
-        app:layout_constraintStart_toStartOf="@id/first_card"
-        app:layout_constraintTop_toTopOf="@id/first_card" />
+        <ImageView
+            android:id="@+id/first_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:src="@drawable/choice_top_half"
+            tools:ignore="ContentDescription" />
 
-    <fragment
-        android:id="@+id/first_stat"
-        android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        tools:layout="@layout/fragment_choice_stat"
-        app:layout_constraintBottom_toBottomOf="@id/first_card"
-        app:layout_constraintEnd_toEndOf="@id/first_card"
-        app:layout_constraintStart_toStartOf="@id/first_card"
-        app:layout_constraintTop_toTopOf="@id/first_card"/>
+        <TextView
+            android:id="@+id/first_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/sf_ui_display_font_family"
+            android:gravity="center"
+            android:onClick="onChoiceClick"
+            android:text="@string/choice_placeholder"
+            android:textAlignment="center"
+            android:textAppearance="?android:textAppearanceMedium" />
 
-    <ImageView
-        android:id="@+id/last_card"
+        <fragment
+            android:id="@+id/first_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="38dp"
+            tools:layout="@layout/fragment_choice_stat" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/last_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight=".5"
-        android:src="@drawable/choice_bottom_half"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/first_card"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toBottomOf="@id/first_card_group">
 
-    <TextView
-        android:id="@+id/last_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/transparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/sf_ui_display_font_family"
-        android:gravity="center"
-        android:onClick="onChoiceClick"
-        android:text="@string/choice_placeholder"
-        android:textAlignment="center"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toBottomOf="@id/last_card"
-        app:layout_constraintEnd_toEndOf="@id/last_card"
-        app:layout_constraintStart_toStartOf="@id/last_card"
-        app:layout_constraintTop_toTopOf="@id/last_card" />
+        <ImageView
+            android:id="@+id/last_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/choice_bottom_half"
+            tools:ignore="ContentDescription" />
 
-    <fragment
-        android:id="@+id/last_stat"
-        android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        tools:layout="@layout/fragment_choice_stat"
-        app:layout_constraintBottom_toBottomOf="@id/last_card"
-        app:layout_constraintEnd_toEndOf="@id/last_card"
-        app:layout_constraintStart_toStartOf="@id/last_card"
-        app:layout_constraintTop_toTopOf="@id/last_card"
-        />
+        <TextView
+            android:id="@+id/last_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/sf_ui_display_font_family"
+            android:gravity="center"
+            android:onClick="onChoiceClick"
+            android:text="@string/choice_placeholder"
+            android:textAlignment="center"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <fragment
+            android:id="@+id/last_stat"
+            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="38dp"
+            tools:layout="@layout/fragment_choice_stat" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/or_button"

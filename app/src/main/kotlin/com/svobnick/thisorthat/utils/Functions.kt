@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.utils
 
-import java.lang.IllegalArgumentException
 import kotlin.math.roundToInt
 
 fun computeQuestionsPercentage(firstRate: Int, lastRate: Int): Pair<Int, Int> {

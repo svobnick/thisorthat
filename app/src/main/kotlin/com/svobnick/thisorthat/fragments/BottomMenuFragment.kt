@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.activities.FavoriteQuestionsActivity
+import com.svobnick.thisorthat.activities.ChoiceActivity
 import com.svobnick.thisorthat.activities.NewQuestionActivity
+import com.svobnick.thisorthat.activities.ProfileActivity
 import com.svobnick.thisorthat.view.BottomMenuView
 import kotlinx.android.synthetic.main.fragment_bottom_menu.*
 
@@ -31,6 +32,8 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     }
 
     override fun questionsHandler() {
+        val intent = Intent(context, ChoiceActivity::class.java)
+        startActivity(intent)
     }
 
     override fun addQuestionHandler() {
@@ -39,8 +42,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     }
 
     override fun openSettingsHandler() {
-        // todo change to settings intent
-        val intent = Intent(context, FavoriteQuestionsActivity::class.java)
+        val intent = Intent(context, ProfileActivity::class.java)
         startActivity(intent)
     }
 }

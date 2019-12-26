@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.view.ChoiceMenuView
-import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
 class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
 

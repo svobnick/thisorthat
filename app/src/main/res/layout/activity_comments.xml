@@ -15,7 +15,6 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:onClick="addComment"
         android:src="@drawable/icon_backwards"
         app:layout_constraintBottom_toTopOf="@id/header_guideline"
         app:layout_constraintLeft_toLeftOf="parent"

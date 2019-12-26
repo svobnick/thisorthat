@@ -37,4 +37,5 @@
     <string name="comment_placeholder">Basic comment text</string>
     <string name="comment_input_placeholder">Введите текст</string>
     <string name="comment_header">Комментарии</string>
+    <string name="profile_header">Профиль</string>
 </resources>

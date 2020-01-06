@@ -41,7 +41,7 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
     }
 
     override fun shareHandler() {
-
+        (activity as ChoiceActivity).shareQuestion()
     }
 
 }

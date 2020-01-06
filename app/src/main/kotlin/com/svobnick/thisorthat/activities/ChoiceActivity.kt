@@ -125,8 +125,16 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         startActivity(intent)
     }
 
-    fun addFavoriteQuestion() {
+    override fun addFavoriteQuestion() {
         choicePresenter.addFavoriteQuestion()
+    }
+
+    override fun shareQuestion() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "thisorthat.ru")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, choicePresenter.currentQuestion.toString())
+        startActivity(Intent.createChooser(shareIntent, "Поделиться вопросом!"))
     }
 
     override fun showError(errorMsg: String) {

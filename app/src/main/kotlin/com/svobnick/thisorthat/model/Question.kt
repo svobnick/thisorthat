@@ -29,4 +29,8 @@ data class Question(
         val FIRST = "first"
         val LAST = "last"
     }
+
+    override fun toString(): String {
+        return "$firstText или $lastText"
+    }
 }

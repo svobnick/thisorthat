@@ -14,6 +14,5 @@ interface ChoiceView : MvpView {
     fun setNewQuestion(question: Question)
     fun setResultToView(question: Question, userChoice: String)
     fun reportQuestion(selected: View)
-    fun addFavoriteQuestion()
     fun getComments()
 }

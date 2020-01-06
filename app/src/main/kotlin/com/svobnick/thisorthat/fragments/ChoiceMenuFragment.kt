@@ -1,12 +1,15 @@
 package com.svobnick.thisorthat.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.view.ChoiceMenuView
+import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
 class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
 
@@ -21,9 +24,23 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        comments_button.setOnClickListener { questionsHandler() }
-//        add_favorite_button.setOnClickListener { addQuestionHandler() }
-//        share_button.setOnClickListener { openSettingsHandler() }
+        comments_button.setOnClickListener { commentsHandler() }
+        add_favorite_button.setOnClickListener { addFavoriteHandler() }
+        share_button.setOnClickListener { shareHandler() }
+    }
+
+    override fun commentsHandler() {
+        val intent = Intent(context, CommentsActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun addFavoriteHandler() {
+        // todo add animation and invoke presenter
+        // choicePresenter.addFavoriteQuestion()
+    }
+
+    override fun shareHandler() {
+
     }
 
 }

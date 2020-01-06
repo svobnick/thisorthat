@@ -7,4 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface ChoiceMenuView : MvpView {
 
+    fun commentsHandler()
+    fun addFavoriteHandler()
+    fun shareHandler()
 }

@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.fragments
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,20 +21,30 @@ class ChoiceStatFragment : MvpAppCompatFragment(), ChoiceStatView {
         return inflater.inflate(R.layout.fragment_choice_stat, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun setStat(percentage: Int, amount: Int, userChoice: Boolean) {
-        percent_value.text = percentage.toString()
-        peoples_amount.text = amount.toString()
+        val percentageAnim = ValueAnimator.ofInt(0, percentage)
+        percentageAnim.duration = 500
+        percentageAnim.addUpdateListener {
+            percent_value.text = it.animatedValue.toString()
+        }
+
+        val amountAnim = ValueAnimator.ofInt(0, amount)
+        amountAnim.duration = 500
+        amountAnim.addUpdateListener {
+            peoples_amount.text = it.animatedValue.toString()
+        }
+
         if (!userChoice) {
             percent_value.alpha = 0.25f
             percent_symbol.alpha = 0.25f
+            peoples_amount.alpha = 0.25f
         } else {
             percent_value.alpha = 1f
             percent_symbol.alpha = 1f
+            peoples_amount.alpha = 1f
         }
+
+        percentageAnim.start()
+        amountAnim.start()
     }
 }

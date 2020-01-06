@@ -27,6 +27,7 @@ import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.ChoiceView
 import kotlinx.android.synthetic.main.activity_choice.*
+import kotlinx.android.synthetic.main.fragment_choice_menu.*
 import javax.inject.Inject
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
@@ -87,10 +88,9 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun setNewQuestion(question: Question) {
-        val thisText = first_text
-        val thatText = last_text
-        thisText.text = question.firstText
-        thatText.text = question.lastText
+        first_text.text = question.firstText
+        last_text.text = question.lastText
+        add_favorite_button.setImageResource(R.drawable.icon_not_favorite)
         hideResults()
     }
 
@@ -123,6 +123,10 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun getComments() {
         val intent = Intent(this, CommentsActivity::class.java)
         startActivity(intent)
+    }
+
+    fun addFavoriteQuestion() {
+        choicePresenter.addFavoriteQuestion()
     }
 
     override fun showError(errorMsg: String) {

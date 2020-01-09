@@ -90,7 +90,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun setNewQuestion(question: Question) {
         first_text.text = question.firstText
         last_text.text = question.lastText
-        add_favorite_button.setImageResource(R.drawable.icon_not_favorite)
+        add_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
         hideResults()
     }
 

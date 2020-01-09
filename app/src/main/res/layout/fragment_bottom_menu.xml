@@ -22,7 +22,7 @@
             android:id="@+id/add_question_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/icon_add_new_question"
+            android:src="@drawable/icon_new_question"
             android:background="@color/transparent"
             android:scaleType="center"
             android:cropToPadding="true"

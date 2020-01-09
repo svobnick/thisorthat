@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="icon_launcher_background">#FFFFFF</color>
+    <color name="white">#ffffff</color>
 
     <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
-    <color name="background">#FFFFFF</color>
     <color name="first">#FF6642</color>
     <color name="first_dark">#C53B23</color>
     <color name="last">#B454B7</color>

@@ -7,7 +7,6 @@
     <string name="my_questions_text">Мои вопросы</string>
     <string name="new_question_text">Добавить вопрос</string>
     <string name="menu_button">Меню</string>
-    <string name="send_question_button">Отправить вопрос</string>
     <string name="choice_placeholder">Это текст плейсхолдер на 150 знаков.. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков!!!</string>
     <string name="percentage_placeholder">74</string>
     <string name="percentage_symbol">%</string>
@@ -24,7 +23,6 @@
     <string name="favorite_text">Избранные вопросы</string>
 
     <string name="questions_button">Вопросы</string>
-    <string name="add_question_button">Добавить вопрос</string>
     <string name="settings_button">Настройки</string>
     <string name="report_button">Зарепортить вопрос</string>
     <string name="comments_button">Комментарии</string>
@@ -38,4 +36,7 @@
     <string name="comment_input_placeholder">Введите текст</string>
     <string name="comment_header">Комментарии</string>
     <string name="profile_header">Профиль</string>
+
+    <string name="add_question_button">Отправить</string>
+    <string name="add_question_header">Добавление вопроса</string>
 </resources>

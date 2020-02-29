@@ -1,26 +1,24 @@
 package com.svobnick.thisorthat.adapters
 
-import android.content.Context
+import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.fragments.ChoiceStatFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.my_question_single_view.*
 
-class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>(), QuestionsListAdapter {
+class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>() {
 
     private val myQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.my_question_single_view, parent, false)
-        return QuestionListViewHolder(context, view)
+        return QuestionListViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -35,17 +33,14 @@ class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<My
         return myQuestionsList[position].id
     }
 
-    override fun addQuestions(questions: List<Question>) {
+    fun addQuestions(questions: List<Question>) {
         myQuestionsList.addAll(questions)
         notifyDataSetChanged()
     }
 
-    class QuestionListViewHolder(context: Context, itemView: View) : RecyclerView.ViewHolder(itemView),
+    class QuestionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         LayoutContainer {
         override val containerView: View get() = itemView
-        private val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        private val firstStat = fragmentManager.findFragmentById(R.id.m_first_stat) as ChoiceStatFragment
-        private val lastStat = fragmentManager.findFragmentById(R.id.m_last_stat) as ChoiceStatFragment
 
         fun bind(question: Question) {
             val (firstPercent, lastPercent) = computeQuestionsPercentage(
@@ -53,9 +48,43 @@ class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<My
                 question.lastRate
             )
             m_first_text.text = question.firstText
-            firstStat.setStat(firstPercent, question.firstRate, true)
+            setFirstStat(firstPercent, question.firstRate)
             m_last_text.text = question.lastText
-            lastStat.setStat(lastPercent, question.lastRate, true)
+            setLastStat(lastPercent, question.lastRate)
+        }
+
+        private fun setFirstStat(percentage: Int, amount: Int) {
+            val percentageAnim = ValueAnimator.ofInt(0, percentage)
+            percentageAnim.duration = 500
+            percentageAnim.addUpdateListener {
+                m_first_percent_value.text = it.animatedValue.toString()
+            }
+
+            val amountAnim = ValueAnimator.ofInt(0, amount)
+            amountAnim.duration = 500
+            amountAnim.addUpdateListener {
+                m_first_peoples_amount.text = it.animatedValue.toString()
+            }
+
+            percentageAnim.start()
+            amountAnim.start()
+        }
+
+        private fun setLastStat(percentage: Int, amount: Int) {
+            val percentageAnim = ValueAnimator.ofInt(0, percentage)
+            percentageAnim.duration = 500
+            percentageAnim.addUpdateListener {
+                m_last_percent_value.text = it.animatedValue.toString()
+            }
+
+            val amountAnim = ValueAnimator.ofInt(0, amount)
+            amountAnim.duration = 500
+            amountAnim.addUpdateListener {
+                m_last_peoples_amount.text = it.animatedValue.toString()
+            }
+
+            percentageAnim.start()
+            amountAnim.start()
         }
     }
 }

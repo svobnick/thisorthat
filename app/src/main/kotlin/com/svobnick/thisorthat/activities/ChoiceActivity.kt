@@ -33,10 +33,10 @@ import javax.inject.Inject
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
 
-    lateinit var state: STATE
-    lateinit var firstPercent: ChoiceStatFragment
-    lateinit var lastPercent: ChoiceStatFragment
-    lateinit var popupWindow: PopupWindow
+    private lateinit var state: STATE
+    private lateinit var firstPercent: ChoiceStatFragment
+    private lateinit var lastPercent: ChoiceStatFragment
+    private lateinit var popupWindow: PopupWindow
 
     @Inject
     lateinit var questionDao: QuestionDao

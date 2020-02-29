@@ -14,7 +14,7 @@ import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 
-class QuestionsListFragment(val position: Int, val presenter: ProfilePresenter) :
+class QuestionsListFragment(private val position: Int, val presenter: ProfilePresenter) :
     MvpAppCompatFragment() {
     lateinit var mAdapter: MyQuestionsAdapter
     lateinit var fAdapter: FavoriteQuestionsAdapter
@@ -30,7 +30,7 @@ class QuestionsListFragment(val position: Int, val presenter: ProfilePresenter) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val questionsList: RecyclerView = view.findViewById(R.id.questions_list)
         if (position == 0) {
-            mAdapter = MyQuestionsAdapter(context!!)
+            mAdapter = MyQuestionsAdapter()
 
             val linearLayoutManager = LinearLayoutManager(context)
             questionsList.layoutManager = linearLayoutManager

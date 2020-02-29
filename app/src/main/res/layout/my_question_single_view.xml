@@ -34,15 +34,45 @@
             android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium" />
 
-        <fragment
+        <RelativeLayout
             android:id="@+id/m_first_stat"
-            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:background="@color/transparent"
-            tools:layout="@layout/fragment_choice_stat" />
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/m_first_percent_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9dp"
+                android:layout_marginBottom="-9dp"
+                android:fontFamily="@font/sf_ui_display_bold"
+                android:includeFontPadding="false"
+                android:text="@string/percentage_placeholder"
+                android:textSize="58sp" />
+
+            <TextView
+                android:id="@+id/m_first_percent_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/m_first_percent_value"
+                android:fontFamily="@font/sf_ui_display_medium"
+                android:includeFontPadding="false"
+                android:text="@string/percentage_symbol"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/m_first_peoples_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/m_first_percent_value"
+                android:fontFamily="@font/sf_ui_display_light"
+                android:text="@string/amount_placeholder"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
     </FrameLayout>
 
@@ -74,15 +104,44 @@
             android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium" />
 
-        <fragment
+        <RelativeLayout
             android:id="@+id/m_last_stat"
-            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="end"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            tools:layout="@layout/fragment_choice_stat" />
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/m_last_percent_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9dp"
+                android:layout_marginBottom="-9dp"
+                android:fontFamily="@font/sf_ui_display_bold"
+                android:includeFontPadding="false"
+                android:text="@string/percentage_placeholder"
+                android:textSize="58sp" />
+
+            <TextView
+                android:id="@+id/m_last_percent_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/m_last_percent_value"
+                android:fontFamily="@font/sf_ui_display_medium"
+                android:includeFontPadding="false"
+                android:text="@string/percentage_symbol"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/m_last_peoples_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/m_last_percent_value"
+                android:fontFamily="@font/sf_ui_display_light"
+                android:text="@string/amount_placeholder"
+                android:textSize="18sp" />
+        </RelativeLayout>
     </FrameLayout>
 
 

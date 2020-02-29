@@ -11,7 +11,7 @@ import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.favorite_question_single_view.*
 
-class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>(), QuestionsListAdapter {
+class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>() {
 
     private val myQuestionsList = ArrayList<Question>()
 
@@ -33,7 +33,7 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.Q
         return myQuestionsList[position].id
     }
 
-    override fun addQuestions(questions: List<Question>) {
+    fun addQuestions(questions: List<Question>) {
         myQuestionsList.addAll(questions)
         notifyDataSetChanged()
     }
@@ -48,12 +48,12 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.Q
                 question.lastRate
             )
             f_first_text.text = question.firstText
-            setFirstStat(firstPercent, question.firstRate, true)
+            setFirstStat(firstPercent, question.firstRate)
             f_last_text.text = question.lastText
-            setLastStat(lastPercent, question.lastRate, true)
+            setLastStat(lastPercent, question.lastRate)
         }
 
-        fun setFirstStat(percentage: Int, amount: Int, userChoice: Boolean) {
+        private fun setFirstStat(percentage: Int, amount: Int) {
             val percentageAnim = ValueAnimator.ofInt(0, percentage)
             percentageAnim.duration = 500
             percentageAnim.addUpdateListener {
@@ -66,21 +66,11 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.Q
                 f_first_peoples_amount.text = it.animatedValue.toString()
             }
 
-            if (!userChoice) {
-                f_first_percent_value.alpha = 0.25f
-                f_first_percent_symbol.alpha = 0.25f
-                f_first_peoples_amount.alpha = 0.25f
-            } else {
-                f_first_percent_value.alpha = 1f
-                f_first_percent_symbol.alpha = 1f
-                f_first_peoples_amount.alpha = 1f
-            }
-
             percentageAnim.start()
             amountAnim.start()
         }
 
-        fun setLastStat(percentage: Int, amount: Int, userChoice: Boolean) {
+        private fun setLastStat(percentage: Int, amount: Int) {
             val percentageAnim = ValueAnimator.ofInt(0, percentage)
             percentageAnim.duration = 500
             percentageAnim.addUpdateListener {
@@ -91,16 +81,6 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.Q
             amountAnim.duration = 500
             amountAnim.addUpdateListener {
                 f_last_peoples_amount.text = it.animatedValue.toString()
-            }
-
-            if (!userChoice) {
-                f_last_percent_value.alpha = 0.25f
-                f_last_percent_symbol.alpha = 0.25f
-                f_last_peoples_amount.alpha = 0.25f
-            } else {
-                f_last_percent_value.alpha = 1f
-                f_last_percent_symbol.alpha = 1f
-                f_last_peoples_amount.alpha = 1f
             }
 
             percentageAnim.start()

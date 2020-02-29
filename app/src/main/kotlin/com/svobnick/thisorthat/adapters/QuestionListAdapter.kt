@@ -11,15 +11,15 @@ import com.svobnick.thisorthat.fragments.ChoiceStatFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.my_question_single_view.*
+import kotlinx.android.synthetic.main.single_question_view.*
 
-class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>(), QuestionsListAdapter {
+class QuestionListAdapter(private val context: Context) : RecyclerView.Adapter<QuestionListAdapter.QuestionListViewHolder>() {
 
     private val myQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_question_single_view, parent, false)
+            .inflate(R.layout.single_question_view, parent, false)
         return QuestionListViewHolder(context, view)
     }
 
@@ -35,8 +35,8 @@ class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<My
         return myQuestionsList[position].id
     }
 
-    override fun addQuestions(questions: List<Question>) {
-        myQuestionsList.addAll(questions)
+    fun setMyQuestions(answeredQuestions: List<Question>) {
+        myQuestionsList.addAll(answeredQuestions)
         notifyDataSetChanged()
     }
 
@@ -44,17 +44,17 @@ class MyQuestionsAdapter(private val context: Context) : RecyclerView.Adapter<My
         LayoutContainer {
         override val containerView: View get() = itemView
         private val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        private val firstStat = fragmentManager.findFragmentById(R.id.m_first_stat) as ChoiceStatFragment
-        private val lastStat = fragmentManager.findFragmentById(R.id.m_last_stat) as ChoiceStatFragment
+        private val firstStat = fragmentManager.findFragmentById(R.id.first_stat) as ChoiceStatFragment
+        private val lastStat = fragmentManager.findFragmentById(R.id.last_stat) as ChoiceStatFragment
 
         fun bind(question: Question) {
             val (firstPercent, lastPercent) = computeQuestionsPercentage(
                 question.firstRate,
                 question.lastRate
             )
-            m_first_text.text = question.firstText
+            first_text.text = question.firstText
             firstStat.setStat(firstPercent, question.firstRate, true)
-            m_last_text.text = question.lastText
+            last_text.text = question.lastText
             lastStat.setStat(lastPercent, question.lastRate, true)
         }
     }

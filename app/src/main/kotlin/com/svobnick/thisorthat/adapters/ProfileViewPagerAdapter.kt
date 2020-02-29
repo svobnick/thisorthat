@@ -1,32 +1,32 @@
 package com.svobnick.thisorthat.adapters
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
-import com.svobnick.thisorthat.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.svobnick.thisorthat.activities.ProfileActivity
+import com.svobnick.thisorthat.fragments.QuestionsListFragment
+import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.presenters.ProfilePresenter
 
-class ProfileViewPagerAdapter : RecyclerView.Adapter<ProfileViewPagerAdapter.EventViewHolder>() {
-    private val eventList = listOf("0", "1", "2")
+class ProfileViewPagerAdapter(profileActivity: ProfileActivity, val presenter: ProfilePresenter) :
+    FragmentStateAdapter(profileActivity) {
+    private val myQuestionsFragment = QuestionsListFragment(0, presenter)
+    private val favoriteQuestionsFragment = QuestionsListFragment(1, presenter)
 
-    // Layout "layout_demo_viewpager2_cell.xml" will be defined later
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        EventViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.test, parent, false)
-        )
+    override fun getItemCount() = 2
 
-    override fun getItemCount() = eventList.count()
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        (holder.view as? TextView)?.also {
-            it.text = "Page " + eventList.get(position)
-
-            val backgroundColorResId =
-                if (position % 2 == 0) R.color.last_dark else R.color.first_dark
-            it.setBackgroundColor(ContextCompat.getColor(it.context, backgroundColorResId))
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> myQuestionsFragment
+            1 -> favoriteQuestionsFragment
+            else -> throw IllegalStateException("There are only two positions allowed in profile viewPager")
         }
     }
 
-    class EventViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    fun addMyQuestions(questions: List<Question>) {
+        myQuestionsFragment.addQuestionsToList(questions)
+    }
+
+    fun addFavoriteQuestions(questions: List<Question>) {
+        favoriteQuestionsFragment.addQuestionsToList(questions)
+    }
 }

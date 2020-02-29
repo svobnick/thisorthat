@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.view.HeaderMevuView
+import com.svobnick.thisorthat.view.HeaderMenuView
 
-class HeaderMenuFragment : MvpAppCompatFragment(), HeaderMevuView {
+class HeaderMenuFragment : MvpAppCompatFragment(), HeaderMenuView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_header_menu, container, false)

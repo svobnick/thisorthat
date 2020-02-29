@@ -10,7 +10,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
-import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
+import com.svobnick.thisorthat.adapters.QuestionListAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_my_questions.*
 import javax.inject.Inject
 
 class MyQuestionsActivity : MvpAppCompatActivity(), MyQuestionsView {
-    private val adapter = MyQuestionsAdapter(applicationContext)
+    private val adapter = QuestionListAdapter(applicationContext)
 
     @Inject
     lateinit var questionDao: QuestionDao

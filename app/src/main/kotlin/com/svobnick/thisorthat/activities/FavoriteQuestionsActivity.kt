@@ -10,7 +10,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
-import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
+import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapterDepr
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Question
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_favorite_questions.*
 import javax.inject.Inject
 
 class FavoriteQuestionsActivity : MvpAppCompatActivity(), FavoriteQuestionsView {
-    private val adapter = FavoriteQuestionsAdapter(applicationContext, this::deleteFavoriteQuestion)
+    private val adapter = FavoriteQuestionsAdapterDepr(applicationContext, this::deleteFavoriteQuestion)
 
     @Inject
     lateinit var questionDao: QuestionDao

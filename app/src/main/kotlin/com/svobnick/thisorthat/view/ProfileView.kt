@@ -3,7 +3,12 @@ package com.svobnick.thisorthat.view
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.svobnick.thisorthat.model.Question
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface ProfileActivityView : MvpView {
+interface ProfileView : MvpView {
+
+    fun setQuestions(position: Int, questions: List<Question>)
+
+    fun showError(errorMsg: String)
 }

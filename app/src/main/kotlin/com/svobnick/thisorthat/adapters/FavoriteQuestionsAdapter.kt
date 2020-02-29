@@ -1,76 +1,110 @@
 package com.svobnick.thisorthat.adapters
 
-import android.content.Context
+import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.fragments.ChoiceStatFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.single_question_view.*
-import kotlin.reflect.KFunction1
+import kotlinx.android.synthetic.main.favorite_question_single_view.*
 
-class FavoriteQuestionsAdapter(
-    private val context: Context,
-    private val onClick: KFunction1<@ParameterName(name = "itemId") Long, Unit>
-) : RecyclerView.Adapter<FavoriteQuestionsAdapter.FavoriteQuestionsViewHolder>() {
+class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>(), QuestionsListAdapter {
 
-    private val favoriteQuestionsList = ArrayList<Question>()
+    private val myQuestionsList = ArrayList<Question>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteQuestionsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_question_view, parent, false)
-        return FavoriteQuestionsViewHolder(context, view, this::removeFavoriteQuestion)
+            .inflate(R.layout.favorite_question_single_view, parent, false)
+        return QuestionListViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return favoriteQuestionsList.size
+        return myQuestionsList.size
     }
 
-    override fun onBindViewHolder(holder: FavoriteQuestionsViewHolder, position: Int) {
-        holder.bind(favoriteQuestionsList[position])
+    override fun onBindViewHolder(holder: QuestionListViewHolder, position: Int) {
+        holder.bind(myQuestionsList[position])
     }
 
     override fun getItemId(position: Int): Long {
-        return favoriteQuestionsList[position].id
+        return myQuestionsList[position].id
     }
 
-    fun setFavoriteQuestions(favoriteQuestions: List<Question>) {
-        favoriteQuestionsList.addAll(favoriteQuestions)
+    override fun addQuestions(questions: List<Question>) {
+        myQuestionsList.addAll(questions)
         notifyDataSetChanged()
     }
 
-    private fun removeFavoriteQuestion(index: Int) {
-        val question = favoriteQuestionsList.removeAt(index)
-        notifyItemRemoved(index)
-        onClick(question.id)
-    }
-
-    class FavoriteQuestionsViewHolder(context: Context,
-                                      itemView: View,
-                                      private val onClick: KFunction1<@ParameterName(name = "index") Int, Unit>
-    ) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+    class QuestionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        LayoutContainer {
         override val containerView: View get() = itemView
-        private val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        private val firstStat = fragmentManager.findFragmentById(R.id.first_stat) as ChoiceStatFragment
-        private val lastStat = fragmentManager.findFragmentById(R.id.last_stat) as ChoiceStatFragment
 
         fun bind(question: Question) {
             val (firstPercent, lastPercent) = computeQuestionsPercentage(
                 question.firstRate,
                 question.lastRate
             )
-            first_text.text = question.firstText
-            firstStat.setStat(firstPercent, question.firstRate, true)
-            last_text.text = question.lastText
-            lastStat.setStat(lastPercent, question.lastRate, true)
-//            remove_favorite_button.setOnClickListener {
-//                onClick(layoutPosition)
-//            }
+            f_first_text.text = question.firstText
+            setFirstStat(firstPercent, question.firstRate, true)
+            f_last_text.text = question.lastText
+            setLastStat(lastPercent, question.lastRate, true)
+        }
+
+        fun setFirstStat(percentage: Int, amount: Int, userChoice: Boolean) {
+            val percentageAnim = ValueAnimator.ofInt(0, percentage)
+            percentageAnim.duration = 500
+            percentageAnim.addUpdateListener {
+                f_first_percent_value.text = it.animatedValue.toString()
+            }
+
+            val amountAnim = ValueAnimator.ofInt(0, amount)
+            amountAnim.duration = 500
+            amountAnim.addUpdateListener {
+                f_first_peoples_amount.text = it.animatedValue.toString()
+            }
+
+            if (!userChoice) {
+                f_first_percent_value.alpha = 0.25f
+                f_first_percent_symbol.alpha = 0.25f
+                f_first_peoples_amount.alpha = 0.25f
+            } else {
+                f_first_percent_value.alpha = 1f
+                f_first_percent_symbol.alpha = 1f
+                f_first_peoples_amount.alpha = 1f
+            }
+
+            percentageAnim.start()
+            amountAnim.start()
+        }
+
+        fun setLastStat(percentage: Int, amount: Int, userChoice: Boolean) {
+            val percentageAnim = ValueAnimator.ofInt(0, percentage)
+            percentageAnim.duration = 500
+            percentageAnim.addUpdateListener {
+                f_last_percent_value.text = it.animatedValue.toString()
+            }
+
+            val amountAnim = ValueAnimator.ofInt(0, amount)
+            amountAnim.duration = 500
+            amountAnim.addUpdateListener {
+                f_last_peoples_amount.text = it.animatedValue.toString()
+            }
+
+            if (!userChoice) {
+                f_last_percent_value.alpha = 0.25f
+                f_last_percent_symbol.alpha = 0.25f
+                f_last_peoples_amount.alpha = 0.25f
+            } else {
+                f_last_percent_value.alpha = 1f
+                f_last_percent_symbol.alpha = 1f
+                f_last_peoples_amount.alpha = 1f
+            }
+
+            percentageAnim.start()
+            amountAnim.start()
         }
     }
 }

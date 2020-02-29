@@ -17,9 +17,6 @@ interface InjectorComponent {
     fun inject(startupActivity: StartupActivity)
     fun inject(chooseActivity: ChoiceActivity)
     fun inject(newQuestionActivity: NewQuestionActivity)
-    fun inject(answeredQuestionsActivity: AnsweredQuestionsActivity)
-    fun inject(myQuestionsActivity: MyQuestionsActivity)
-    fun inject(favoriteQuestionsActivity: FavoriteQuestionsActivity)
     fun inject(commentsActivity: CommentsActivity)
     fun inject(profileActivity: ProfileActivity)
 

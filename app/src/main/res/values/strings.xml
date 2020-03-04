@@ -14,6 +14,10 @@
     <string name="or_button">ИЛИ</string>
 
     <string name="report_text">Пожаловаться</string>
+    <string name="report_result_header">Жалоба</string>
+    <string name="report_result_description">Спасибо, мы рассмотрим вашу \n жалобу в ближайшее время. \n Вопрос пропущен, \n а его рейтинг снижен.</string>
+    <string name="report_result_ok">Ок</string>
+
     <string name="typo">В вопросе ошибка</string>
     <string name="abuse">Некорректный вопрос</string>
     <string name="clone">Такой вопрос уже есть</string>

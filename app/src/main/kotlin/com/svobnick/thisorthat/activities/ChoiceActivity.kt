@@ -38,7 +38,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private lateinit var state: STATE
     private lateinit var firstPercent: ChoiceStatFragment
     private lateinit var lastPercent: ChoiceStatFragment
-    private lateinit var popupWindow: PopupWindow
+    private lateinit var reportChoiceWindow: PopupWindow
+    private lateinit var reportResultWindow: PopupWindow
 
     @Inject
     lateinit var questionDao: QuestionDao
@@ -73,7 +74,8 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val fragmentManager = supportFragmentManager
         this.firstPercent = fragmentManager.findFragmentById(R.id.first_stat) as ChoiceStatFragment
         this.lastPercent = fragmentManager.findFragmentById(R.id.last_stat) as ChoiceStatFragment
-        this.popupWindow = setupPopupWindow()
+        this.reportChoiceWindow = setupPopupWindow(R.layout.report_view)
+        this.reportResultWindow = setupPopupWindow(R.layout.report_result)
         choicePresenter.setNextQuestion()
     }
 
@@ -113,22 +115,33 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
             else -> throw IllegalArgumentException("type ${selected.id} is not allowed here")
         }
         choicePresenter.reportQuestion(reportReason)
-        showError("Вопрос пропущен, а его рейтинг снижен")
-        popupWindow.dismiss()
+        reportResult()
         choicePresenter.setNextQuestion()
     }
 
-    override fun reportQuestion(selected: View) {
-        popupWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
-        val container = popupWindow.contentView.rootView
-        if (container != null) {
-            val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val p = container.layoutParams as WindowManager.LayoutParams
-            p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            p.dimAmount = 0.7f
-            wm.updateViewLayout(container, p)
-        }
+    private fun reportResult() {
+        reportChoiceWindow.dismiss()
+        reportResultWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
+        dimBackground(reportResultWindow.contentView.rootView)
     }
+
+    override fun reportQuestion(selected: View) {
+        reportChoiceWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
+        dimBackground(reportChoiceWindow.contentView.rootView)
+    }
+
+    fun hideReportResult(selected: View) {
+        reportResultWindow.dismiss()
+    }
+
+    private fun dimBackground(container: View) {
+        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val p = container.layoutParams as WindowManager.LayoutParams
+        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+        p.dimAmount = 0.7f
+        wm.updateViewLayout(container, p)
+    }
+
 
     override fun getComments() {
         val intent = Intent(this, CommentsActivity::class.java)
@@ -151,9 +164,9 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 
-    private fun setupPopupWindow(): PopupWindow {
+    private fun setupPopupWindow(layout: Int): PopupWindow {
         val popupWindow = PopupWindow(this)
-        val reportView = LayoutInflater.from(this).inflate(R.layout.report_view, null)
+        val reportView = LayoutInflater.from(this).inflate(layout, null)
         popupWindow.contentView = reportView
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true

@@ -7,7 +7,7 @@
     android:background="@drawable/background_gradient">
 
     <ImageView
-        android:id="@+id/report_button"
+        android:id="@+id/startup_logo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/startup_logo"

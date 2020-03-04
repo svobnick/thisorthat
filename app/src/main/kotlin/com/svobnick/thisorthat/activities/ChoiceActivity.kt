@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.activities
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,7 +8,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -29,6 +30,7 @@ import com.svobnick.thisorthat.view.ChoiceView
 import kotlinx.android.synthetic.main.activity_choice.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
 import javax.inject.Inject
+
 
 class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     private val TAG = this::class.java.name
@@ -118,6 +120,14 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
     override fun reportQuestion(selected: View) {
         popupWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
+        val container = popupWindow.contentView.rootView
+        if (container != null) {
+            val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val p = container.layoutParams as WindowManager.LayoutParams
+            p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+            p.dimAmount = 0.7f
+            wm.updateViewLayout(container, p)
+        }
     }
 
     override fun getComments() {
@@ -145,9 +155,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val popupWindow = PopupWindow(this)
         val reportView = LayoutInflater.from(this).inflate(R.layout.report_view, null)
         popupWindow.contentView = reportView
-        popupWindow.width = ViewGroup.LayoutParams.WRAP_CONTENT
-        popupWindow.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()

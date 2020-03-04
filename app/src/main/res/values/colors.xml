@@ -10,6 +10,10 @@
     <color name="last">#B454B7</color>
     <color name="last_dark">#4F3876</color>
 
+    <color name="report_background">#5A5885</color>
+
+    <color name="report_separator">#4D201F3E</color>
+
     <color name="gradient_start">#312F5A</color>
     <color name="gradient_center">#201F3E</color>
     <color name="gradient_end">#110F26</color>

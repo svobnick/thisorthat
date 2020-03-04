@@ -1,28 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/report_background">
 
-    <Button
+    <ImageButton
+        android:id="@+id/report_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_report" />
+
+    <TextView
+        android:id="@+id/report_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/report_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/sf_ui_display_bold"
+        android:text="@string/report_text"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/report_text"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/report_separator" />
+
+        <TextView
             android:id="@+id/typo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:fontFamily="@font/sf_ui_display_medium"
             android:onClick="onReportClickHandler"
-            android:text="@string/typo" />
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="8dp"
+            android:text="@string/typo"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="17sp" />
 
-    <Button
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/report_separator" />
+
+        <TextView
             android:id="@+id/abuse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:fontFamily="@font/sf_ui_display_medium"
             android:onClick="onReportClickHandler"
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/abuse"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="17sp" />
 
-            android:text="@string/abuse" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/report_separator" />
 
-    <Button
+        <TextView
             android:id="@+id/clone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:fontFamily="@font/sf_ui_display_medium"
             android:onClick="onReportClickHandler"
-            android:text="@string/clone" />
-</LinearLayout>
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/clone"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="17sp" />
+    </LinearLayout>
+</RelativeLayout>

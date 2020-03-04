@@ -13,6 +13,7 @@
     <string name="amount_placeholder">123456</string>
     <string name="or_button">ИЛИ</string>
 
+    <string name="report_text">Пожаловаться</string>
     <string name="typo">В вопросе ошибка</string>
     <string name="abuse">Некорректный вопрос</string>
     <string name="clone">Такой вопрос уже есть</string>

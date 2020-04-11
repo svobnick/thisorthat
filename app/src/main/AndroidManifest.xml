@@ -19,7 +19,9 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/application_ad_id" />
 
-        <activity android:name=".activities.StartupActivity">
+        <activity
+            android:name=".activities.StartupActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +30,8 @@
         </activity>
         <activity
             android:name=".activities.ChoiceActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -42,13 +45,19 @@
         </activity>
         <activity
             android:name=".activities.NewQuestionActivity"
-            android:screenOrientation="portrait" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".activities.CommentsActivity"
-            android:screenOrientation="portrait" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

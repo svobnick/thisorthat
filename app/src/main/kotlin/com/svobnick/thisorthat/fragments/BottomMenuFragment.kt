@@ -33,16 +33,19 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
 
     override fun questionsHandler() {
         val intent = Intent(context, ChoiceActivity::class.java)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
     }
 
     override fun addQuestionHandler() {
         val intent = Intent(context, NewQuestionActivity::class.java)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
     }
 
     override fun openSettingsHandler() {
         val intent = Intent(context, ProfileActivity::class.java)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
     }
 }

@@ -43,6 +43,7 @@ class StartupActivity : MvpAppCompatActivity(), StartupView {
 
     override fun onStartupEnd() {
         val intent = Intent(this, ChoiceActivity::class.java)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
     }
 

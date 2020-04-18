@@ -98,7 +98,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             firstRate,
             userChoice == Question.FIRST
         )
-        (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
+        (childFragmentManager.findFragmentById(R.id.last_stat)!! as ChoiceStatFragment).setStat(
             lastPercent,
             lastRate,
             userChoice == Question.LAST
@@ -106,7 +106,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         showResults()
     }
 
-    fun onReportClickHandler(selected: View) {
+    private fun onReportClickHandler(selected: View) {
         val reportReason = when (selected.id) {
             R.id.clone -> "clone"
             R.id.abuse -> "abuse"
@@ -129,7 +129,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         dimBackground(reportChoiceWindow.contentView.rootView)
     }
 
-    fun hideReportResult(selected: View) {
+    private fun hideReportResult(selected: View) {
         reportResultWindow.dismiss()
     }
 

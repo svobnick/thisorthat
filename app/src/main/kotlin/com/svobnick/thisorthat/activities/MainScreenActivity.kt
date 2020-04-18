@@ -35,11 +35,12 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         viewPager = main_fragments_view_pager
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewPager.adapter = adapter
+        viewPager.isUserInputEnabled = false
     }
 
     override fun switchFragment(fragmentNumber: Int) {
         if (this::viewPager.isInitialized) {
-            viewPager.currentItem = fragmentNumber
+            viewPager.setCurrentItem(fragmentNumber, false)
         }
     }
 }

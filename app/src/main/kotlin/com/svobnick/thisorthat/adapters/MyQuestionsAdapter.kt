@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.adapters
 
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,37 +53,13 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListV
         }
 
         private fun setFirstStat(percentage: Int, amount: Int) {
-            val percentageAnim = ValueAnimator.ofInt(0, percentage)
-            percentageAnim.duration = 500
-            percentageAnim.addUpdateListener {
-                m_first_percent_value.text = it.animatedValue.toString()
-            }
-
-            val amountAnim = ValueAnimator.ofInt(0, amount)
-            amountAnim.duration = 500
-            amountAnim.addUpdateListener {
-                m_first_peoples_amount.text = it.animatedValue.toString()
-            }
-
-            percentageAnim.start()
-            amountAnim.start()
+            m_first_percent_value.text = percentage.toString()
+            m_first_peoples_amount.text = amount.toString()
         }
 
         private fun setLastStat(percentage: Int, amount: Int) {
-            val percentageAnim = ValueAnimator.ofInt(0, percentage)
-            percentageAnim.duration = 500
-            percentageAnim.addUpdateListener {
-                m_last_percent_value.text = it.animatedValue.toString()
-            }
-
-            val amountAnim = ValueAnimator.ofInt(0, amount)
-            amountAnim.duration = 500
-            amountAnim.addUpdateListener {
-                m_last_peoples_amount.text = it.animatedValue.toString()
-            }
-
-            percentageAnim.start()
-            amountAnim.start()
+            m_last_percent_value.text = percentage.toString()
+            m_last_peoples_amount.text = amount.toString()
         }
     }
 }

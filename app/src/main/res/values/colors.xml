@@ -18,4 +18,7 @@
     <color name="gradient_center">#201F3E</color>
     <color name="gradient_end">#110F26</color>
 
+    <color name="percentage_stat">#80ffffff</color>
+    <color name="percentage_symbol">#40ffffff</color>
+    <color name="amount_stat">#bfffffff</color>
 </resources>

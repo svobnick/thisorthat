@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.adapters
 
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.favorite_question_single_view.*
 
-class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>() {
+class FavoriteQuestionsAdapter :
+    RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>() {
 
     private val myQuestionsList = ArrayList<Question>()
 
@@ -54,37 +54,13 @@ class FavoriteQuestionsAdapter : RecyclerView.Adapter<FavoriteQuestionsAdapter.Q
         }
 
         private fun setFirstStat(percentage: Int, amount: Int) {
-            val percentageAnim = ValueAnimator.ofInt(0, percentage)
-            percentageAnim.duration = 500
-            percentageAnim.addUpdateListener {
-                f_first_percent_value.text = it.animatedValue.toString()
-            }
-
-            val amountAnim = ValueAnimator.ofInt(0, amount)
-            amountAnim.duration = 500
-            amountAnim.addUpdateListener {
-                f_first_peoples_amount.text = it.animatedValue.toString()
-            }
-
-            percentageAnim.start()
-            amountAnim.start()
+            f_first_percent_value.text = percentage.toString()
+            f_first_peoples_amount.text = amount.toString()
         }
 
         private fun setLastStat(percentage: Int, amount: Int) {
-            val percentageAnim = ValueAnimator.ofInt(0, percentage)
-            percentageAnim.duration = 500
-            percentageAnim.addUpdateListener {
-                f_last_percent_value.text = it.animatedValue.toString()
-            }
-
-            val amountAnim = ValueAnimator.ofInt(0, amount)
-            amountAnim.duration = 500
-            amountAnim.addUpdateListener {
-                f_last_peoples_amount.text = it.animatedValue.toString()
-            }
-
-            percentageAnim.start()
-            amountAnim.start()
+            f_last_percent_value.text = percentage.toString()
+            f_last_peoples_amount.text = amount.toString()
         }
     }
 }

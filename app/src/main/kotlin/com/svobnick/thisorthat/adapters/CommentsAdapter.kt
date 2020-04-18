@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,13 @@ import com.svobnick.thisorthat.utils.RoundedCornersTransform
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.single_comment_view.*
 
-class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
+class CommentsAdapter(private val picasso: Picasso) :
+    RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     private val commentsList = ArrayList<Comment>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_comment_view, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.single_comment_view, parent, false)
         return CommentsViewHolder(view, picasso)
     }
 
@@ -25,7 +28,7 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
     }
 
     override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
-        holder.bind(commentsList[position])
+        holder.bind(commentsList[position], position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -42,15 +45,21 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
         override val containerView: View
             get() = itemView
 
-        fun bind(comment: Comment) {
+        fun bind(comment: Comment, position: Int) {
             picasso.load(comment.avatarUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .transform(RoundedCornersTransform(32.0f))
                 .into(avatar)
             user_id.text = comment.userId.toString()
             comment_author.text = "Пользователь #${comment.userId}"
+            if (position % 2 == 0) {
+                comment_author.setTextColor(Color.parseColor("#FF6642"))
+            } else {
+                comment_author.setTextColor(Color.parseColor("#B454B7"))
+            }
             if (comment.text == "1 комментарий") {
-                comment_text.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
+                comment_text.text =
+                    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
             } else {
                 comment_text.text = comment.text
             }

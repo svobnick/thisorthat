@@ -1,67 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/f_first_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/choice_top_half"
-            tools:ignore="ContentDescription" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/choice_top_half"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/f_first_text"
-            android:layout_width="250dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:background="@color/transparent"
             android:ellipsize="end"
+            android:fontFamily="@font/sf_ui_display_light"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/choice_placeholder"
-            android:textAppearance="?android:textAppearanceMedium" />
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/f_first_stat"/>
 
         <RelativeLayout
             android:id="@+id/f_first_stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
             android:background="@color/transparent"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_alignParentEnd="true">
 
             <TextView
                 android:id="@+id/f_first_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:layout_marginTop="-9dp"
-                android:layout_marginBottom="-9dp"
                 android:fontFamily="@font/sf_ui_display_bold"
+                android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
-                android:textSize="58sp" />
+                android:textColor="@color/percentage_stat"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/f_first_percent_symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/f_first_percent_value"
-                android:includeFontPadding="false"
                 android:fontFamily="@font/sf_ui_display_medium"
+                android:includeFontPadding="false"
                 android:text="@string/percentage_symbol"
-                android:textSize="24sp" />
+                android:textColor="@color/percentage_symbol"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/f_first_peoples_amount"
@@ -70,68 +69,66 @@
                 android:layout_below="@id/f_first_percent_value"
                 android:fontFamily="@font/sf_ui_display_light"
                 android:text="@string/amount_placeholder"
-                android:textSize="18sp" />
+                android:textColor="@color/amount_stat"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
-    </FrameLayout>
+    </RelativeLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/f_last_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/choice_bottom_half"
-            tools:ignore="ContentDescription" />
+        android:background="@drawable/choice_bottom_half">
 
         <TextView
             android:id="@+id/f_last_text"
-            android:layout_width="250dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:ellipsize="end"
+            android:fontFamily="@font/sf_ui_display_light"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/choice_placeholder"
-            android:textAppearance="?android:textAppearanceMedium" />
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/f_last_stat"/>
 
         <RelativeLayout
             android:id="@+id/f_last_stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
             android:background="@color/transparent"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_alignParentEnd="true">
 
             <TextView
                 android:id="@+id/f_last_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:layout_marginTop="-9dp"
-                android:layout_marginBottom="-9dp"
                 android:fontFamily="@font/sf_ui_display_bold"
+                android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
-                android:textSize="58sp" />
+                android:textColor="@color/percentage_stat"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/f_last_percent_symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/f_last_percent_value"
-                android:includeFontPadding="false"
                 android:fontFamily="@font/sf_ui_display_medium"
+                android:includeFontPadding="false"
                 android:text="@string/percentage_symbol"
-                android:textSize="24sp" />
+                android:textColor="@color/percentage_symbol"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/f_last_peoples_amount"
@@ -140,11 +137,10 @@
                 android:layout_below="@id/f_last_percent_value"
                 android:fontFamily="@font/sf_ui_display_light"
                 android:text="@string/amount_placeholder"
-                android:textSize="18sp" />
+                android:textColor="@color/amount_stat"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
-    </FrameLayout>
-
-
+    </RelativeLayout>
 </LinearLayout>

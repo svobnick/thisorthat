@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    tools:context=".activities.NewQuestionActivity">
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/header_text"
@@ -125,26 +123,9 @@
         android:focusable="true"
         android:onClick="onSendQuestionButtonClick"
         android:text="@string/add_question_button"
-        app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
-
-    <fragment
-        android:id="@+id/bottom_menu"
-        android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
-        tools:layout="@layout/fragment_bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

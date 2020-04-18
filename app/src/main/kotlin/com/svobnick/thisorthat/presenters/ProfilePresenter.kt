@@ -12,15 +12,21 @@ import com.svobnick.thisorthat.service.getFavoriteRequest
 import com.svobnick.thisorthat.view.ProfileView
 import org.json.JSONArray
 import org.json.JSONObject
+import javax.inject.Inject
 
 @InjectViewState
-class ProfilePresenter(
-    private val app: ThisOrThatApp,
-    private val requestQueue: RequestQueue
-): MvpPresenter<ProfileView>() {
+class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileView>() {
     private val TAG = this::class.java.name
     internal val MY_QUESTIONS_LIMIT = 30L
     internal val FAVORITE_QUESTIONS_LIMIT = 100L
+
+    @Inject
+    lateinit var requestQueue: RequestQueue
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        app.injector.inject(this)
+    }
 
     fun getMyQuestions(offset: Long) {
         val json = JSONObject()

@@ -1,81 +1,72 @@
-package com.svobnick.thisorthat.activities
+package com.svobnick.thisorthat.fragments
 
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.moxy.MvpAppCompatActivity
-import com.android.volley.RequestQueue
+import androidx.moxy.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
-import com.svobnick.thisorthat.dao.AnswerDao
-import com.svobnick.thisorthat.dao.ClaimDao
-import com.svobnick.thisorthat.dao.QuestionDao
-import com.svobnick.thisorthat.fragments.ChoiceStatFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.ChoiceView
-import kotlinx.android.synthetic.main.activity_choice.*
+import kotlinx.android.synthetic.main.fragment_choice.*
+import kotlinx.android.synthetic.main.fragment_choice.view.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.report_result.view.*
+import kotlinx.android.synthetic.main.report_view.view.*
 
-
-class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
+class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private val TAG = this::class.java.name
 
     private lateinit var state: STATE
-    private lateinit var firstPercent: ChoiceStatFragment
-    private lateinit var lastPercent: ChoiceStatFragment
     private lateinit var reportChoiceWindow: PopupWindow
     private lateinit var reportResultWindow: PopupWindow
-
-    @Inject
-    lateinit var questionDao: QuestionDao
-    @Inject
-    lateinit var answerDao: AnswerDao
-    @Inject
-    lateinit var claimDao: ClaimDao
-    @Inject
-    lateinit var requestQueue: RequestQueue
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideChoicePresenter(): ChoicePresenter {
-        return ChoicePresenter(
-            application as ThisOrThatApp,
-            questionDao,
-            answerDao,
-            claimDao,
-            requestQueue
-        )
+        return ChoicePresenter(activity!!.application as ThisOrThatApp)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        (application as ThisOrThatApp).injector.inject(this)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        (activity!!.application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_choice)
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-        val fragmentManager = supportFragmentManager
-        this.firstPercent = fragmentManager.findFragmentById(R.id.first_stat) as ChoiceStatFragment
-        this.lastPercent = fragmentManager.findFragmentById(R.id.last_stat) as ChoiceStatFragment
-        this.reportChoiceWindow = setupPopupWindow(R.layout.report_view)
-        this.reportResultWindow = setupPopupWindow(R.layout.report_result)
+
+        var view = inflater.inflate(R.layout.fragment_choice, container, false)
+        view.first_text.setOnClickListener(this::onChoiceClick)
+        view.last_text.setOnClickListener(this::onChoiceClick)
+        view.report_button.setOnClickListener(this::reportQuestion)
+        return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.reportChoiceWindow = setupReportPopupWindow()
+        this.reportResultWindow = setupResponsePopupWindow()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         choicePresenter.setNextQuestion()
     }
 
@@ -83,7 +74,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         if (state == STATE.RESULT) {
             choicePresenter.setNextQuestion()
         } else {
-            val clickedText = findViewById<TextView>(choice.id)
+            val clickedText = activity!!.findViewById<TextView>(choice.id)
             val userChoice = choicePresenter.saveChoice(clickedText.text.toString())
             setResultToView(choicePresenter.currentQuestion, userChoice)
         }
@@ -94,7 +85,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     override fun setNewQuestion(question: Question) {
         first_text.text = question.firstText
         last_text.text = question.lastText
-        add_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
         hideResults()
     }
 
@@ -102,8 +93,16 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
         val firstRate = question.firstRate
         val lastRate = question.lastRate
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
-        this.firstPercent.setStat(firstPercent, firstRate, userChoice == Question.FIRST)
-        this.lastPercent.setStat(lastPercent, lastRate, userChoice == Question.LAST)
+        (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
+            firstPercent,
+            firstRate,
+            userChoice == Question.FIRST
+        )
+        (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
+            lastPercent,
+            lastRate,
+            userChoice == Question.LAST
+        )
         showResults()
     }
 
@@ -135,7 +134,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     private fun dimBackground(container: View) {
-        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = activity!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val p = container.layoutParams as WindowManager.LayoutParams
         p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
         p.dimAmount = 0.7f
@@ -144,7 +143,7 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
 
 
     override fun getComments() {
-        val intent = Intent(this, CommentsActivity::class.java)
+        val intent = Intent(context, CommentsActivity::class.java)
         startActivity(intent)
     }
 
@@ -161,31 +160,46 @@ class ChoiceActivity : MvpAppCompatActivity(), ChoiceView {
     }
 
     override fun showError(errorMsg: String) {
-        Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
     }
 
-    private fun setupPopupWindow(layout: Int): PopupWindow {
-        val popupWindow = PopupWindow(this)
-        val reportView = LayoutInflater.from(this).inflate(layout, null)
+    private fun setupReportPopupWindow(): PopupWindow {
+        val popupWindow = PopupWindow(context)
+        val reportView = LayoutInflater.from(context).inflate(R.layout.report_view, null)
         popupWindow.contentView = reportView
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
+        reportView.typo.setOnClickListener(this::onReportClickHandler)
+        reportView.abuse.setOnClickListener(this::onReportClickHandler)
+        reportView.clone.setOnClickListener(this::onReportClickHandler)
+        return popupWindow
+    }
+
+    private fun setupResponsePopupWindow(): PopupWindow {
+        val popupWindow = PopupWindow(context)
+        val responseView = LayoutInflater.from(context).inflate(R.layout.report_result, null)
+        popupWindow.contentView = responseView
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popupWindow.isFocusable = true
+        popupWindow.isOutsideTouchable = true
+        popupWindow.update()
+        responseView.report_result_ok.setOnClickListener(this::hideReportResult)
         return popupWindow
     }
 
     private fun hideResults() {
-        supportFragmentManager.beginTransaction()
-            .hide(firstPercent)
-            .hide(lastPercent)
+        childFragmentManager.beginTransaction()
+            .hide(childFragmentManager.findFragmentById(R.id.first_stat)!!)
+            .hide(childFragmentManager.findFragmentById(R.id.last_stat)!!)
             .commit()
     }
 
     private fun showResults() {
-        supportFragmentManager.beginTransaction()
-            .show(firstPercent)
-            .show(lastPercent)
+        childFragmentManager.beginTransaction()
+            .show(childFragmentManager.findFragmentById(R.id.first_stat)!!)
+            .show(childFragmentManager.findFragmentById(R.id.last_stat)!!)
             .commit()
     }
 

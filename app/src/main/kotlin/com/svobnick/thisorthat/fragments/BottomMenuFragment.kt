@@ -1,19 +1,30 @@
 package com.svobnick.thisorthat.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.activities.ChoiceActivity
-import com.svobnick.thisorthat.activities.NewQuestionActivity
-import com.svobnick.thisorthat.activities.ProfileActivity
+import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.presenters.BottomMenuPresenter
 import com.svobnick.thisorthat.view.BottomMenuView
 import kotlinx.android.synthetic.main.fragment_bottom_menu.*
 
 class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var presenter: BottomMenuPresenter
+
+    @ProvidePresenter(type = PresenterType.GLOBAL)
+    fun provideBottomMenuPresenter(): BottomMenuPresenter {
+        return BottomMenuPresenter(
+            activity!!.application as ThisOrThatApp
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,26 +37,12 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        questions_button.setOnClickListener { questionsHandler() }
-        add_question_button.setOnClickListener { addQuestionHandler() }
-        settings_button.setOnClickListener { openSettingsHandler() }
+        choice_button.setOnClickListener { presenter.switchFragment(0) }
+        add_choice_button.setOnClickListener { presenter.switchFragment(1) }
+        profile_button.setOnClickListener { presenter.switchFragment(2) }
     }
 
-    override fun questionsHandler() {
-        val intent = Intent(context, ChoiceActivity::class.java)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
-    }
-
-    override fun addQuestionHandler() {
-        val intent = Intent(context, NewQuestionActivity::class.java)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
-    }
-
-    override fun openSettingsHandler() {
-        val intent = Intent(context, ProfileActivity::class.java)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
+    override fun switchFragment(menuNumber: Int) {
+        presenter.switchFragment(menuNumber)
     }
 }

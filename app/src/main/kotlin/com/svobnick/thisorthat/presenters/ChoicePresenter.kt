@@ -24,22 +24,30 @@ import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import javax.inject.Inject
 
 @InjectViewState
-class ChoicePresenter(
-    private val application: ThisOrThatApp,
-    private val questionDao: QuestionDao,
-    private val answerDao: AnswerDao,
-    private val claimDao: ClaimDao,
-    private val requestQueue: RequestQueue
-) : MvpPresenter<ChoiceView>() {
+class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<ChoiceView>() {
     private val TAG = this::class.java.name
+
+    @Inject
+    lateinit var questionDao: QuestionDao
+
+    @Inject
+    lateinit var answerDao: AnswerDao
+
+    @Inject
+    lateinit var claimDao: ClaimDao
+
+    @Inject
+    lateinit var requestQueue: RequestQueue
 
     var currentQuestion: Question = Question.empty()
     var currentQuestionQueue: Queue<Question> = LinkedList()
 
-    init {
-        currentQuestion
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        application.injector.inject(this)
         getUnansweredQuestions()
         if (!currentQuestionQueue.isEmpty()) {
             setNextQuestion()

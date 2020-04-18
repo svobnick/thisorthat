@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.activities.ChoiceActivity
 import com.svobnick.thisorthat.activities.CommentsActivity
+import com.svobnick.thisorthat.activities.MainScreenActivity
 import com.svobnick.thisorthat.view.ChoiceMenuView
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
@@ -26,7 +26,7 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
         super.onActivityCreated(savedInstanceState)
 
         comments_button.setOnClickListener { commentsHandler() }
-        add_favorite_button.setOnClickListener { addFavoriteHandler() }
+        switch_favorite_button.setOnClickListener { addFavoriteHandler() }
         share_button.setOnClickListener { shareHandler() }
     }
 
@@ -36,12 +36,20 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
     }
 
     override fun addFavoriteHandler() {
-        (activity as ChoiceActivity).addFavoriteQuestion()
-        add_favorite_button.setImageResource(R.drawable.icon_favorite)
+        choiceFragment().addFavoriteQuestion()
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite)
     }
 
     override fun shareHandler() {
-        (activity as ChoiceActivity).shareQuestion()
+        choiceFragment().shareQuestion()
+    }
+
+    private fun parentActivity(): MainScreenActivity {
+        return activity as MainScreenActivity
+    }
+
+    private fun choiceFragment(): ChoiceFragment {
+        return parentActivity().supportFragmentManager.findFragmentByTag("f" + parentActivity().viewPager.currentItem) as ChoiceFragment
     }
 
 }

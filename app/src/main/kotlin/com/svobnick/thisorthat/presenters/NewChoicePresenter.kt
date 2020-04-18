@@ -7,15 +7,21 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.sendNewQuestion
-import com.svobnick.thisorthat.view.NewQuestionView
+import com.svobnick.thisorthat.view.NewChoiceView
 import org.json.JSONObject
+import javax.inject.Inject
 
 @InjectViewState
-class NewQuestionPresenter(
-    val app: ThisOrThatApp,
-    val requestQueue: RequestQueue
-) : MvpPresenter<NewQuestionView>() {
+class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>() {
     private val TAG = this::class.java.name
+
+    @Inject
+    lateinit var requestQueue: RequestQueue
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        app.injector.inject(this)
+    }
 
     fun send(firstText: String, lastText: String) {
         val json = JSONObject()
@@ -27,6 +33,7 @@ class NewQuestionPresenter(
                 json,
                 Response.Listener { response ->
                     Log.i(TAG, response)
+                    viewState.showSuccess()
                 },
                 Response.ErrorListener {
                     val errorMsg = JSONObject(String(it.networkResponse.data)).toString()

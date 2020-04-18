@@ -14,8 +14,7 @@ import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 
-class QuestionsListFragment(private val position: Int, val presenter: ProfilePresenter) :
-    MvpAppCompatFragment() {
+class QuestionsListFragment(private val position: Int, val presenter: ProfilePresenter) : MvpAppCompatFragment() {
     lateinit var mAdapter: MyQuestionsAdapter
     lateinit var fAdapter: FavoriteQuestionsAdapter
 

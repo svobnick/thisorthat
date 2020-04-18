@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/questions_button"
+            android:id="@+id/choice_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:src="@drawable/icon_question"
@@ -19,7 +19,7 @@
             android:text="@string/questions_button" />
 
         <ImageButton
-            android:id="@+id/add_question_button"
+            android:id="@+id/add_choice_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:src="@drawable/icon_new_question"
@@ -30,7 +30,7 @@
             android:text="@string/add_question_button" />
 
         <ImageButton
-            android:id="@+id/settings_button"
+            android:id="@+id/profile_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:src="@drawable/icon_profile"

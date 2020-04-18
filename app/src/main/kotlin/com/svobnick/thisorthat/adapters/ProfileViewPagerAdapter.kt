@@ -2,13 +2,12 @@ package com.svobnick.thisorthat.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.svobnick.thisorthat.activities.ProfileActivity
+import com.svobnick.thisorthat.fragments.ProfileFragment
 import com.svobnick.thisorthat.fragments.QuestionsListFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 
-class ProfileViewPagerAdapter(profileActivity: ProfileActivity, val presenter: ProfilePresenter) :
-    FragmentStateAdapter(profileActivity) {
+class ProfileViewPagerAdapter(profileFragment: ProfileFragment, val presenter: ProfilePresenter) : FragmentStateAdapter(profileFragment) {
     private val myQuestionsFragment = QuestionsListFragment(0, presenter)
     private val favoriteQuestionsFragment = QuestionsListFragment(1, presenter)
 

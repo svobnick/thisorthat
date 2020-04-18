@@ -37,6 +37,7 @@
     <string name="all_questions_button">Все вопросы</string>
     <string name="favorite_questions_button">Любимые вопросы</string>
     <string name="my_questions_button">Мои вопросы</string>
+    <string name="name_placeholder">Имя</string>
     <string name="comment_placeholder">Basic comment text</string>
     <string name="comment_input_placeholder">Введите текст</string>
     <string name="comment_header">Комментарии</string>

@@ -47,8 +47,13 @@ class CommentsAdapter(private val picasso: Picasso) : RecyclerView.Adapter<Comme
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .transform(RoundedCornersTransform(32.0f))
                 .into(avatar)
-            user_id.text = comment.text
-            comment_text.text = comment.text
+            user_id.text = comment.userId.toString()
+            comment_author.text = "Пользователь #${comment.userId}"
+            if (comment.text == "1 комментарий") {
+                comment_text.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
+            } else {
+                comment_text.text = comment.text
+            }
             comment_id.text = comment.commentId.toString()
             parent_id.text = comment.parentId.toString()
         }

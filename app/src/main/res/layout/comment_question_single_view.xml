@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/m_first_view"
+        android:id="@+id/c_first_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/m_first_text"
+            android:id="@+id/c_first_text"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -35,39 +35,39 @@
             android:textAppearance="?android:textAppearanceMedium" />
 
         <RelativeLayout
-            android:id="@+id/m_first_stat"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:id="@+id/c_first_stat"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:background="@color/transparent">
+            android:background="@color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/m_first_percent_value"
+                android:id="@+id/c_first_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:layout_marginTop="-9dp"
                 android:layout_marginBottom="-9dp"
                 android:fontFamily="@font/sf_ui_display_bold"
-                android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
                 android:textSize="58sp" />
 
             <TextView
-                android:id="@+id/m_first_percent_symbol"
+                android:id="@+id/c_first_percent_symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/m_first_percent_value"
-                android:fontFamily="@font/sf_ui_display_medium"
+                android:layout_toEndOf="@id/c_first_percent_value"
                 android:includeFontPadding="false"
+                android:fontFamily="@font/sf_ui_display_medium"
                 android:text="@string/percentage_symbol"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/m_first_peoples_amount"
+                android:id="@+id/c_first_peoples_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/m_first_percent_value"
+                android:layout_below="@id/c_first_percent_value"
                 android:fontFamily="@font/sf_ui_display_light"
                 android:text="@string/amount_placeholder"
                 android:textSize="18sp" />
@@ -77,7 +77,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/m_last_view"
+        android:id="@+id/c_last_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -91,7 +91,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/m_last_text"
+            android:id="@+id/c_last_text"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -105,43 +105,45 @@
             android:textAppearance="?android:textAppearanceMedium" />
 
         <RelativeLayout
-            android:id="@+id/m_last_stat"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:id="@+id/c_last_stat"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:background="@color/transparent">
+            android:background="@color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/m_last_percent_value"
+                android:id="@+id/c_last_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:layout_marginTop="-9dp"
                 android:layout_marginBottom="-9dp"
                 android:fontFamily="@font/sf_ui_display_bold"
-                android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
                 android:textSize="58sp" />
 
             <TextView
-                android:id="@+id/m_last_percent_symbol"
+                android:id="@+id/c_last_percent_symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/m_last_percent_value"
-                android:fontFamily="@font/sf_ui_display_medium"
+                android:layout_toEndOf="@id/c_last_percent_value"
                 android:includeFontPadding="false"
+                android:fontFamily="@font/sf_ui_display_medium"
                 android:text="@string/percentage_symbol"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/m_last_peoples_amount"
+                android:id="@+id/c_last_peoples_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/m_last_percent_value"
+                android:layout_below="@id/c_last_percent_value"
                 android:fontFamily="@font/sf_ui_display_light"
                 android:text="@string/amount_placeholder"
                 android:textSize="18sp" />
+
         </RelativeLayout>
+
     </FrameLayout>
 
 

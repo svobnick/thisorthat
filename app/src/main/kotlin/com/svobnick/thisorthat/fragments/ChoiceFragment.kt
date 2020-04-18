@@ -130,7 +130,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         dimBackground(reportChoiceWindow.contentView.rootView)
     }
 
-    private fun hideReportResult(selected: View) {
+    private fun hideReportResult() {
         reportResultWindow.dismiss()
     }
 
@@ -200,7 +200,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
-        responseView.report_result_ok.setOnClickListener(this::hideReportResult)
+        responseView.report_result_ok.setOnClickListener{ hideReportResult() }
         return popupWindow
     }
 

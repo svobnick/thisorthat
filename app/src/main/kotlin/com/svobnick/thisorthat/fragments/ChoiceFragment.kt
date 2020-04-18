@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.moxy.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -147,8 +148,22 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         startActivity(intent)
     }
 
-    override fun addFavoriteQuestion() {
+    override fun switchFavoriteQuestion() {
+        if (switch_favorite_button.drawable.constantState == getDrawable(context!!, R.drawable.icon_favorite_disabled)!!.constantState) {
+            addFavoriteQuestion()
+        } else {
+            deleteFavoriteQuestion()
+        }
+    }
+
+    private fun addFavoriteQuestion() {
         choicePresenter.addFavoriteQuestion()
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+    }
+
+    private fun deleteFavoriteQuestion() {
+        choicePresenter.deleteFavoriteQuestion()
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
     }
 
     override fun shareQuestion() {

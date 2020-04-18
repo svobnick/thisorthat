@@ -13,10 +13,7 @@ import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.addFavoriteRequest
-import com.svobnick.thisorthat.service.getNextQuestions
-import com.svobnick.thisorthat.service.sendAnswersRequest
-import com.svobnick.thisorthat.service.sendReportRequest
+import com.svobnick.thisorthat.service.*
 import com.svobnick.thisorthat.view.ChoiceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,7 +24,7 @@ import java.util.*
 import javax.inject.Inject
 
 @InjectViewState
-class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<ChoiceView>() {
+class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>() {
     private val TAG = this::class.java.name
 
     @Inject
@@ -47,7 +44,7 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        application.injector.inject(this)
+        app.injector.inject(this)
         getUnansweredQuestions()
         if (!currentQuestionQueue.isEmpty()) {
             setNextQuestion()
@@ -59,7 +56,7 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
     private fun getNewQuestions() {
         requestQueue.add(
             getNextQuestions(
-                application.authToken,
+                app.authToken,
                 Response.Listener { response ->
                     val questions2save = ArrayList<Question>()
                     val json = JSONObject(response)
@@ -132,7 +129,7 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
                     val value = JSONObject()
                     it.forEach { answer -> value.put(answer.id.toString(), answer.choice) }
                     requestQueue.add(sendAnswersRequest(
-                        application.authToken,
+                        app.authToken,
                         it,
                         Response.Listener {
                             Log.i(TAG, "Answers successfully was sent to server!")
@@ -175,7 +172,7 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
             .subscribeOn(Schedulers.newThread())
         requestQueue.add(
             sendReportRequest(
-                application.authToken,
+                app.authToken,
                 currentQuestion.id,
                 reportReason,
                 Response.Listener { response ->
@@ -194,7 +191,7 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
     fun addFavoriteQuestion() {
         requestQueue.add(
             addFavoriteRequest(
-                application.authToken,
+                app.authToken,
                 currentQuestion.id.toString(),
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
@@ -203,6 +200,21 @@ class ChoicePresenter(private val application: ThisOrThatApp) : MvpPresenter<Cho
                     val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
                     Log.e(TAG, errorMsg)
                     viewState.showError(errorMsg)
+                })
+        )
+    }
+
+    fun deleteFavoriteQuestion() {
+        requestQueue.add(
+            deleteFavoriteRequest(
+                app.authToken,
+                currentQuestion.id.toString(),
+                Response.Listener { response ->
+                    Log.i(TAG, response.toString())
+                },
+                Response.ErrorListener {
+                    val errData = JSONObject(String(it.networkResponse.data)).toString()
+                    viewState.showError(errData)
                 })
         )
     }

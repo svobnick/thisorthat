@@ -26,7 +26,7 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
         super.onActivityCreated(savedInstanceState)
 
         comments_button.setOnClickListener { commentsHandler() }
-        switch_favorite_button.setOnClickListener { addFavoriteHandler() }
+        switch_favorite_button.setOnClickListener { switchFavoriteHandler() }
         share_button.setOnClickListener { shareHandler() }
     }
 
@@ -35,9 +35,8 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
         startActivity(intent)
     }
 
-    override fun addFavoriteHandler() {
-        choiceFragment().addFavoriteQuestion()
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+    override fun switchFavoriteHandler() {
+        choiceFragment().switchFavoriteQuestion()
     }
 
     override fun shareHandler() {

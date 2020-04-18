@@ -8,6 +8,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface ChoiceMenuView : MvpView {
 
     fun commentsHandler()
-    fun addFavoriteHandler()
+    fun switchFavoriteHandler()
     fun shareHandler()
 }

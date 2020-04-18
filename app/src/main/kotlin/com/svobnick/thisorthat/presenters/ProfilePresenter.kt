@@ -7,7 +7,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Question
-import com.svobnick.thisorthat.service.deleteFavoriteRequest
 import com.svobnick.thisorthat.service.getFavoriteRequest
 import com.svobnick.thisorthat.view.ProfileView
 import org.json.JSONArray
@@ -89,21 +88,6 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                     }
                     Log.i(TAG, "Receive my questions")
                     viewState.setQuestions(1, questions)
-                },
-                Response.ErrorListener {
-                    val errData = JSONObject(String(it.networkResponse.data)).toString()
-                    viewState.showError(errData)
-                })
-        )
-    }
-
-    fun deleteFavoriteQuestion(itemId: Long) {
-        requestQueue.add(
-            deleteFavoriteRequest(
-                app.authToken,
-                itemId.toString(),
-                Response.Listener { response ->
-                    Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
                     val errData = JSONObject(String(it.networkResponse.data)).toString()

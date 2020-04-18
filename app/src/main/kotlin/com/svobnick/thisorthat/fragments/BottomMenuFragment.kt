@@ -37,12 +37,31 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        choice_button.setOnClickListener { presenter.switchFragment(0) }
-        add_choice_button.setOnClickListener { presenter.switchFragment(1) }
-        profile_button.setOnClickListener { presenter.switchFragment(2) }
+        choice_button.setOnClickListener { switchFragment(0) }
+        new_choice_button.setOnClickListener { switchFragment(1) }
+        profile_button.setOnClickListener { switchFragment(2) }
     }
 
-    override fun switchFragment(menuNumber: Int) {
+    private fun switchFragment(menuNumber: Int) {
         presenter.switchFragment(menuNumber)
+        when (menuNumber) {
+            0 -> {
+                choice_button.setImageResource(R.drawable.icon_question)
+                new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
+                profile_button.setImageResource(R.drawable.icon_profile_disabled)
+            }
+            1 -> {
+                choice_button.setImageResource(R.drawable.icon_question_disabled)
+                new_choice_button.setImageResource(R.drawable.icon_new_choice)
+                profile_button.setImageResource(R.drawable.icon_profile_disabled)
+
+            }
+            2 -> {
+                choice_button.setImageResource(R.drawable.icon_question_disabled)
+                new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
+                profile_button.setImageResource(R.drawable.icon_profile)
+
+            }
+        }
     }
 }

@@ -5,7 +5,4 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(OneExecutionStateStrategy::class)
-interface BottomMenuView : MvpView {
-
-    fun switchFragment(menuNumber: Int)
-}
+interface BottomMenuView : MvpView

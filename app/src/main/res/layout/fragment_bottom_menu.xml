@@ -19,10 +19,10 @@
             android:text="@string/questions_button" />
 
         <ImageButton
-            android:id="@+id/add_choice_button"
+            android:id="@+id/new_choice_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/icon_new_question"
+            android:src="@drawable/icon_new_choice_disabled"
             android:background="@color/transparent"
             android:scaleType="center"
             android:cropToPadding="true"
@@ -33,7 +33,7 @@
             android:id="@+id/profile_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/icon_profile"
+            android:src="@drawable/icon_profile_disabled"
             android:background="@color/transparent"
             android:scaleType="center"
             android:cropToPadding="true"

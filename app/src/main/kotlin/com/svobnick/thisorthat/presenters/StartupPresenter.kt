@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
+    private val ONE_SECOND: Long = 1000
     private val TAG = this::class.java.name
 
     @Inject
@@ -36,8 +37,10 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
             val authToken = tokenFile.readText()
             app.authToken = authToken
             Log.i(TAG, "Read authToken $authToken from file")
+            Thread.sleep(ONE_SECOND)
         } else {
             signUp(instanceId, tokenFile)
+            Thread.sleep(ONE_SECOND)
         }
     }
 

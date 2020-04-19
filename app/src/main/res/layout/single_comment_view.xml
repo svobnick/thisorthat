@@ -84,9 +84,9 @@
     <View
         android:id="@+id/comment_delimiter"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
-        android:background="@color/report_separator" />
+        android:background="@color/black" />
 
 </LinearLayout>

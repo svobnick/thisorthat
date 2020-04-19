@@ -9,6 +9,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.activities.CommentsActivity
+import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.BottomMenuPresenter
 import com.svobnick.thisorthat.view.BottomMenuView
@@ -43,6 +45,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     }
 
     private fun switchFragment(menuNumber: Int) {
+        goBackToMainScreen()
         presenter.switchFragment(menuNumber)
         when (menuNumber) {
             0 -> {
@@ -62,6 +65,15 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
                 profile_button.setImageResource(R.drawable.icon_profile)
 
             }
+        }
+    }
+
+    private fun goBackToMainScreen() {
+        if (activity is CommentsActivity) {
+            activity!!.onBackPressed()
+        }
+        if (activity is HistoryChoiceActivity) {
+            activity!!.onBackPressed()
         }
     }
 }

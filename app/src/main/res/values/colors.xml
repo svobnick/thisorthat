@@ -14,6 +14,8 @@
 
     <color name="report_separator">#4D201F3E</color>
 
+   <color name="bottom_delimiter">#14132C</color>
+
     <color name="gradient_start">#312F5A</color>
     <color name="gradient_center">#201F3E</color>
     <color name="gradient_end">#110F26</color>

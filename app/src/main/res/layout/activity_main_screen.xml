@@ -11,17 +11,25 @@
         android:id="@+id/main_fragments_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_menu"
+        app:layout_constraintBottom_toTopOf="@id/main_screen_bottom_delimiter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/main_screen_bottom_delimiter"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/bottom_delimiter"
+        app:layout_constraintBottom_toTopOf="@id/bottom_menu" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottom_first_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
+        app:layout_constraintGuide_percent="0.92" />
 
     <fragment
         android:id="@+id/bottom_menu"

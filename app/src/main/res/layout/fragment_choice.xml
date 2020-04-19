@@ -46,6 +46,8 @@
         android:id="@+id/first_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toTopOf="@+id/last_card_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +57,6 @@
             android:id="@+id/first_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
@@ -67,8 +67,8 @@
             android:id="@+id/first_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:background="@color/transparent"
             android:clickable="true"
             android:focusable="true"
@@ -84,9 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="38dp"
             tools:layout="@layout/fragment_choice_stat" />
     </FrameLayout>
 
@@ -94,6 +92,8 @@
         android:id="@+id/last_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,8 +103,6 @@
             android:id="@+id/last_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:src="@drawable/choice_bottom_half"
             tools:ignore="ContentDescription" />
 
@@ -112,8 +110,8 @@
             android:id="@+id/last_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:background="@color/transparent"
             android:clickable="true"
             android:focusable="true"
@@ -131,7 +129,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="38dp"
             tools:layout="@layout/fragment_choice_stat" />
     </FrameLayout>
 
@@ -153,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_percent="0.90" />
 
     <fragment
         android:id="@+id/choice_menu"

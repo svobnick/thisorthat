@@ -15,14 +15,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
+import javax.inject.Inject
 
 @InjectViewState
-class CommentsPresenter(
-    private val app: ThisOrThatApp,
-    private val requestQueue: RequestQueue
-) : MvpPresenter<CommentsView>() {
+class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsView>() {
     private val TAG = this::class.java.name
     internal val LIMIT = 30L
+
+    @Inject
+    lateinit var requestQueue: RequestQueue
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        app.injector.inject(this)
+    }
 
     fun getComments(questionId: Long, offset: Long) {
         requestQueue.add(

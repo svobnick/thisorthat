@@ -18,10 +18,10 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
     lateinit var viewPager: ViewPager2
 
     @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var mainScreenPresenter: MainScreenPresenter
+    lateinit var msPresenter: MainScreenPresenter
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
-    fun provideMainScreenPresenter(): MainScreenPresenter {
+    fun providePresenter(): MainScreenPresenter {
         return MainScreenPresenter(application as ThisOrThatApp)
     }
 
@@ -29,7 +29,7 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
-        mainScreenPresenter.attachView(this)
+        msPresenter.attachView(this)
 
         adapter = MainScreenViewPagerAdapter(this)
         viewPager = main_fragments_view_pager

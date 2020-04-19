@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
-import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -13,32 +12,28 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.StartupPresenter
 import com.svobnick.thisorthat.view.StartupView
-import javax.inject.Inject
 
 class StartupActivity : MvpAppCompatActivity(), StartupView {
 
-    @Inject
-    lateinit var requestQueue: RequestQueue
-
     @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var startupPresenter: StartupPresenter
+    lateinit var sPresenter: StartupPresenter
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideStartupPresenter(): StartupPresenter {
-        return StartupPresenter(application as ThisOrThatApp, requestQueue)
+        return StartupPresenter(application as ThisOrThatApp)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_startup)
-        startupPresenter.attachView(this)
+        sPresenter.attachView(this)
 
         RegistrationAsyncTask(this).execute()
     }
 
     override fun startup() {
-        startupPresenter.checkRegistration()
+        sPresenter.checkRegistration()
     }
 
     override fun onStartupEnd() {

@@ -7,39 +7,47 @@ import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
+import com.svobnick.thisorthat.view.OnItemClickListener
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.my_question_single_view.*
 
-class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>() {
+class MyQuestionsAdapter(private val clickListener: OnItemClickListener) : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>() {
 
-    private val myQuestionsList = ArrayList<Question>()
+    private val mQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.my_question_single_view, parent, false)
-        return QuestionListViewHolder(view)
+        return QuestionListViewHolder(view, clickListener)
     }
 
     override fun getItemCount(): Int {
-        return myQuestionsList.size
+        return mQuestionsList.size
     }
 
     override fun onBindViewHolder(holder: QuestionListViewHolder, position: Int) {
-        holder.bind(myQuestionsList[position])
+        holder.bind(mQuestionsList[position])
     }
 
     override fun getItemId(position: Int): Long {
-        return myQuestionsList[position].id
+        return mQuestionsList[position].id
+    }
+
+    fun getItem(position: Int): Question {
+        return mQuestionsList[position]
     }
 
     fun addQuestions(questions: List<Question>) {
-        myQuestionsList.addAll(questions)
+        mQuestionsList.addAll(questions)
         notifyDataSetChanged()
     }
 
-    class QuestionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        LayoutContainer {
+    class QuestionListViewHolder(itemView: View, private val listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView), LayoutContainer, View.OnClickListener {
         override val containerView: View get() = itemView
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(question: Question) {
             val (firstPercent, lastPercent) = computeQuestionsPercentage(
@@ -60,6 +68,10 @@ class MyQuestionsAdapter : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListV
         private fun setLastStat(percentage: Int, amount: Int) {
             m_last_percent_value.text = percentage.toString()
             m_last_peoples_amount.text = amount.toString()
+        }
+
+        override fun onClick(v: View) {
+            listener.onItemClick(adapterPosition, false)
         }
     }
 }

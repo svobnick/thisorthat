@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,16 @@ import androidx.moxy.MvpAppCompatFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
 import com.svobnick.thisorthat.adapters.MyQuestionsAdapter
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
+import com.svobnick.thisorthat.view.OnItemClickListener
 
-class QuestionsListFragment(private val position: Int, val presenter: ProfilePresenter) : MvpAppCompatFragment() {
+class QuestionsListFragment(private val position: Int, val presenter: ProfilePresenter) :
+    MvpAppCompatFragment(), OnItemClickListener {
     lateinit var mAdapter: MyQuestionsAdapter
     lateinit var fAdapter: FavoriteQuestionsAdapter
 
@@ -29,7 +33,7 @@ class QuestionsListFragment(private val position: Int, val presenter: ProfilePre
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val questionsList: RecyclerView = view.findViewById(R.id.questions_list)
         if (position == 0) {
-            mAdapter = MyQuestionsAdapter()
+            mAdapter = MyQuestionsAdapter(this)
 
             val linearLayoutManager = LinearLayoutManager(context)
             questionsList.layoutManager = linearLayoutManager
@@ -47,7 +51,7 @@ class QuestionsListFragment(private val position: Int, val presenter: ProfilePre
 
             presenter.getMyQuestions(0)
         } else {
-            fAdapter = FavoriteQuestionsAdapter()
+            fAdapter = FavoriteQuestionsAdapter(this)
 
             val linearLayoutManager = LinearLayoutManager(context)
             questionsList.layoutManager = linearLayoutManager
@@ -74,5 +78,17 @@ class QuestionsListFragment(private val position: Int, val presenter: ProfilePre
         } else {
             fAdapter.addQuestions(questions)
         }
+    }
+
+    override fun onItemClick(position: Int, favorite: Boolean) {
+        val item = if (favorite) fAdapter.getItem(position) else mAdapter.getItem(position)
+        val intent = Intent(context, HistoryChoiceActivity::class.java)
+        intent.putExtra("itemId", item.id)
+        intent.putExtra("firstText", item.firstText)
+        intent.putExtra("lastText", item.lastText)
+        intent.putExtra("firstRate", item.firstRate)
+        intent.putExtra("lastRate", item.lastRate)
+        intent.putExtra("favorite", favorite)
+        startActivity(intent)
     }
 }

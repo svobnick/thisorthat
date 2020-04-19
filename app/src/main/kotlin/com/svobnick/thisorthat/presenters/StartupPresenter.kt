@@ -12,23 +12,29 @@ import com.svobnick.thisorthat.service.registrationRequest
 import com.svobnick.thisorthat.view.StartupView
 import org.json.JSONObject
 import java.io.File
+import javax.inject.Inject
 
 
 @InjectViewState
-class StartupPresenter(
-    val application: ThisOrThatApp,
-    val requestQueue: RequestQueue
-) : MvpPresenter<StartupView>() {
+class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
     private val TAG = this::class.java.name
+
+    @Inject
+    lateinit var requestQueue: RequestQueue
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        app.injector.inject(this)
+    }
 
     fun checkRegistration() {
         val instanceId = FirebaseInstanceId.getInstance().id
         Log.i(this::javaClass.name, "Firebase instance id: $instanceId")
 
-        val tokenFile = File(application.filesDir, "authToken")
+        val tokenFile = File(app.filesDir, "authToken")
         if (tokenFile.exists()) {
             val authToken = tokenFile.readText()
-            application.authToken = authToken
+            app.authToken = authToken
             Log.i(TAG, "Read authToken $authToken from file")
         } else {
             signUp(instanceId, tokenFile)
@@ -57,6 +63,6 @@ class StartupPresenter(
         val result = jsonResponse["result"] as JSONObject
         val authToken = result["token"] as String
         tokenFile.writeText(authToken)
-        application.authToken = authToken
+        app.authToken = authToken
     }
 }

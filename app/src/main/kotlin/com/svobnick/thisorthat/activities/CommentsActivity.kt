@@ -28,13 +28,13 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     lateinit var picasso: Picasso
 
     @InjectPresenter
-    lateinit var presenter: CommentsPresenter
+    lateinit var cPresenter: CommentsPresenter
 
     private lateinit var adapter: CommentsAdapter
 
     @ProvidePresenter
-    fun provideCommentsPresenter(): CommentsPresenter {
-        return CommentsPresenter(application as ThisOrThatApp, requestQueue)
+    fun providePresenter(): CommentsPresenter {
+        return CommentsPresenter(application as ThisOrThatApp)
     }
 
     private lateinit var commentsList: RecyclerView
@@ -44,7 +44,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
-        presenter.attachView(this)
+        cPresenter.attachView(this)
 
         adapter = CommentsAdapter(picasso)
 
@@ -59,12 +59,12 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                presenter.getComments(1, page * presenter.LIMIT)
+                cPresenter.getComments(1, page * cPresenter.LIMIT)
             }
         }
         commentsList.addOnScrollListener(scrollListener)
 
-        presenter.getComments(1, 0)
+        cPresenter.getComments(1, 0)
     }
 
     override fun setComments(it: List<Comment>) {
@@ -77,7 +77,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun addComment(sendView: View) {
-        presenter.addComment(new_comment.text.toString())
+        cPresenter.addComment(new_comment.text.toString())
     }
 
     override fun showError(errorMsg: String) {

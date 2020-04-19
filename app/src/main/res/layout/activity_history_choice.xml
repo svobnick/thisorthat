@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".activities.HistoryChoiceActivity">
+
+    <fragment
+        android:id="@+id/history_choice"
+        android:name="com.svobnick.thisorthat.fragments.ChoiceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/main_screen_bottom_delimiter"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_choice" />
+
+    <View
+        android:id="@+id/main_screen_bottom_delimiter"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/bottom_delimiter"
+        app:layout_constraintBottom_toTopOf="@id/bottom_menu" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_first_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+
+    <fragment
+        android:id="@+id/bottom_menu"
+        android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_first_guideline"
+        tools:layout="@layout/fragment_bottom_menu"
+        tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

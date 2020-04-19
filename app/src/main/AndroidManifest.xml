@@ -48,6 +48,11 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".activities.HistoryChoiceActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

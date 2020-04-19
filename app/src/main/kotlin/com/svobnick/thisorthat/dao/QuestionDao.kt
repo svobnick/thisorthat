@@ -7,7 +7,7 @@ import io.reactivex.Single
 @Dao
 interface QuestionDao {
 
-    @Query("SELECT * FROM question WHERE choice IS null")
+    @Query("SELECT * FROM question WHERE choice IS 'n'")
     fun getUnansweredQuestions(): Single<List<Question>>
 
     @Query("SELECT * FROM question WHERE choice IS NOT null")

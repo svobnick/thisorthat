@@ -13,10 +13,10 @@ import javax.inject.Singleton
 @Module
 class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
 
-    lateinit var thisOrThatApp: ThisOrThatApp
+    private lateinit var thisOrThatApp: ThisOrThatApp
 
     private var database =
-        Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "database")
+        Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "thisorthat-db")
             .build()
 
     private val picasso = Picasso.get()

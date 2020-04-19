@@ -11,23 +11,17 @@ data class Question(
     @ColumnInfo(name = "last_text") var lastText: String,
     @ColumnInfo(name = "first_rate") var firstRate: Int,
     @ColumnInfo(name = "last_rate") var lastRate: Int,
-
-    // todo "skipped"
-    /**
-     * for 'first_text' – first
-     * for 'last_text' – 'last'
-     * for reported questions – 'skip'
-     * */
-    @ColumnInfo(name = "choice") var choice: String?
+    @ColumnInfo(name = "choice") var choice: String
 ) {
 
-    companion object {
-        private val EMPTY = Question(-1, "", "", 0, 0, "skip")
-        fun empty() = EMPTY
+    companion object Choices {
+        const val NOT_ANSWERED = "n" // not answered yet
+        const val HISTORY = "h" // history choices from lists
 
-        val SKIPPED = "skip"
-        val FIRST = "first"
-        val LAST = "last"
+        // these three 'answers' depends on API (other don't allowed)
+        const val FIRST = "first"
+        const val LAST = "last"
+        const val SKIP = "skip" // reported questions
     }
 
     override fun toString(): String {

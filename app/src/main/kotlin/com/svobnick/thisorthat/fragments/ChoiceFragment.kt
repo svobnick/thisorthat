@@ -34,6 +34,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private lateinit var reportChoiceWindow: PopupWindow
     private lateinit var reportResultWindow: PopupWindow
 
+    private lateinit var currentQuestion: Question
+
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
 
@@ -53,7 +55,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
         this.state = STATE.QUESTION
 
-        var view = inflater.inflate(R.layout.fragment_choice, container, false)
+        val view = inflater.inflate(R.layout.fragment_choice, container, false)
         view.first_text.setOnClickListener(this::onChoiceClick)
         view.last_text.setOnClickListener(this::onChoiceClick)
         view.report_button.setOnClickListener(this::reportQuestion)
@@ -76,16 +78,18 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             choicePresenter.setNextQuestion()
         } else {
             val clickedText = activity!!.findViewById<TextView>(choice.id)
-            val userChoice = choicePresenter.saveChoice(clickedText.text.toString())
-            setResultToView(choicePresenter.currentQuestion, userChoice)
+            currentQuestion.choice = if (clickedText.text.toString() == currentQuestion.firstText) currentQuestion.firstText else currentQuestion.lastText
+            val userChoice = choicePresenter.saveChoice(currentQuestion)
+            setResultToView(currentQuestion, userChoice)
         }
 
         state = changeState()
     }
 
     override fun setNewQuestion(question: Question) {
-        first_text.text = question.firstText
-        last_text.text = question.lastText
+        currentQuestion = question
+        first_text.text = currentQuestion.firstText
+        last_text.text = currentQuestion.lastText
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
         hideResults()
     }
@@ -114,7 +118,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             R.id.typo -> "typo"
             else -> throw IllegalArgumentException("type ${selected.id} is not allowed here")
         }
-        choicePresenter.reportQuestion(reportReason)
+        choicePresenter.reportQuestion(currentQuestion, reportReason)
         reportResult()
         choicePresenter.setNextQuestion()
     }
@@ -157,12 +161,12 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     private fun addFavoriteQuestion() {
-        choicePresenter.addFavoriteQuestion()
+        choicePresenter.addFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite)
     }
 
     private fun deleteFavoriteQuestion() {
-        choicePresenter.deleteFavoriteQuestion()
+        choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
     }
 
@@ -170,7 +174,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "thisorthat.ru")
-        shareIntent.putExtra(Intent.EXTRA_TEXT, choicePresenter.currentQuestion.toString())
+        shareIntent.putExtra(Intent.EXTRA_TEXT, currentQuestion.toString())
         startActivity(Intent.createChooser(shareIntent, "Поделиться вопросом!"))
     }
 

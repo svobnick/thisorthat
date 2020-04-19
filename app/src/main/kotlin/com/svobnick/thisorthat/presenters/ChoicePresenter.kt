@@ -39,14 +39,13 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     @Inject
     lateinit var requestQueue: RequestQueue
 
-    var currentQuestion: Question = Question.empty()
-    var currentQuestionQueue: Queue<Question> = LinkedList()
+    private var questionsQueue: Queue<Question> = LinkedList()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         app.injector.inject(this)
         getUnansweredQuestions()
-        if (!currentQuestionQueue.isEmpty()) {
+        if (!questionsQueue.isEmpty()) {
             setNextQuestion()
         } else {
             getNewQuestions()
@@ -70,7 +69,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                                 json["last_text"] as String,
                                 json["first_vote"] as Int,
                                 json["last_vote"] as Int,
-                                null
+                                Question.NOT_ANSWERED
                             )
                         )
                     }
@@ -93,16 +92,8 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     }
 
     @SuppressLint("CheckResult")
-    fun saveChoice(choice: String): String {
-        val resultChoice = when (choice) {
-            Question.SKIPPED -> Question.SKIPPED
-            currentQuestion.firstText -> Question.FIRST
-            currentQuestion.lastText -> Question.LAST
-            else -> throw IllegalArgumentException("Strange choice $choice")
-        }
-        currentQuestion.choice = resultChoice
-
-        Single.fromCallable { questionDao.saveUserChoice(currentQuestion) }
+    fun saveChoice(choice: Question): String {
+        Single.fromCallable { questionDao.saveUserChoice(choice) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -111,7 +102,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                 viewState.showError(it.localizedMessage)
             })
 
-        Single.fromCallable { answerDao.saveAnswer(Answer(currentQuestion.id, resultChoice)) }
+        Single.fromCallable { answerDao.saveAnswer(Answer(choice.id, choice.choice)) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -163,17 +154,17 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                 viewState.showError(it.localizedMessage)
             })
 
-        return resultChoice
+        return choice.choice
     }
 
-    fun reportQuestion(reportReason: String) {
-        val claim = Claim(currentQuestion.id, reportReason)
+    fun reportQuestion(question: Question, reportReason: String) {
+        val claim = Claim(question.id, reportReason)
         Single.fromCallable { claimDao.saveClaim(claim) }
             .subscribeOn(Schedulers.newThread())
         requestQueue.add(
             sendReportRequest(
                 app.authToken,
-                currentQuestion.id,
+                question.id.toString(),
                 reportReason,
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
@@ -184,15 +175,16 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     viewState.showError(errorMsg)
                 })
         )
-        saveChoice(Question.SKIPPED)
+        question.choice = Question.SKIP
+        saveChoice(question)
         setNextQuestion()
     }
 
-    fun addFavoriteQuestion() {
+    fun addFavoriteQuestion(id: String) {
         requestQueue.add(
             addFavoriteRequest(
                 app.authToken,
-                currentQuestion.id.toString(),
+                id,
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
                 },
@@ -204,11 +196,11 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
         )
     }
 
-    fun deleteFavoriteQuestion() {
+    fun deleteFavoriteQuestion(id: String) {
         requestQueue.add(
             deleteFavoriteRequest(
                 app.authToken,
-                currentQuestion.id.toString(),
+                id,
                 Response.Listener { response ->
                     Log.i(TAG, response.toString())
                 },
@@ -220,10 +212,9 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     }
 
     fun setNextQuestion() {
-        val question = currentQuestionQueue.poll()
+        val question = questionsQueue.poll()
         if (question != null) {
             viewState.setNewQuestion(question)
-            currentQuestion = question
         } else {
             getNewQuestions()
         }
@@ -235,7 +226,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             .subscribeOn(Schedulers.newThread())
             .observeOn(Schedulers.newThread())
             .subscribe({
-                currentQuestionQueue.addAll(it)
+                questionsQueue.addAll(it)
                 Log.i(TAG, "Receive ${it.size} unanswered questions")
             }, {
                 viewState.showError(it.localizedMessage)

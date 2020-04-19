@@ -127,7 +127,7 @@ fun sendAnswersRequest(
  */
 fun sendReportRequest(
     authToken: String,
-    itemId: Long,
+    itemId: String,
     reason: String,
     responseListener: Response.Listener<String>,
     errorListener: Response.ErrorListener
@@ -141,7 +141,7 @@ fun sendReportRequest(
         override fun getParams(): MutableMap<String, String> {
             return mutableMapOf(
                 Pair("token", authToken),
-                Pair("item_id", itemId.toString()),
+                Pair("item_id", itemId),
                 Pair("reason", reason)
             )
         }

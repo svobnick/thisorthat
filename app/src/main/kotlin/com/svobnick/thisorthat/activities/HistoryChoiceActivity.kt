@@ -43,7 +43,7 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
             extras.get("lastText") as String,
             extras.get("firstRate") as Int,
             extras.get("lastRate") as Int,
-            null
+            Question.HISTORY
         )
         (history_choice as ChoiceFragment).setResultToView(question, question.firstText)
         report_button.setOnClickListener(null)

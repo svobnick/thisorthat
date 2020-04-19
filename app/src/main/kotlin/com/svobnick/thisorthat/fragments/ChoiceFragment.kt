@@ -78,9 +78,9 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             choicePresenter.setNextQuestion()
         } else {
             val clickedText = activity!!.findViewById<TextView>(choice.id)
-            currentQuestion.choice = if (clickedText.text.toString() == currentQuestion.firstText) currentQuestion.firstText else currentQuestion.lastText
-            val userChoice = choicePresenter.saveChoice(currentQuestion)
-            setResultToView(currentQuestion, userChoice)
+            currentQuestion.choice = if (clickedText.text.toString() == currentQuestion.firstText) Question.FIRST else Question.LAST
+            choicePresenter.saveChoice(currentQuestion)
+            setResultToView(currentQuestion)
         }
 
         state = changeState()
@@ -91,23 +91,36 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         first_text.text = currentQuestion.firstText
         last_text.text = currentQuestion.lastText
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+        first_card_group.alpha = 1f
+        first_text.alpha = 1f
+        last_card_group.alpha = 1f
+        last_text.alpha = 1f
         hideResults()
     }
 
-    override fun setResultToView(question: Question, userChoice: String) {
+    override fun setResultToView(question: Question) {
+        currentQuestion = question
         val firstRate = question.firstRate
         val lastRate = question.lastRate
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
         (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
             firstPercent,
             firstRate,
-            userChoice == Question.FIRST
+            question.choice == Question.FIRST
         )
         (childFragmentManager.findFragmentById(R.id.last_stat)!! as ChoiceStatFragment).setStat(
             lastPercent,
             lastRate,
-            userChoice == Question.LAST
+            question.choice == Question.LAST
         )
+        if (question.choice == Question.FIRST) {
+            last_card_group.alpha = 0.75f
+            last_text.alpha = 0.75f
+        } else {
+            first_card_group.alpha = 0.75f
+            first_text.alpha = 0.75f
+        }
+
         showResults()
     }
 
@@ -146,9 +159,16 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         wm.updateViewLayout(container, p)
     }
 
-
-    override fun getComments() {
+    override fun openComments() {
         val intent = Intent(context, CommentsActivity::class.java)
+        intent.putExtra("id", currentQuestion.id)
+        intent.putExtra("firstText", currentQuestion.firstText)
+        intent.putExtra("lastText", currentQuestion.lastText)
+        intent.putExtra("firstRate", currentQuestion.firstRate.toString())
+        intent.putExtra("lastRate", currentQuestion.lastRate.toString())
+        val (firstPercent, lastPercent) = computeQuestionsPercentage(currentQuestion.firstRate, currentQuestion.lastRate)
+        intent.putExtra("firstPercent", firstPercent.toString())
+        intent.putExtra("lastPercent", lastPercent.toString())
         startActivity(intent)
     }
 

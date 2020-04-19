@@ -8,10 +8,10 @@ android:viewportHeight="28">
 <path
     android:pathData="M1.5 26.1875V23.25C1.5 19.9363 4.18629 17.25 7.5 17.25H17.5C20.8137 17.25 23.5 19.9363 23.5 23.25V26.1875"
     android:strokeWidth="3"
-    android:strokeColor="#ffffff"
+    android:strokeColor="#383668"
     android:strokeLineCap="round" />
 <path
     android:pathData="M 12.5 2.25 C 15.215401861 2.25 17.41667 4.45126813905 17.41667 7.16667 C 17.41667 9.88207186095 15.215401861 12.08334 12.5 12.08334 C 9.78459813905 12.08334 7.58333 9.88207186095 7.58333 7.16667 C 7.58333 4.45126813905 9.78459813905 2.25 12.5 2.25 Z"
     android:strokeWidth="3"
-    android:strokeColor="#ffffff" />
+    android:strokeColor="#383668" />
 </vector>

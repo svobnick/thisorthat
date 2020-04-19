@@ -1,15 +1,16 @@
 package com.svobnick.thisorthat.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.activities.CommentsActivity
+import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.activities.MainScreenActivity
 import com.svobnick.thisorthat.view.ChoiceMenuView
+import kotlinx.android.synthetic.main.activity_history_choice.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
 class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
@@ -31,8 +32,7 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
     }
 
     override fun commentsHandler() {
-        val intent = Intent(context, CommentsActivity::class.java)
-        startActivity(intent)
+        choiceFragment().openComments()
     }
 
     override fun switchFavoriteHandler() {
@@ -43,12 +43,16 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
         choiceFragment().shareQuestion()
     }
 
-    private fun parentActivity(): MainScreenActivity {
-        return activity as MainScreenActivity
+    private fun parentActivity(): FragmentActivity {
+        return activity!!
     }
 
     private fun choiceFragment(): ChoiceFragment {
-        return parentActivity().supportFragmentManager.findFragmentByTag("f" + parentActivity().viewPager.currentItem) as ChoiceFragment
+        if (parentActivity() is MainScreenActivity) {
+            return parentActivity().supportFragmentManager.findFragmentByTag("f" + (parentActivity() as MainScreenActivity).viewPager.currentItem) as ChoiceFragment
+        } else {
+            return parentActivity().supportFragmentManager.findFragmentById((parentActivity() as HistoryChoiceActivity).history_choice.id) as ChoiceFragment
+        }
     }
 
 }

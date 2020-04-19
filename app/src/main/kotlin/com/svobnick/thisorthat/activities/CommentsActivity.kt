@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.RequestQueue
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.squareup.picasso.Picasso
@@ -18,12 +17,11 @@ import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.presenters.CommentsPresenter
 import com.svobnick.thisorthat.view.CommentsView
 import kotlinx.android.synthetic.main.activity_comments.*
+import kotlinx.android.synthetic.main.comment_question_single_view.*
 import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
-    @Inject
-    lateinit var requestQueue: RequestQueue
     @Inject
     lateinit var picasso: Picasso
 
@@ -64,7 +62,19 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         }
         commentsList.addOnScrollListener(scrollListener)
 
+        fillQuestionFragment()
+
+        // todo intent.extras!!.get("id") instead of 1
         cPresenter.getComments(1, 0)
+    }
+
+    private fun fillQuestionFragment() {
+        c_first_text.text = intent.extras!!.get("firstText") as String
+        c_last_text.text = intent.extras!!.get("lastText") as String
+        c_first_peoples_amount.text = intent.extras!!.get("firstRate") as String
+        c_last_peoples_amount.text = intent.extras!!.get("lastRate") as String
+        c_first_percent_value.text = intent.extras!!.get("firstPercent") as String
+        c_last_percent_value.text = intent.extras!!.get("lastPercent") as String
     }
 
     override fun setComments(it: List<Comment>) {

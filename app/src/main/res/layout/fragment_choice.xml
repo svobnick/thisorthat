@@ -26,9 +26,9 @@
         android:id="@+id/report_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:background="@color/transparent"
         android:src="@drawable/icon_report"
-        android:layout_marginEnd="40dp"
         app:layout_constraintBottom_toTopOf="@id/report_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_guideline"
@@ -41,26 +41,17 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/first_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/choice_top_half"
         app:layout_constraintBottom_toTopOf="@+id/last_card_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/report_guideline">
-
-        <ImageView
-            android:id="@+id/first_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:src="@drawable/choice_top_half"
-            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/first_text"
@@ -72,6 +63,7 @@
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/sf_ui_display_light"
+            android:textColor="@color/white"
             android:gravity="center"
             android:text="@string/choice_placeholder"
             android:textAlignment="center"
@@ -82,28 +74,30 @@
             android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             tools:layout="@layout/fragment_choice_stat" />
-    </FrameLayout>
 
-    <FrameLayout
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@drawable/choice_top_shadow"-->
+<!--            />-->
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/last_card_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/choice_bottom_half"
         app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/first_card_group">
-
-        <ImageView
-            android:id="@+id/last_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/choice_bottom_half"
-            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/last_text"
@@ -115,6 +109,7 @@
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/sf_ui_display_light"
+            android:textColor="@color/white"
             android:gravity="center"
             android:text="@string/choice_placeholder"
             android:textAlignment="center"
@@ -125,10 +120,12 @@
             android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
             tools:layout="@layout/fragment_choice_stat" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/or_button"

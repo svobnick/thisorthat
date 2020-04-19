@@ -92,7 +92,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     }
 
     @SuppressLint("CheckResult")
-    fun saveChoice(choice: Question): String {
+    fun saveChoice(choice: Question) {
         Single.fromCallable { questionDao.saveUserChoice(choice) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -153,8 +153,6 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             }, {
                 viewState.showError(it.localizedMessage)
             })
-
-        return choice.choice
     }
 
     fun reportQuestion(question: Question, reportReason: String) {

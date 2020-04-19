@@ -35,9 +35,9 @@ class ChoiceStatFragment : MvpAppCompatFragment(), ChoiceStatView {
         }
 
         if (!userChoice) {
-            percent_value.alpha = 0.25f
-            percent_symbol.alpha = 0.25f
-            peoples_amount.alpha = 0.25f
+            percent_value.alpha = 0.75f
+            percent_symbol.alpha = 0.75f
+            peoples_amount.alpha = 0.75f
         } else {
             percent_value.alpha = 1f
             percent_symbol.alpha = 1f

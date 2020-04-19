@@ -11,6 +11,7 @@
         android:layout_marginTop="-9dp"
         android:layout_marginBottom="-9dp"
         android:fontFamily="@font/sf_ui_display_bold"
+        android:textColor="@color/white"
         android:text="@string/percentage_placeholder"
         android:textSize="58sp" />
 
@@ -21,6 +22,7 @@
         android:layout_toEndOf="@id/percent_value"
         android:includeFontPadding="false"
         android:fontFamily="@font/sf_ui_display_medium"
+        android:textColor="@color/white"
         android:text="@string/percentage_symbol"
         android:textSize="24sp" />
 
@@ -30,6 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/percent_value"
         android:fontFamily="@font/sf_ui_display_light"
+        android:layout_marginStart="1dp"
+        android:textColor="@color/white"
         android:text="@string/amount_placeholder"
         android:textSize="18sp" />
 

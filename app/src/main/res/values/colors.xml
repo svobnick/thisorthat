@@ -2,13 +2,13 @@
 <resources>
     <color name="icon_launcher_background">#FFFFFF</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_80_opacity">#33000000</color>
 
     <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
     <color name="first">#FF6642</color>
-    <color name="first_dark">#C53B23</color>
     <color name="last">#B454B7</color>
-    <color name="last_dark">#4F3876</color>
 
     <color name="report_background">#5A5885</color>
 

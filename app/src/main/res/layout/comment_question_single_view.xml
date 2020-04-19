@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:orientation="vertical">
+    android:paddingBottom="10dp">
 
     <RelativeLayout
         android:id="@+id/c_first_view"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/choice_top_half"
+        android:background="@drawable/choice_top_half_list"
         android:orientation="horizontal">
 
         <TextView
@@ -22,30 +22,37 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@id/c_first_stat"
             android:background="@color/transparent"
             android:ellipsize="end"
             android:fontFamily="@font/sf_ui_display_light"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:maxLines="2"
+            android:paddingTop="2dp"
             android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="18sp"
-            android:layout_toStartOf="@id/c_first_stat"/>
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <RelativeLayout
             android:id="@+id/c_first_stat"
-            android:layout_width="wrap_content"
+            android:layout_width="52dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:background="@color/transparent"
-            android:layout_alignParentEnd="true">
+            android:layout_marginEnd="4dp"
+            android:background="@color/transparent">
 
             <TextView
                 android:id="@+id/c_first_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="-3dp"
+                android:layout_marginBottom="-3dp"
                 android:fontFamily="@font/sf_ui_display_bold"
                 android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
@@ -68,7 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/c_first_percent_value"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/sf_ui_display_light"
+                android:paddingStart="1dp"
                 android:text="@string/amount_placeholder"
                 android:textColor="@color/amount_stat"
                 android:textSize="10sp" />
@@ -83,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/choice_bottom_half">
+        android:background="@drawable/choice_bottom_half_list">
 
         <TextView
             android:id="@+id/c_last_text"
@@ -92,29 +101,36 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@id/c_last_stat"
             android:ellipsize="end"
             android:fontFamily="@font/sf_ui_display_light"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:maxLines="2"
+            android:paddingTop="2dp"
             android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="18sp"
-            android:layout_toStartOf="@id/c_last_stat"/>
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <RelativeLayout
             android:id="@+id/c_last_stat"
-            android:layout_width="wrap_content"
+            android:layout_width="52dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:background="@color/transparent"
-            android:layout_alignParentEnd="true">
+            android:layout_marginEnd="4dp"
+            android:background="@color/transparent">
 
             <TextView
                 android:id="@+id/c_last_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="-3dp"
+                android:layout_marginBottom="-3dp"
                 android:fontFamily="@font/sf_ui_display_bold"
                 android:includeFontPadding="false"
                 android:text="@string/percentage_placeholder"
@@ -137,7 +153,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/c_last_percent_value"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/sf_ui_display_light"
+                android:paddingStart="1dp"
                 android:text="@string/amount_placeholder"
                 android:textColor="@color/amount_stat"
                 android:textSize="10sp" />

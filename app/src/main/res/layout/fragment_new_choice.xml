@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,73 +31,44 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10" />
 
-    <ImageView
-        android:id="@+id/new_first_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_weight=".5"
-        android:src="@drawable/choice_top_half"
-        app:layout_constraintBottom_toTopOf="@+id/new_last_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline"
-        tools:ignore="ContentDescription" />
-
     <EditText
-        android:id="@+id/new_this_text"
+        android:id="@+id/new_first_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
-        android:background="@color/transparent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="@drawable/choice_top_half"
         android:fontFamily="@font/sf_ui_display_light"
         android:gravity="center"
         android:hint="@string/first_text"
         android:maxLength="150"
-        app:layout_constraintBottom_toBottomOf="@id/new_first_card"
-        app:layout_constraintEnd_toEndOf="@id/new_first_card"
-        app:layout_constraintStart_toStartOf="@id/new_first_card"
-        app:layout_constraintTop_toTopOf="@id/new_first_card" />
-
-    <ImageView
-        android:id="@+id/new_last_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
-        android:layout_weight=".5"
-        android:src="@drawable/choice_bottom_half"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/send_question"
+        app:layout_constraintBottom_toTopOf="@+id/new_last_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_first_card"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <EditText
-        android:id="@+id/new_that_text"
+        android:id="@+id/new_last_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@color/transparent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="@drawable/choice_bottom_half"
         android:fontFamily="@font/sf_ui_display_light"
         android:gravity="center"
         android:hint="@string/last_text"
         android:maxLength="150"
-        app:layout_constraintBottom_toBottomOf="@id/new_last_card"
-        app:layout_constraintEnd_toEndOf="@id/new_last_card"
-        app:layout_constraintStart_toStartOf="@id/new_last_card"
-        app:layout_constraintTop_toTopOf="@id/new_last_card" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/send_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_first_text" />
 
     <Button
         android:id="@+id/or_button"
@@ -108,21 +78,21 @@
         android:fontFamily="@font/sf_compact_display_font_family"
         android:text="@string/or_button"
         android:textColor="@color/gradient_center"
-        app:layout_constraintBottom_toTopOf="@+id/send_question"
+        app:layout_constraintBottom_toTopOf="@+id/send_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <Button
-        android:id="@+id/send_question"
+        android:id="@+id/send_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/button_send"
         android:clickable="true"
         android:focusable="true"
-        android:paddingBottom="10dp"
         android:text="@string/add_question_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

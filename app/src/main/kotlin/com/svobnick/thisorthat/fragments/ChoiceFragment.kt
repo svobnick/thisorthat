@@ -100,6 +100,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     override fun setResultToView(question: Question) {
         currentQuestion = question
+        first_text.text = question.firstText
+        last_text.text = question.lastText
         val firstRate = question.firstRate
         val lastRate = question.lastRate
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)

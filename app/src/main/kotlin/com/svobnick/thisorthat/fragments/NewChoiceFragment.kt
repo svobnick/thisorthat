@@ -32,12 +32,12 @@ class NewChoiceFragment() : MvpAppCompatFragment(), NewChoiceView {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_new_choice, container, false)
-        view.send_question.setOnClickListener(this::onSendQuestionButtonClick)
+        view.send_button.setOnClickListener(this::onSendQuestionButtonClick)
         return view
     }
 
     override fun onSendQuestionButtonClick(selected: View) {
-        newQuestionPresenter.send(new_this_text.text.toString(), new_that_text.text.toString())
+        newQuestionPresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
     }
 
     override fun showSuccess() {

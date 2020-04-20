@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/sf_ui_display_bold"
+                android:fontFamily="@font/ubuntu_regular"
                 android:text="@string/name_placeholder"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/sf_ui_display_light"
+                android:fontFamily="@font/ubuntu_light"
                 android:text="@string/comment_placeholder"
                 android:textColor="@color/white"
                 android:textSize="17sp" />

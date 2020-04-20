@@ -1,8 +1,9 @@
 package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import android.widget.Toast
+import android.widget.PopupWindow
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +16,16 @@ import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.presenters.CommentsPresenter
+import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
+import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
 import com.svobnick.thisorthat.view.CommentsView
 import kotlinx.android.synthetic.main.activity_comments.*
 import kotlinx.android.synthetic.main.comment_question_single_view.*
+import kotlinx.android.synthetic.main.error_popup_view.view.*
 import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
+
 
     @Inject
     lateinit var picasso: Picasso
@@ -28,6 +33,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     @InjectPresenter
     lateinit var cPresenter: CommentsPresenter
 
+    private lateinit var errorWindow: PopupWindow
     private lateinit var adapter: CommentsAdapter
 
     @ProvidePresenter
@@ -45,6 +51,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         cPresenter.attachView(this)
 
         adapter = CommentsAdapter(picasso)
+        errorWindow = setupErrorPopup(applicationContext)
 
         commentsList = comments_list
         commentsList.setHasFixedSize(true)
@@ -93,6 +100,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun showError(errorMsg: String) {
-        Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+        errorWindow.contentView.error_text.text = errorMsg
+        errorWindow.showAtLocation(comments_root, Gravity.CENTER, 0, 0)
+        dimBackground(this, errorWindow.contentView.rootView)
     }
 }

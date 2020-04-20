@@ -75,7 +75,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:background="@drawable/button_round"
-        android:fontFamily="@font/ubuntu_regular"
+        android:fontFamily="@font/ubuntu_bold"
         android:text="@string/or_button"
         android:textColor="@color/gradient_center"
         app:layout_constraintBottom_toTopOf="@+id/send_button"

@@ -1,11 +1,13 @@
 package com.svobnick.thisorthat.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +20,7 @@ import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
+import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.ChoiceView
 import kotlinx.android.synthetic.main.fragment_choice.*
@@ -145,25 +148,17 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun reportResult() {
         reportChoiceWindow.dismiss()
-        reportResultWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
-        dimBackground(reportResultWindow.contentView.rootView)
+        reportResultWindow.showAtLocation(activity!!.findViewById(R.id.main_screen_root), Gravity.CENTER, 0, 0)
+        dimBackground(activity!!, reportResultWindow.contentView.rootView)
     }
 
     override fun reportQuestion(selected: View) {
-        reportChoiceWindow.showAtLocation(or_button, Gravity.CENTER, 0, 0)
-        dimBackground(reportChoiceWindow.contentView.rootView)
+        reportChoiceWindow.showAtLocation(activity!!.findViewById(R.id.main_screen_root), Gravity.CENTER, 0, 0)
+        dimBackground(activity!!, reportChoiceWindow.contentView.rootView)
     }
 
     private fun hideReportResult() {
         reportResultWindow.dismiss()
-    }
-
-    private fun dimBackground(container: View) {
-        val wm = activity!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val p = container.layoutParams as WindowManager.LayoutParams
-        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-        p.dimAmount = 0.7f
-        wm.updateViewLayout(container, p)
     }
 
     override fun openComments() {

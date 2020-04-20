@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/report_background">
+    android:background="@drawable/popup_background">
 
     <ImageButton
         android:id="@+id/report_icon"

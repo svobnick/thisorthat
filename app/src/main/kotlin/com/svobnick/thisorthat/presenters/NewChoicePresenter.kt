@@ -47,7 +47,7 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
 
     private fun isValidChoice(firstText: String, lastText: String): Boolean {
         if ((firstText.length < 4) or (lastText.length < 4)) {
-            viewState.showError("Оба вопроса должны быть длиной от 4 до 150 символов")
+            viewState.showError("Оба варианта должны быть длиной от 4 до 150 символов")
             return false
         }
         return true

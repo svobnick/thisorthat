@@ -3,6 +3,7 @@
     <color name="icon_launcher_background">#FFFFFF</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="black_25">#40000000</color>
 
     <color name="transparent">#00000000</color>
     <color name="text">#AAAAAA</color>
@@ -10,6 +11,7 @@
     <color name="last">#B454B7</color>
 
     <color name="report_background">#5A5885</color>
+    <color name="comments_background">#141329</color>
 
     <color name="report_separator">#4D201F3E</color>
     <color name="comment_separator">#383668</color>

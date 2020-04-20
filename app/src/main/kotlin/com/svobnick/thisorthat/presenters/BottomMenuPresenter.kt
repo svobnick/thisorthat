@@ -3,7 +3,7 @@ package com.svobnick.thisorthat.presenters
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
-import com.svobnick.thisorthat.service.MenuInteractor
+import com.svobnick.thisorthat.service.BottomMenuState
 import com.svobnick.thisorthat.view.BottomMenuView
 import javax.inject.Inject
 
@@ -11,14 +11,15 @@ import javax.inject.Inject
 class BottomMenuPresenter(private val application: ThisOrThatApp) : MvpPresenter<BottomMenuView>() {
 
     @Inject
-    lateinit var menuInteractor: MenuInteractor
+    lateinit var menuState: BottomMenuState
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         application.injector.inject(this)
+        viewState.updateUI(menuState.currentMenuItem)
     }
 
     fun switchFragment(fragmentNumber: Int) {
-        menuInteractor.switchFragment(fragmentNumber)
+        menuState.switchFragment(fragmentNumber)
     }
 }

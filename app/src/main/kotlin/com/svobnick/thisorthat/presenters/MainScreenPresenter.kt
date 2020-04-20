@@ -3,7 +3,7 @@ package com.svobnick.thisorthat.presenters
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
-import com.svobnick.thisorthat.service.MenuInteractor
+import com.svobnick.thisorthat.service.BottomMenuState
 import com.svobnick.thisorthat.view.MainScreenView
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class MainScreenPresenter(private val application: ThisOrThatApp) : MvpPresenter<MainScreenView>() {
 
     @Inject
-    lateinit var menuInteractor: MenuInteractor
+    lateinit var menuInteractor: BottomMenuState
 
     private lateinit var disposable: Disposable
 

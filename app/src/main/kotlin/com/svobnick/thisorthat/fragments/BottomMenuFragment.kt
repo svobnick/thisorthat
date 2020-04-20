@@ -47,23 +47,30 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     private fun switchFragment(menuNumber: Int) {
         goBackToMainScreen()
         presenter.switchFragment(menuNumber)
+        updateUI(menuNumber)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateUI(presenter.menuState.currentMenuItem)
+    }
+
+    override fun updateUI(menuNumber: Int) {
         when (menuNumber) {
             0 -> {
-                choice_button.setImageResource(R.drawable.icon_question)
+                choice_button.setImageResource(R.drawable.icon_choice)
                 new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
                 profile_button.setImageResource(R.drawable.icon_profile_disabled)
             }
             1 -> {
-                choice_button.setImageResource(R.drawable.icon_question_disabled)
+                choice_button.setImageResource(R.drawable.icon_choice_disabled)
                 new_choice_button.setImageResource(R.drawable.icon_new_choice)
                 profile_button.setImageResource(R.drawable.icon_profile_disabled)
-
             }
             2 -> {
-                choice_button.setImageResource(R.drawable.icon_question_disabled)
+                choice_button.setImageResource(R.drawable.icon_choice_disabled)
                 new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
                 profile_button.setImageResource(R.drawable.icon_profile)
-
             }
         }
     }

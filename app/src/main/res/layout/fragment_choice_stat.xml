@@ -7,12 +7,12 @@
         android:id="@+id/percent_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
         android:layout_marginTop="-9dp"
         android:layout_marginBottom="-9dp"
         android:fontFamily="@font/ubuntu_bold"
-        android:textColor="@color/white"
+        android:includeFontPadding="false"
         android:text="@string/percentage_placeholder"
+        android:textColor="@color/white"
         android:textSize="58sp" />
 
     <TextView
@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/percent_value"
-        android:includeFontPadding="false"
         android:fontFamily="@font/ubuntu_medium"
-        android:textColor="@color/white"
+        android:includeFontPadding="false"
         android:text="@string/percentage_symbol"
+        android:textColor="@color/white"
         android:textSize="24sp" />
 
     <TextView
@@ -31,10 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/percent_value"
-        android:fontFamily="@font/ubuntu_light"
         android:layout_marginStart="1dp"
-        android:textColor="@color/white"
+        android:fontFamily="@font/ubuntu_light"
         android:text="@string/amount_placeholder"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
 </RelativeLayout>

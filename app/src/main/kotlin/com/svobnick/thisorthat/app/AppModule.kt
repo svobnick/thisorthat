@@ -5,7 +5,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.service.ApplicationDatabase
-import com.svobnick.thisorthat.service.MenuInteractor
+import com.svobnick.thisorthat.service.BottomMenuState
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,7 +23,7 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
 
     private var requestQueue = Volley.newRequestQueue(thisOrThatApp.applicationContext)
 
-    private val menuInteractor = MenuInteractor()
+    private val menuInteractor = BottomMenuState()
 
 
     @Provides
@@ -56,5 +56,5 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
 
     @Provides
     @Singleton
-    fun getMenuInteractor(): MenuInteractor = menuInteractor
+    fun getMenuInteractor(): BottomMenuState = menuInteractor
 }

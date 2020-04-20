@@ -23,9 +23,9 @@
         android:layout_below="@id/report_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
         android:fontFamily="@font/ubuntu_bold"
         android:text="@string/report_result_header"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <TextView
@@ -36,10 +36,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/ubuntu_light"
-        android:textColor="@color/white"
+        android:maxWidth="360dp"
         android:text="@string/report_result_description"
         android:textAlignment="center"
-        android:maxWidth="360dp"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -60,7 +60,6 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:fontFamily="@font/ubuntu_regular"
-            android:textColor="@color/white"
             android:paddingStart="5dp"
             android:paddingTop="8dp"
             android:paddingEnd="5dp"
@@ -68,6 +67,7 @@
             android:text="@string/report_result_ok"
             android:textAlignment="center"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="17sp" />
     </LinearLayout>
 </RelativeLayout>

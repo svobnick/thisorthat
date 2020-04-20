@@ -7,36 +7,36 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/choice_button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/icon_question"
-            android:background="@color/transparent"
-            android:scaleType="center"
-            android:cropToPadding="true"
-            android:layout_weight="1"
-            android:text="@string/questions_button" />
+    <ImageButton
+        android:id="@+id/choice_button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:cropToPadding="true"
+        android:scaleType="center"
+        android:src="@drawable/icon_choice_disabled"
+        android:text="@string/questions_button" />
 
-        <ImageButton
-            android:id="@+id/new_choice_button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/icon_new_choice_disabled"
-            android:background="@color/transparent"
-            android:scaleType="center"
-            android:cropToPadding="true"
-            android:layout_weight="1"
-            android:text="@string/add_question_button" />
+    <ImageButton
+        android:id="@+id/new_choice_button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:cropToPadding="true"
+        android:scaleType="center"
+        android:src="@drawable/icon_new_choice_disabled"
+        android:text="@string/add_question_button" />
 
-        <ImageButton
-            android:id="@+id/profile_button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/icon_profile_disabled"
-            android:background="@color/transparent"
-            android:scaleType="center"
-            android:cropToPadding="true"
-            android:layout_weight="1"
-            android:text="@string/settings_button" />
+    <ImageButton
+        android:id="@+id/profile_button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:cropToPadding="true"
+        android:scaleType="center"
+        android:src="@drawable/icon_profile_disabled"
+        android:text="@string/settings_button" />
 </LinearLayout>

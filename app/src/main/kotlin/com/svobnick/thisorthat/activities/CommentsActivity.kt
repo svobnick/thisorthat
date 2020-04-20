@@ -55,8 +55,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         commentsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 cPresenter.getComments(1, page * cPresenter.LIMIT)
             }
         }
@@ -84,6 +82,10 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     // todo add swipe-to-refresh to update the list
     override fun updateComments() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onCommentAdded() {
+        new_comment.text.clear()
     }
 
     override fun addComment(sendView: View) {

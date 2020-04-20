@@ -74,22 +74,33 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
     }
 
     fun addComment(text: String) {
-        requestQueue.add(
-            addCommentRequest(
-                app.authToken,
-                4.toString(),
-                text,
-                0.toString(),
-                Response.Listener { response ->
-                    print(response)
-                },
-                Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
-                }
-            )
+        if (isValidComment(text)) {
+            requestQueue.add(
+                addCommentRequest(
+                    app.authToken,
+                    1.toString(),
+                    text,
+                    0.toString(), // 0 means that there are no parent
+                    Response.Listener { response ->
+                        print(response)
+                        viewState.onCommentAdded()
+                    },
+                    Response.ErrorListener {
+                        val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                        Log.e(TAG, errorMsg)
+                        viewState.showError(errorMsg)
+                    }
+                )
 
-        )
+            )
+        }
+    }
+
+    private fun isValidComment(text: String): Boolean {
+        if ((text.isEmpty()) or (text.length > 300)) {
+            viewState.showError("Текст комментария должен быть длиной 1-300 символов.")
+            return false
+        }
+        return true
     }
 }

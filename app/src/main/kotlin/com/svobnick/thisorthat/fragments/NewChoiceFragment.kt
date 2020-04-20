@@ -40,8 +40,9 @@ class NewChoiceFragment() : MvpAppCompatFragment(), NewChoiceView {
         newQuestionPresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
     }
 
-    override fun showSuccess() {
-        Toast.makeText(context, "Вопрос успешно добавлен", Toast.LENGTH_LONG).show()
+    override fun onSuccessfullyAdded() {
+        new_first_text.text.clear()
+        new_last_text.text.clear()
     }
 
     override fun showError(errorMsg: String) {

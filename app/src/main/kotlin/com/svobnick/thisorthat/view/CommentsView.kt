@@ -7,9 +7,10 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.svobnick.thisorthat.model.Comment
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
-interface CommentsView: MvpView {
+interface CommentsView : MvpView {
     fun setComments(it: List<Comment>)
     fun updateComments()
     fun addComment(sendView: View)
+    fun onCommentAdded()
     fun showError(errorMsg: String)
 }

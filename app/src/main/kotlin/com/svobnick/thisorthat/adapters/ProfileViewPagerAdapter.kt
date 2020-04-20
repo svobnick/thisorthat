@@ -2,14 +2,16 @@ package com.svobnick.thisorthat.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.svobnick.thisorthat.fragments.FavoriteQuestionsListFragment
+import com.svobnick.thisorthat.fragments.MyQuestionsListFragment
 import com.svobnick.thisorthat.fragments.ProfileFragment
-import com.svobnick.thisorthat.fragments.QuestionsListFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 
-class ProfileViewPagerAdapter(profileFragment: ProfileFragment, val presenter: ProfilePresenter) : FragmentStateAdapter(profileFragment) {
-    private val myQuestionsFragment = QuestionsListFragment(0, presenter)
-    private val favoriteQuestionsFragment = QuestionsListFragment(1, presenter)
+class ProfileViewPagerAdapter(profileFragment: ProfileFragment, val presenter: ProfilePresenter) :
+    FragmentStateAdapter(profileFragment) {
+    private val myQuestionsFragment = MyQuestionsListFragment(presenter)
+    private val favoriteQuestionsFragment = FavoriteQuestionsListFragment(presenter)
 
     override fun getItemCount() = 2
 

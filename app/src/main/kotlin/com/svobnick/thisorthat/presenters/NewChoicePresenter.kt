@@ -24,22 +24,32 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
     }
 
     fun send(firstText: String, lastText: String) {
-        val json = JSONObject()
-            .put("first_text", firstText)
-            .put("last_text", lastText)
-            .put("token", app.authToken)
-        requestQueue.add(
-            sendNewQuestion(
-                json,
-                Response.Listener { response ->
-                    Log.i(TAG, response)
-                    viewState.showSuccess()
-                },
-                Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
-                })
-        )
+        if (isValidChoice(firstText, lastText)) {
+            val json = JSONObject()
+                .put("first_text", firstText)
+                .put("last_text", lastText)
+                .put("token", app.authToken)
+            requestQueue.add(
+                sendNewQuestion(
+                    json,
+                    Response.Listener { response ->
+                        Log.i(TAG, response)
+                        viewState.onSuccessfullyAdded()
+                    },
+                    Response.ErrorListener {
+                        val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
+                        Log.e(TAG, errorMsg)
+                        viewState.showError(errorMsg)
+                    })
+            )
+        }
+    }
+
+    private fun isValidChoice(firstText: String, lastText: String): Boolean {
+        if ((firstText.length < 4) or (lastText.length < 4)) {
+            viewState.showError("Оба вопроса должны быть длиной от 4 до 150 символов")
+            return false
+        }
+        return true
     }
 }

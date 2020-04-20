@@ -88,7 +88,7 @@ class QuestionsListFragment(private val position: Int, val presenter: ProfilePre
         intent.putExtra("lastText", item.lastText)
         intent.putExtra("firstRate", item.firstRate)
         intent.putExtra("lastRate", item.lastRate)
-        intent.putExtra("favorite", favorite)
+        intent.putExtra("isFavorite", favorite)
         startActivity(intent)
     }
 }

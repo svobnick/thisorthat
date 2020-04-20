@@ -45,7 +45,7 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
             extras.get("lastRate") as Int,
             Question.HISTORY
         )
-        (history_choice as ChoiceFragment).setResultToView(question)
+        (history_choice as ChoiceFragment).setResultToView(question, extras.getBoolean("isFavorite"))
         report_button.setOnClickListener(null)
         first_text.setOnClickListener(null)
         last_text.setOnClickListener(null)

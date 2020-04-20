@@ -9,7 +9,6 @@ import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.moxy.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -35,6 +34,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private lateinit var reportResultWindow: PopupWindow
 
     private lateinit var currentQuestion: Question
+    private var isFavorite: Boolean = false
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
@@ -80,7 +80,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             val clickedText = activity!!.findViewById<TextView>(choice.id)
             currentQuestion.choice = if (clickedText.text.toString() == currentQuestion.firstText) Question.FIRST else Question.LAST
             choicePresenter.saveChoice(currentQuestion)
-            setResultToView(currentQuestion)
+            setResultToView(currentQuestion, isFavorite)
         }
 
         state = changeState()
@@ -90,6 +90,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         currentQuestion = question
         first_text.text = currentQuestion.firstText
         last_text.text = currentQuestion.lastText
+        isFavorite = false
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
         first_card_group.alpha = 1f
         first_text.alpha = 1f
@@ -98,12 +99,16 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         hideResults()
     }
 
-    override fun setResultToView(question: Question) {
+    override fun setResultToView(question: Question, favorite: Boolean) {
         currentQuestion = question
         first_text.text = question.firstText
         last_text.text = question.lastText
         val firstRate = question.firstRate
         val lastRate = question.lastRate
+        if (favorite) {
+            switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+            isFavorite = true
+        }
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
         (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
             firstPercent,
@@ -175,10 +180,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun switchFavoriteQuestion() {
-        if (switch_favorite_button.drawable.constantState == getDrawable(context!!, R.drawable.icon_favorite_disabled)!!.constantState) {
-            addFavoriteQuestion()
-        } else {
+        if (isFavorite) {
             deleteFavoriteQuestion()
+        } else {
+            addFavoriteQuestion()
         }
     }
 

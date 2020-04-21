@@ -15,8 +15,7 @@
         android:background="@color/transparent"
         android:cropToPadding="true"
         android:scaleType="center"
-        android:src="@drawable/icon_choice_disabled"
-        android:text="@string/questions_button" />
+        android:src="@drawable/icon_choice_disabled" />
 
     <ImageButton
         android:id="@+id/new_choice_button"
@@ -26,8 +25,7 @@
         android:background="@color/transparent"
         android:cropToPadding="true"
         android:scaleType="center"
-        android:src="@drawable/icon_new_choice_disabled"
-        android:text="@string/add_question_button" />
+        android:src="@drawable/icon_new_choice_disabled" />
 
     <ImageButton
         android:id="@+id/profile_button"
@@ -37,6 +35,5 @@
         android:background="@color/transparent"
         android:cropToPadding="true"
         android:scaleType="center"
-        android:src="@drawable/icon_profile_disabled"
-        android:text="@string/settings_button" />
+        android:src="@drawable/icon_profile_disabled" />
 </LinearLayout>

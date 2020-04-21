@@ -20,8 +20,8 @@ import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
 import com.svobnick.thisorthat.view.CommentsView
 import kotlinx.android.synthetic.main.activity_comments.*
-import kotlinx.android.synthetic.main.comment_question_single_view.*
-import kotlinx.android.synthetic.main.error_popup_view.view.*
+import kotlinx.android.synthetic.main.popup_error_view.view.*
+import kotlinx.android.synthetic.main.single_choice_in_comment_view.*
 import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {

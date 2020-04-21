@@ -18,19 +18,20 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.NewChoicePresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
+import com.svobnick.thisorthat.utils.PopupUtils.setupChoicePopup
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
+import com.svobnick.thisorthat.utils.PopupUtils.setupSuccessPopup
 import com.svobnick.thisorthat.view.NewChoiceView
-import kotlinx.android.synthetic.main.error_popup_view.view.*
 import kotlinx.android.synthetic.main.fragment_new_choice.*
 import kotlinx.android.synthetic.main.fragment_new_choice.view.*
+import kotlinx.android.synthetic.main.popup_choice_already_exist.view.*
+import kotlinx.android.synthetic.main.popup_error_view.view.*
 
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
-
-    private lateinit var errorWindow: PopupWindow
     private lateinit var mInterstitialAd: InterstitialAd
 
     @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var newQuestionPresenter: NewChoicePresenter
+    lateinit var newChoicePresenter: NewChoicePresenter
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideNewQuestionPresenter(): NewChoicePresenter {
@@ -43,7 +44,6 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_new_choice, container, false)
-        errorWindow = setupErrorPopup(context!!)
         view.send_button.setOnClickListener(this::onSendQuestionButtonClick)
 
         initialAdvertisingComponent()
@@ -63,7 +63,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
 
             override fun onAdClosed() {
                 mInterstitialAd.loadAd(AdRequest.Builder().build())
-                newQuestionPresenter.send(
+                newChoicePresenter.send(
                     new_first_text.text.toString(),
                     new_last_text.text.toString()
                 )
@@ -76,18 +76,61 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         if (mInterstitialAd.isLoaded) {
             mInterstitialAd.show()
         } else {
-            newQuestionPresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
+            newChoicePresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
         }
     }
 
     override fun onSuccessfullyAdded() {
+        clearForm()
+        val successPopup = setupSuccessPopup(context!!, PopupWindow.OnDismissListener {
+            (activity!!.supportFragmentManager.findFragmentById(R.id.bottom_menu) as BottomMenuFragment).switchFragment(
+                2
+            )
+        })
+        successPopup.showAtLocation(
+            activity!!.findViewById(R.id.main_screen_root),
+            Gravity.CENTER,
+            0,
+            0
+        )
+        dimBackground(activity!!, successPopup.contentView.rootView)
+    }
+
+    private fun clearForm() {
         new_first_text.text.clear()
         new_last_text.text.clear()
     }
 
     override fun showError(errorMsg: String) {
-        errorWindow.contentView.error_text.text = errorMsg
-        errorWindow.showAtLocation(activity!!.findViewById(R.id.main_screen_root), Gravity.CENTER, 0, 0)
-        dimBackground(activity!!, errorWindow.contentView.rootView)
+        val errorPopup = setupErrorPopup(context!!)
+        errorPopup.contentView.error_text.text = errorMsg
+        errorPopup.showAtLocation(
+            activity!!.findViewById(R.id.main_screen_root),
+            Gravity.CENTER,
+            0,
+            0
+        )
+        dimBackground(activity!!, errorPopup.contentView.rootView)
+    }
+
+    override fun onChoiceAlreadyExist(cloneId: String) {
+        val choicePopup = setupChoicePopup(context!!,
+            PopupWindow.OnDismissListener { clearForm() })
+        choicePopup.contentView.choice_not_ok.setOnClickListener {
+            clearForm()
+            choicePopup.dismiss()
+        }
+        choicePopup.contentView.choice_ok.setOnClickListener {
+            newChoicePresenter.addFavoriteQuestion(cloneId)
+            choicePopup.dismiss()
+        }
+
+        choicePopup.showAtLocation(
+            activity!!.findViewById(R.id.main_screen_root),
+            Gravity.CENTER,
+            0,
+            0
+        )
+        dimBackground(activity!!, choicePopup.contentView.rootView)
     }
 }

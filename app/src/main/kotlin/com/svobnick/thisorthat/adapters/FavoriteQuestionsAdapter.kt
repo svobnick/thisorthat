@@ -9,7 +9,7 @@ import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.OnItemClickListener
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.favorite_question_single_view.*
+import kotlinx.android.synthetic.main.single_favorite_choice_view.*
 
 class FavoriteQuestionsAdapter(private val clickListener: OnItemClickListener) :
     RecyclerView.Adapter<FavoriteQuestionsAdapter.QuestionListViewHolder>() {
@@ -18,7 +18,7 @@ class FavoriteQuestionsAdapter(private val clickListener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.favorite_question_single_view, parent, false)
+            .inflate(R.layout.single_favorite_choice_view, parent, false)
         return QuestionListViewHolder(view, clickListener)
     }
 

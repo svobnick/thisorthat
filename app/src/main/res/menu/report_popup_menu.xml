@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/typo"
-            android:title="@string/typo" />
-    <item android:id="@+id/abuse"
-            android:title="@string/abuse" />
-    <item android:id="@+id/clone"
-            android:title="@string/clone" />
-</menu>

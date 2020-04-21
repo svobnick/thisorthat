@@ -4,95 +4,95 @@
     android:layout_height="wrap_content"
     android:background="@drawable/popup_background">
 
-    <ImageButton
-        android:id="@+id/report_icon"
+    <TextView
+        android:id="@+id/choice_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@color/transparent"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
+        android:fontFamily="@font/ubuntu_regular"
         android:scaleType="fitXY"
-        android:src="@drawable/icon_report" />
+        android:text="@string/choice_already_exist_shrug"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/report_text"
+        android:id="@+id/choice_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/report_icon"
+        android:layout_below="@id/choice_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/ubuntu_bold"
-        android:text="@string/report_text"
+        android:text="@string/choice_already_exist_header"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/choice_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/report_text"
+        android:layout_below="@id/choice_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/ubuntu_light"
+        android:maxWidth="360dp"
+        android:text="@string/choice_already_exist_text"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/choice_text"
         android:layout_marginTop="15dp"
-        android:orientation="vertical">
+        android:background="@color/report_separator" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/report_separator" />
-
-        <TextView
-            android:id="@+id/typo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:fontFamily="@font/ubuntu_regular"
-            android:paddingStart="5dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="8dp"
-            android:text="@string/typo"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/report_separator" />
+    <LinearLayout
+        android:id="@+id/choice_buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choice_text"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/abuse"
-            android:layout_width="match_parent"
+            android:id="@+id/choice_not_ok"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:fontFamily="@font/ubuntu_regular"
             android:paddingStart="5dp"
             android:paddingTop="8dp"
             android:paddingEnd="5dp"
             android:paddingBottom="10dp"
-            android:text="@string/abuse"
+            android:text="@string/no_button"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/report_separator" />
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/report_separator"
+            />
 
         <TextView
-            android:id="@+id/clone"
-            android:layout_width="match_parent"
+            android:id="@+id/choice_ok"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:fontFamily="@font/ubuntu_regular"
             android:paddingStart="5dp"
             android:paddingTop="8dp"
             android:paddingEnd="5dp"
             android:paddingBottom="10dp"
-            android:text="@string/clone"
+            android:text="@string/yes_button"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"

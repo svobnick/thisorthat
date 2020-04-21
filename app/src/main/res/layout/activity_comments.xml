@@ -39,7 +39,7 @@
         android:name="com.svobnick.thisorthat.fragments.SingleQuestionFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/comment_question_single_view"
+        tools:layout="@layout/single_choice_in_comment_view"
         app:layout_constraintBottom_toTopOf="@id/comments_list"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
@@ -87,7 +87,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/ubuntu_light"
             android:background="@color/transparent"
-            android:hint="@string/comment_input_placeholder"
+            android:hint="@string/comment_input_hint"
             android:maxLength="300"
             android:maxLines="6" />
 

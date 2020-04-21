@@ -14,6 +14,6 @@ class SingleQuestionFragment : MvpAppCompatFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.comment_question_single_view, container, false)
+        return inflater.inflate(R.layout.single_choice_in_comment_view, container, false)
     }
 }

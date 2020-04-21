@@ -10,5 +10,6 @@ interface NewChoiceView : MvpView {
 
     fun onSendQuestionButtonClick(selected: View)
     fun onSuccessfullyAdded()
+    fun onChoiceAlreadyExist(cloneId: String)
     fun showError(errorMsg: String)
 }

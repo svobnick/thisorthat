@@ -44,7 +44,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
         profile_button.setOnClickListener { switchFragment(2) }
     }
 
-    private fun switchFragment(menuNumber: Int) {
+    fun switchFragment(menuNumber: Int) {
         goBackToMainScreen()
         presenter.switchFragment(menuNumber)
         updateUI(menuNumber)

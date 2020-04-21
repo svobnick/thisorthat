@@ -26,8 +26,8 @@ import com.svobnick.thisorthat.view.ChoiceView
 import kotlinx.android.synthetic.main.fragment_choice.*
 import kotlinx.android.synthetic.main.fragment_choice.view.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
-import kotlinx.android.synthetic.main.report_result.view.*
-import kotlinx.android.synthetic.main.report_view.view.*
+import kotlinx.android.synthetic.main.popup_report_choice.view.*
+import kotlinx.android.synthetic.main.popup_report_result.view.*
 
 class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private val TAG = this::class.java.name
@@ -206,7 +206,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun setupReportPopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(context)
-        val reportView = LayoutInflater.from(context).inflate(R.layout.report_view, null)
+        val reportView = LayoutInflater.from(context).inflate(R.layout.popup_report_choice, null)
         popupWindow.contentView = reportView
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
@@ -220,7 +220,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun setupResponsePopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(context)
-        val responseView = LayoutInflater.from(context).inflate(R.layout.report_result, null)
+        val responseView = LayoutInflater.from(context).inflate(R.layout.popup_report_result, null)
         popupWindow.contentView = responseView
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true

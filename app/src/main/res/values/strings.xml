@@ -1,54 +1,52 @@
 <resources>
     <string name="app_name">То или Это</string>
-    <string name="first_text">То</string>
-    <string name="last_text">Это</string>
 
-    <string name="history_text">История</string>
-    <string name="my_questions_text">Мои вопросы</string>
-    <string name="new_question_text">Добавить вопрос</string>
-    <string name="menu_button">Меню</string>
     <string name="choice_placeholder">Это текст плейсхолдер на 150 знаков.. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков!!!</string>
     <string name="percentage_placeholder">74</string>
     <string name="percentage_symbol">%</string>
     <string name="amount_placeholder">123456</string>
-    <string name="or_button">ИЛИ</string>
+
+    <string name="or_delimiter">ИЛИ</string>
 
     <string name="error_popup_header">Ошибка</string>
-    <string name="error_text"></string>
 
-    <string name="report_text">Пожаловаться</string>
+    <!-- report choice popup -->
+    <string name="report_choice_text">Пожаловаться</string>
     <string name="report_result_header">Жалоба</string>
     <string name="report_result_description">Спасибо, мы рассмотрим вашу \n жалобу в ближайшее время. \n Вопрос пропущен, \n а его рейтинг снижен.</string>
     <string name="report_result_ok">Ок</string>
 
-    <string name="typo">В вопросе ошибка</string>
-    <string name="abuse">Некорректный вопрос</string>
-    <string name="clone">Такой вопрос уже есть</string>
+    <string name="report_reason_typo">В вопросе ошибка</string>
+    <string name="report_reason_abuse">Некорректный вопрос</string>
+    <string name="report_reason_clone">Такой вопрос уже есть</string>
 
+    <!-- advertising ids -->
     <string name="application_ad_id">ca-app-pub-7005450343890487~7223429492</string>
     <string name="new_choice_interstitial_ad_id">ca-app-pub-7005450343890487/9651781392</string>
 
-    <string name="favorite_text">Избранные вопросы</string>
-    <string name="questions_button">Вопросы</string>
-    <string name="settings_button">Настройки</string>
-    <string name="report_button">Зарепортить вопрос</string>
-    <string name="comments_button">Комментарии</string>
-    <string name="add_favorite_button">Добавить в любимые</string>
-    <string name="share_button">Поделиться</string>
-
-    <string name="all_questions_button">Все вопросы</string>
-    <string name="favorite_questions_button">Любимые вопросы</string>
-    <string name="my_questions_button">Мои вопросы</string>
-    <string name="name_placeholder">Имя</string>
-    <string name="comment_placeholder">Basic comment text</string>
-    <string name="comment_input_placeholder">Введите текст</string>
+    <!--  comments -->
     <string name="comment_header">Комментарии</string>
+    <string name="comment_author_name_placeholder">Пользователь #12345</string>
+    <string name="comment_text_placeholder">Типичный текст комментария</string>
+    <string name="comment_input_hint">Введите текст</string>
+
     <string name="profile_header">Профиль</string>
 
-    <string name="add_question_button">Отправить</string>
-    <string name="add_question_header">Добавление вопроса</string>
-    <string name="success_popup_header">Успех</string>
-    <string name="success_result_ok">Круто!</string>
-    <string name="success_text">Всё получилось, превосходно!</string>
-    <string name="tada">:tada:</string>
+    <!-- new choice -->
+    <string name="add_choice_first_text_hint">То</string>
+    <string name="add_choice_last_text_hint">Это</string>
+    <string name="add_choice_header">Добавление вопроса</string>
+    <string name="add_choice_button">Отправить</string>
+
+    <string name="choice_added_header">Вопрос успешно добавлен!</string>
+    <string name="choice_added_text">Вы можете следить за его счётчиками и комментариями в разделе "мои вопросы"</string>
+    <string name="choice_added_ok">Круто!</string>
+
+    <string name="choice_already_exist_shrug">¯\_(ツ)_/¯</string>
+    <string name="choice_already_exist_header">В нашей базе уже есть этот вопрос</string>
+    <string name="choice_already_exist_text">Хотите добавить этот вопрос в избранное?</string>
+    <string name="yes_button">Да</string>
+    <string name="no_button">Нет</string>
+    <string name="new_choice_validation_error">Оба варианта должны быть длиной от 4 до 150 символов</string>
+
 </resources>

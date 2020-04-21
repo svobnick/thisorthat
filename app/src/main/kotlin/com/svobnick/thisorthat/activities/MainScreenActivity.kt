@@ -6,6 +6,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.MainScreenViewPagerAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
@@ -30,6 +32,9 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
         msPresenter.attachView(this)
+
+        MobileAds.initialize(this)
+        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(listOf("A933D6D3E36429812DB83020D06BEAC7")).build())
 
         adapter = MainScreenViewPagerAdapter(this)
         viewPager = main_fragments_view_pager

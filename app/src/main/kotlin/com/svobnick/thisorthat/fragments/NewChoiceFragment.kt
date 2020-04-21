@@ -1,6 +1,7 @@
 package com.svobnick.thisorthat.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,9 @@ import androidx.moxy.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.NewChoicePresenter
@@ -20,9 +24,10 @@ import kotlinx.android.synthetic.main.error_popup_view.view.*
 import kotlinx.android.synthetic.main.fragment_new_choice.*
 import kotlinx.android.synthetic.main.fragment_new_choice.view.*
 
-class NewChoiceFragment() : MvpAppCompatFragment(), NewChoiceView {
+class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
 
     private lateinit var errorWindow: PopupWindow
+    private lateinit var mInterstitialAd: InterstitialAd
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var newQuestionPresenter: NewChoicePresenter
@@ -40,11 +45,39 @@ class NewChoiceFragment() : MvpAppCompatFragment(), NewChoiceView {
         val view = inflater.inflate(R.layout.fragment_new_choice, container, false)
         errorWindow = setupErrorPopup(context!!)
         view.send_button.setOnClickListener(this::onSendQuestionButtonClick)
+
+        initialAdvertisingComponent()
+
         return view
     }
 
+    private fun initialAdvertisingComponent() {
+        mInterstitialAd = InterstitialAd(context)
+        mInterstitialAd.adUnitId = getString(R.string.new_choice_interstitial_ad_id)
+
+        val adRequestBuilder = AdRequest.Builder()
+        mInterstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                Log.i("Ads", "Loaded!")
+            }
+
+            override fun onAdClosed() {
+                mInterstitialAd.loadAd(AdRequest.Builder().build())
+                newQuestionPresenter.send(
+                    new_first_text.text.toString(),
+                    new_last_text.text.toString()
+                )
+            }
+        }
+        mInterstitialAd.loadAd(adRequestBuilder.build())
+    }
+
     override fun onSendQuestionButtonClick(selected: View) {
-        newQuestionPresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
+        if (mInterstitialAd.isLoaded) {
+            mInterstitialAd.show()
+        } else {
+            newQuestionPresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
+        }
     }
 
     override fun onSuccessfullyAdded() {

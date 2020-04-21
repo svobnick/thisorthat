@@ -5,4 +5,9 @@
         <item name="android:statusBarColor">@color/gradient_start</item>
     </style>
 
+    <style name="CommentTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="android:statusBarColor">@color/comments_background</item>
+    </style>
+
 </resources>

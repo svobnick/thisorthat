@@ -25,8 +25,8 @@
     <string name="abuse">Некорректный вопрос</string>
     <string name="clone">Такой вопрос уже есть</string>
 
-    <string name="application_ad_id">"ca-app-pub-7005450343890487~7223429492"</string>
-    <string name="new_question_interstitial_ad_id">ca-app-pub-7005450343890487/7572721777</string>
+    <string name="application_ad_id">ca-app-pub-7005450343890487~7223429492</string>
+    <string name="new_choice_interstitial_ad_id">ca-app-pub-7005450343890487/9651781392</string>
 
     <string name="favorite_text">Избранные вопросы</string>
     <string name="questions_button">Вопросы</string>
@@ -47,4 +47,8 @@
 
     <string name="add_question_button">Отправить</string>
     <string name="add_question_header">Добавление вопроса</string>
+    <string name="success_popup_header">Успех</string>
+    <string name="success_result_ok">Круто!</string>
+    <string name="success_text">Всё получилось, превосходно!</string>
+    <string name="tada">:tada:</string>
 </resources>

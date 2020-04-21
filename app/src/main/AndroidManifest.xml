@@ -47,6 +47,7 @@
             android:name=".activities.CommentsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:theme="@style/CommentTheme"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".activities.HistoryChoiceActivity"

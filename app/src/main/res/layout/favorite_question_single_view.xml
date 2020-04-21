@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="10dp"
             android:layout_toStartOf="@id/f_first_stat"
             android:background="@color/transparent"
             android:ellipsize="end"
@@ -40,11 +40,10 @@
             android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="end"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="6dp"
             android:background="@color/transparent">
 
             <TextView
@@ -102,7 +101,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="10dp"
             android:layout_toStartOf="@id/f_last_stat"
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu_light"
@@ -119,11 +118,10 @@
             android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="end"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="6dp"
             android:background="@color/transparent">
 
             <TextView

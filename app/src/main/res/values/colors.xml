@@ -12,6 +12,7 @@
 
     <color name="report_background">#5A5885</color>
     <color name="comments_background">#141329</color>
+    <color name="tab_background">#312F5A</color>
 
     <color name="report_separator">#4D201F3E</color>
     <color name="comment_separator">#383668</color>

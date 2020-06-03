@@ -12,7 +12,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="12dp"
-        android:layout_weight="1"
         android:background="@color/transparent"
         android:fontFamily="@font/ubuntu_medium"
         android:maxLines="6"

@@ -31,6 +31,8 @@
     <string name="comment_input_hint">Введите текст</string>
 
     <string name="profile_header">Профиль</string>
+    <string name="my_choices_tab">МОИ ВОПРОСЫ</string>
+    <string name="favorite_choices_tab">ИЗБРАННОЕ</string>
 
     <!-- new choice -->
     <string name="add_choice_first_text_hint">То</string>

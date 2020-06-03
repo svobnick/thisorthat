@@ -4,49 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/header_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp"
-        android:layout_weight="1"
-        android:background="@color/transparent"
-        android:fontFamily="@font/ubuntu_medium"
-        android:maxLines="6"
-        android:text="@string/profile_header"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="20sp"
+    <LinearLayout
+        android:id="@+id/profile_header_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/tab_background"
+        android:orientation="vertical"
+        android:gravity="bottom"
         app:layout_constraintBottom_toTopOf="@id/header_guideline"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:maxLines="6"
+            android:text="@string/profile_header"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:tabIndicatorColor="@color/last"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/TabsTheme" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/header_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_first_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@id/view_pager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -55,6 +52,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,105 +30,115 @@
         android:layout_marginBottom="6dp"
         android:background="@color/transparent"
         android:src="@drawable/icon_report"
-        app:layout_constraintBottom_toTopOf="@id/first_card_group"
+        app:layout_constraintBottom_toTopOf="@id/choice_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_guideline"
         tools:ignore="ContentDescription" />
 
-    <RelativeLayout
-        android:id="@+id/first_card_group"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/choice_view"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/choice_top_half"
-        app:layout_constraintBottom_toTopOf="@+id/last_card_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
         app:layout_constraintTop_toBottomOf="@id/report_button">
 
-        <TextView
-            android:id="@+id/first_text"
+        <RelativeLayout
+            android:id="@+id/first_card_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/ubuntu_light"
-            android:gravity="center"
-            android:text="@string/choice_placeholder"
-            android:textAlignment="center"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/choice_top_half"
+            app:layout_constraintBottom_toTopOf="@+id/last_card_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <fragment
-            android:id="@+id/first_stat"
-            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            tools:layout="@layout/fragment_choice_stat" />
+            <TextView
+                android:id="@+id/first_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ubuntu_light"
+                android:gravity="center"
+                android:text="@string/choice_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/white" />
 
-    </RelativeLayout>
+            <fragment
+                android:id="@+id/first_stat"
+                android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                tools:layout="@layout/fragment_choice_stat" />
 
-    <RelativeLayout
-        android:id="@+id/last_card_group"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/choice_bottom_half"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_second_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/first_card_group">
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/last_text"
+        <RelativeLayout
+            android:id="@+id/last_card_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/ubuntu_light"
-            android:gravity="center"
-            android:text="@string/choice_placeholder"
-            android:textAlignment="center"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/choice_bottom_half"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_card_group">
 
-        <fragment
-            android:id="@+id/last_stat"
-            android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="8dp"
-            tools:layout="@layout/fragment_choice_stat" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/last_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ubuntu_light"
+                android:gravity="center"
+                android:text="@string/choice_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/or_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="@drawable/button_round"
-        android:fontFamily="@font/ubuntu_bold"
-        android:text="@string/or_delimiter"
-        android:textColor="@color/gradient_center"
-        app:layout_constraintTop_toBottomOf="@id/first_card_group"
-        app:layout_constraintBottom_toTopOf="@id/last_card_group"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-         />
+            <fragment
+                android:id="@+id/last_stat"
+                android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                tools:layout="@layout/fragment_choice_stat" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/or_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/button_round"
+            android:fontFamily="@font/ubuntu_bold"
+            android:text="@string/or_delimiter"
+            android:textColor="@color/gradient_center"
+            app:layout_constraintBottom_toTopOf="@id/last_card_group"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_card_group" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottom_second_guideline"

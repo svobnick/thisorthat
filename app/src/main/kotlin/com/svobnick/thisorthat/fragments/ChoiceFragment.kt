@@ -1,9 +1,13 @@
 package com.svobnick.thisorthat.fragments
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_choice.view.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
 import kotlinx.android.synthetic.main.popup_report_choice.view.*
 import kotlinx.android.synthetic.main.popup_report_result.view.*
+
 
 class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private val TAG = this::class.java.name
@@ -193,11 +198,49 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun shareQuestion() {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "thisorthat.ru")
-        shareIntent.putExtra(Intent.EXTRA_TEXT, currentQuestion.toString())
-        startActivity(Intent.createChooser(shareIntent, "Поделиться вопросом!"))
+        val insertImage = MediaStore.Images.Media.insertImage(
+            context?.contentResolver,
+            getViewBitmap(choice_view),
+            "То или Это",
+            "thisorthat.ru"
+        )
+
+        val intent = Intent("com.instagram.share.ADD_TO_STORY")
+        intent.setDataAndType(Uri.parse(insertImage),  "image/*");
+        intent.putExtra("content_url", "https://thisorthat.ru")
+        intent.putExtra("top_background_color", resources.getColor(R.color.gradient_start))
+        intent.putExtra("bottom_background_color", resources.getColor(R.color.gradient_end))
+
+        val activity: Activity? = activity
+        activity?.grantUriPermission("com.instagram.android", Uri.parse(insertImage), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
+            activity.startActivityForResult(intent, 0);
+        }
+    }
+
+    private fun getViewBitmap(view: View): Bitmap {
+        view.clearFocus()
+        view.isPressed = false
+
+        val willNotCache: Boolean = view.willNotCacheDrawing()
+        view.setWillNotCacheDrawing(false)
+
+        val color: Int = view.drawingCacheBackgroundColor
+        view.drawingCacheBackgroundColor = 0
+
+        if (color != 0) {
+            view.destroyDrawingCache()
+        }
+        view.buildDrawingCache()
+        val cacheBitmap: Bitmap = view.drawingCache
+
+        val bitmap = Bitmap.createBitmap(cacheBitmap)
+
+        view.destroyDrawingCache()
+        view.setWillNotCacheDrawing(willNotCache)
+        view.drawingCacheBackgroundColor = color
+
+        return bitmap
     }
 
     override fun showError(errorMsg: String) {
@@ -226,7 +269,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
-        responseView.report_result_ok.setOnClickListener{ hideReportResult() }
+        responseView.report_result_ok.setOnClickListener { hideReportResult() }
         return popupWindow
     }
 

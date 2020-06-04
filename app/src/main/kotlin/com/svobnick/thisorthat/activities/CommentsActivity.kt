@@ -62,15 +62,16 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         commentsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                cPresenter.getComments(1, page * cPresenter.LIMIT)
+                // todo intent.extras!!.get("id") instead of 4
+                cPresenter.getComments(4, page * cPresenter.LIMIT)
             }
         }
         commentsList.addOnScrollListener(scrollListener)
 
         fillQuestionFragment()
 
-        // todo intent.extras!!.get("id") instead of 1
-        cPresenter.getComments(1, 0)
+        // todo intent.extras!!.get("id") instead of 4
+        cPresenter.getComments(4, 0)
     }
 
     private fun fillQuestionFragment() {

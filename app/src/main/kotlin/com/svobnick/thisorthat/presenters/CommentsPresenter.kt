@@ -46,10 +46,11 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                             val commentJson = commentsJson.get(i) as JSONObject
                             result.add(
                                 Comment(
+                                    (commentJson["name"] as String),
                                     (commentJson["comment_id"] as String).toLong(),
                                     (commentJson["user_id"] as String).toLong(),
                                     (commentJson["parent"] as String).toLong(),
-                                    (commentJson["text"] as String),
+                                    (commentJson["message"] as String),
                                     (commentJson["avatar"] as String)
                                 )
                             )
@@ -78,7 +79,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
             requestQueue.add(
                 addCommentRequest(
                     app.authToken,
-                    1.toString(),
+                    4.toString(),
                     text,
                     0.toString(), // 0 means that there are no parent
                     Response.Listener { response ->

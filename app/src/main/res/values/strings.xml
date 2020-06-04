@@ -28,7 +28,7 @@
     <string name="comment_header">Комментарии</string>
     <string name="comment_author_name_placeholder">Пользователь #12345</string>
     <string name="comment_text_placeholder">Типичный текст комментария</string>
-    <string name="comment_input_hint">Введите текст</string>
+    <string name="comment_input_hint">Введите текст комментария</string>
 
     <string name="profile_header">Профиль</string>
     <string name="my_choices_tab">МОИ ВОПРОСЫ</string>

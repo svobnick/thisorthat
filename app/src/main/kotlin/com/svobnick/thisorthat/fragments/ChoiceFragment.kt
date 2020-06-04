@@ -3,6 +3,7 @@ package com.svobnick.thisorthat.fragments
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -30,6 +31,7 @@ import com.svobnick.thisorthat.view.ChoiceView
 import kotlinx.android.synthetic.main.fragment_choice.*
 import kotlinx.android.synthetic.main.fragment_choice.view.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
+import kotlinx.android.synthetic.main.fragment_header_menu.*
 import kotlinx.android.synthetic.main.popup_report_choice.view.*
 import kotlinx.android.synthetic.main.popup_report_result.view.*
 
@@ -86,7 +88,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             choicePresenter.setNextQuestion()
         } else {
             val clickedText = activity!!.findViewById<TextView>(choice.id)
-            currentQuestion.choice = if (clickedText.text.toString() == currentQuestion.firstText) Question.FIRST else Question.LAST
+            currentQuestion.choice =
+                if (clickedText.text.toString() == currentQuestion.firstText) Question.FIRST else Question.LAST
             choicePresenter.saveChoice(currentQuestion)
             setResultToView(currentQuestion, isFavorite)
         }
@@ -153,12 +156,22 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun reportResult() {
         reportChoiceWindow.dismiss()
-        reportResultWindow.showAtLocation(activity!!.findViewById(R.id.main_screen_root), Gravity.CENTER, 0, 0)
+        reportResultWindow.showAtLocation(
+            activity!!.findViewById(R.id.main_screen_root),
+            Gravity.CENTER,
+            0,
+            0
+        )
         dimBackground(activity!!, reportResultWindow.contentView.rootView)
     }
 
     override fun reportQuestion(selected: View) {
-        reportChoiceWindow.showAtLocation(activity!!.findViewById(R.id.main_screen_root), Gravity.CENTER, 0, 0)
+        reportChoiceWindow.showAtLocation(
+            activity!!.findViewById(R.id.main_screen_root),
+            Gravity.CENTER,
+            0,
+            0
+        )
         dimBackground(activity!!, reportChoiceWindow.contentView.rootView)
     }
 
@@ -173,7 +186,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         intent.putExtra("lastText", currentQuestion.lastText)
         intent.putExtra("firstRate", currentQuestion.firstRate.toString())
         intent.putExtra("lastRate", currentQuestion.lastRate.toString())
-        val (firstPercent, lastPercent) = computeQuestionsPercentage(currentQuestion.firstRate, currentQuestion.lastRate)
+        val (firstPercent, lastPercent) = computeQuestionsPercentage(
+            currentQuestion.firstRate,
+            currentQuestion.lastRate
+        )
         intent.putExtra("firstPercent", firstPercent.toString())
         intent.putExtra("lastPercent", lastPercent.toString())
         startActivity(intent)
@@ -200,47 +216,46 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     override fun shareQuestion() {
         val insertImage = MediaStore.Images.Media.insertImage(
             context?.contentResolver,
-            getViewBitmap(choice_view),
+            combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo)),
             "То или Это",
             "thisorthat.ru"
         )
 
         val intent = Intent("com.instagram.share.ADD_TO_STORY")
-        intent.setDataAndType(Uri.parse(insertImage),  "image/*");
+        intent.setDataAndType(Uri.parse(insertImage), "image/*");
         intent.putExtra("content_url", "https://thisorthat.ru")
         intent.putExtra("top_background_color", resources.getColor(R.color.gradient_start))
         intent.putExtra("bottom_background_color", resources.getColor(R.color.gradient_end))
 
         val activity: Activity? = activity
-        activity?.grantUriPermission("com.instagram.android", Uri.parse(insertImage), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        activity?.grantUriPermission(
+            "com.instagram.android",
+            Uri.parse(insertImage),
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
             activity.startActivityForResult(intent, 0);
         }
     }
 
     private fun getViewBitmap(view: View): Bitmap {
-        view.clearFocus()
-        view.isPressed = false
+        val result = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        view.draw(Canvas(result))
+        return result
+    }
 
-        val willNotCache: Boolean = view.willNotCacheDrawing()
-        view.setWillNotCacheDrawing(false)
+    private fun combineBitmaps(choiceBitmap: Bitmap, logoBitmap: Bitmap): Bitmap {
+        val width = choiceBitmap.width
+        val height = logoBitmap.height + choiceBitmap.height
 
-        val color: Int = view.drawingCacheBackgroundColor
-        view.drawingCacheBackgroundColor = 0
+        val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-        if (color != 0) {
-            view.destroyDrawingCache()
-        }
-        view.buildDrawingCache()
-        val cacheBitmap: Bitmap = view.drawingCache
+        val comboImage = Canvas(result)
 
-        val bitmap = Bitmap.createBitmap(cacheBitmap)
+        comboImage.drawBitmap(logoBitmap, 0f, 0f, null)
+        comboImage.drawBitmap(choiceBitmap, 0f, logoBitmap.height.toFloat(), null)
 
-        view.destroyDrawingCache()
-        view.setWillNotCacheDrawing(willNotCache)
-        view.drawingCacheBackgroundColor = color
-
-        return bitmap
+        return result
     }
 
     override fun showError(errorMsg: String) {

@@ -48,16 +48,16 @@ class CommentsAdapter(private val picasso: Picasso) :
         fun bind(comment: Comment, position: Int) {
             picasso.load(comment.avatarUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .transform(RoundedCornersTransform(32.0f))
+                .transform(RoundedCornersTransform(24.0f))
                 .into(avatar)
             user_id.text = comment.userId.toString()
-            comment_author.text = "Пользователь #${comment.userId}"
+            comment_author.text = comment.name
             if (position % 2 == 0) {
                 comment_author.setTextColor(Color.parseColor("#FF6642"))
             } else {
                 comment_author.setTextColor(Color.parseColor("#B454B7"))
             }
-            if (comment.text == "1 комментарий") {
+            if (comment.text == "Комментарий 20") {
                 comment_text.text =
                     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
             } else {

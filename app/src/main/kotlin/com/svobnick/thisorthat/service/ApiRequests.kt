@@ -267,7 +267,7 @@ fun addCommentRequest(
             return mutableMapOf(
                 Pair("token", authToken),
                 Pair("item_id", itemId),
-                Pair("text", text),
+                Pair("message", text),
                 Pair("parent", parent)
             )
         }

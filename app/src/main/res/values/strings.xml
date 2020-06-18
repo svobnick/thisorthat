@@ -13,6 +13,7 @@
     <!-- report choice popup -->
     <string name="report_choice_text">Пожаловаться</string>
     <string name="report_result_header">Жалоба</string>
+    <string name="report_text_description">Почему вы хотите пожаловаться \n на этот вопрос?</string>
     <string name="report_result_description">Спасибо, мы рассмотрим вашу \n жалобу в ближайшее время. \n Вопрос пропущен, \n а его рейтинг снижен.</string>
     <string name="report_result_ok">Ок</string>
 

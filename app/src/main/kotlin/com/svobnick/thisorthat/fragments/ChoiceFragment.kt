@@ -186,6 +186,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         intent.putExtra("lastText", currentQuestion.lastText)
         intent.putExtra("firstRate", currentQuestion.firstRate.toString())
         intent.putExtra("lastRate", currentQuestion.lastRate.toString())
+        intent.putExtra("choice", currentQuestion.choice)
         val (firstPercent, lastPercent) = computeQuestionsPercentage(
             currentQuestion.firstRate,
             currentQuestion.lastRate

@@ -3,6 +3,7 @@ package com.svobnick.thisorthat.activities
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.view.View.GONE
 import android.widget.PopupWindow
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.svobnick.thisorthat.adapters.CommentsAdapter
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
+import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.CommentsPresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
@@ -75,12 +77,18 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     private fun fillQuestionFragment() {
-        c_first_text.text = intent.extras!!.get("firstText") as String
-        c_last_text.text = intent.extras!!.get("lastText") as String
-        c_first_peoples_amount.text = intent.extras!!.get("firstRate") as String
-        c_last_peoples_amount.text = intent.extras!!.get("lastRate") as String
-        c_first_percent_value.text = intent.extras!!.get("firstPercent") as String
-        c_last_percent_value.text = intent.extras!!.get("lastPercent") as String
+        val params = intent.extras!!
+        c_first_text.text = params.get("firstText") as String
+        c_last_text.text = params.get("lastText") as String
+        c_first_peoples_amount.text = params.get("firstRate") as String
+        c_last_peoples_amount.text = params.get("lastRate") as String
+        c_first_percent_value.text = params.get("firstPercent") as String
+        c_last_percent_value.text = params.get("lastPercent") as String
+
+        if (Question.NOT_ANSWERED == params.get("choice") as String) {
+            c_first_stat.visibility = GONE
+            c_last_stat.visibility = GONE
+        }
     }
 
     override fun setComments(it: List<Comment>) {

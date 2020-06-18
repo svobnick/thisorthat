@@ -9,6 +9,7 @@
     <string name="or_delimiter">ИЛИ</string>
 
     <string name="error_popup_header">Ошибка</string>
+    <string name="error_popup_server_error">"Проблемы с сервером, попробуйте позже"</string>
 
     <!-- report choice popup -->
     <string name="report_choice_text">Пожаловаться</string>

@@ -8,6 +8,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.getFavoriteRequest
+import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.ProfileView
 import org.json.JSONArray
 import org.json.JSONObject
@@ -55,9 +56,7 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                     viewState.setQuestions(0, questions)
                 },
                 Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }
@@ -90,8 +89,7 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                     viewState.setQuestions(1, questions)
                 },
                 Response.ErrorListener {
-                    val errData = JSONObject(String(it.networkResponse.data)).toString()
-                    viewState.showError(errData)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }

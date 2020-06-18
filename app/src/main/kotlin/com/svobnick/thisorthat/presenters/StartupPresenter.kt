@@ -9,6 +9,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.google.firebase.iid.FirebaseInstanceId
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.registrationRequest
+import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.StartupView
 import org.json.JSONObject
 import java.io.File
@@ -50,9 +51,7 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
             instanceId,
             future,
             Response.ErrorListener {
-                val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                Log.e(TAG, errorMsg)
-                viewState.showError(errorMsg)
+                ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
             })
         requestQueue.add(request)
         val response = future.get()

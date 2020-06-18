@@ -8,6 +8,7 @@ import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.addFavoriteRequest
 import com.svobnick.thisorthat.service.sendNewQuestion
+import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.NewChoiceView
 import org.json.JSONObject
 import javax.inject.Inject
@@ -32,20 +33,22 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
             requestQueue.add(
                 sendNewQuestion(
                     json,
-                    Response.Listener { response ->
+                    Response.Listener {
                         viewState.onSuccessfullyAdded()
                     },
                     Response.ErrorListener {
-                        val errorJson = JSONObject(String(it.networkResponse.data))
-                        var reason = (errorJson["description"] as String)
-                        if (errorJson.has("parameters")) {
-                            val cloneId = ((errorJson["parameters"] as JSONObject)["clone_id"] as String)
-                            viewState.onChoiceAlreadyExist(cloneId)
+                        if (it.networkResponse?.statusCode == 500) {
+                            viewState.showError("Проблемы с сервером, попробуйте позже")
                         } else {
-                            if (reason == "Server internal error") {
-                                reason = "Проблемы с сервером, попробуйте позже"
+                            val errorJson = JSONObject(String(it.networkResponse.data))
+                            val reason = (errorJson["description"] as String)
+                            if (errorJson.has("parameters")) {
+                                val cloneId =
+                                    ((errorJson["parameters"] as JSONObject)["clone_id"] as String)
+                                viewState.onChoiceAlreadyExist(cloneId)
+                            } else {
+                                viewState.showError(reason)
                             }
-                            viewState.showError(reason)
                         }
                     })
             )
@@ -59,9 +62,7 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
                 id,
                 Response.Listener { },
                 Response.ErrorListener {
-                    val errorJson = JSONObject(String(it.networkResponse.data))
-                    val reason = (errorJson["description"] as String)
-                    viewState.showError(reason)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }

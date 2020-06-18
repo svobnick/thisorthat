@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.presenters
 
-import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.arellomobile.mvp.InjectViewState
@@ -9,6 +8,7 @@ import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.service.addCommentRequest
 import com.svobnick.thisorthat.service.getCommentsRequest
+import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.CommentsView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -66,9 +66,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                         })
                 },
                 Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 }
             )
         )
@@ -87,9 +85,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                         viewState.onCommentAdded()
                     },
                     Response.ErrorListener {
-                        val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                        Log.e(TAG, errorMsg)
-                        viewState.showError(errorMsg)
+                        ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                     }
                 )
 

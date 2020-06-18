@@ -14,6 +14,7 @@ import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.*
+import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.ChoiceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -85,8 +86,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     setNextQuestion()
                 },
                 Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    viewState.showError(errorMsg)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }
@@ -140,13 +140,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                                 })
                         },
                         Response.ErrorListener {
-                            Log.e(
-                                TAG,
-                                "Sending answers to server failed cause: ${it.localizedMessage}"
-                            )
-                            val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                            Log.e(TAG, "Server response data: $errorMsg")
-                            viewState.showError(errorMsg)
+                            ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                         }
                     ))
                 }
@@ -168,9 +162,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
         question.choice = Question.SKIP
@@ -187,9 +179,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    val errorMsg = JSONObject(String(it.networkResponse.data)).toString()
-                    Log.e(TAG, errorMsg)
-                    viewState.showError(errorMsg)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }
@@ -203,8 +193,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     Log.i(TAG, response.toString())
                 },
                 Response.ErrorListener {
-                    val errData = JSONObject(String(it.networkResponse.data)).toString()
-                    viewState.showError(errData)
+                    ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
     }

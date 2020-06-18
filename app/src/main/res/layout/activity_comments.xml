@@ -40,7 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/single_choice_in_comment_view"
-        app:layout_constraintBottom_toTopOf="@id/comments_list"
         app:layout_constraintTop_toBottomOf="@id/header_guideline" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -52,6 +51,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/question" />
+
+    <TextView
+        android:id="@+id/empty_comments_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:fontFamily="@font/ubuntu_regular"
+        android:text="@string/empty_comments_list"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_delimiter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question"
+        />
 
     <View
         android:id="@+id/bottom_delimiter"

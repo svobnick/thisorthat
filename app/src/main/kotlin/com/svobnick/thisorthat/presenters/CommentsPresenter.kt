@@ -10,9 +10,6 @@ import com.svobnick.thisorthat.service.addCommentRequest
 import com.svobnick.thisorthat.service.getCommentsRequest
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.CommentsView
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
@@ -37,33 +34,27 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                 questionId.toString(),
                 LIMIT.toString(),
                 offset.toString(),
-                Response.Listener { response ->
-                    Single.fromCallable {
-                        val commentsJson =
-                            (JSONObject(response)["result"] as JSONObject)["comments"] as JSONArray
-                        val result = mutableListOf<Comment>()
-                        for (i in 0 until commentsJson.length()) {
-                            val commentJson = commentsJson.get(i) as JSONObject
-                            result.add(
-                                Comment(
-                                    (commentJson["name"] as String),
-                                    (commentJson["comment_id"] as String).toLong(),
-                                    (commentJson["user_id"] as String).toLong(),
-                                    (commentJson["parent"] as String).toLong(),
-                                    (commentJson["message"] as String),
-                                    (commentJson["avatar"] as String)
-                                )
+                Response.Listener {
+                    val commentsJson = (JSONObject(it)["result"] as JSONObject)["comments"] as JSONArray
+                    val result = mutableListOf<Comment>()
+                    for (i in 0 until commentsJson.length()) {
+                        val commentJson = commentsJson.get(i) as JSONObject
+                        result.add(
+                            Comment(
+                                (commentJson["name"] as String),
+                                (commentJson["comment_id"] as String).toLong(),
+                                (commentJson["user_id"] as String).toLong(),
+                                (commentJson["parent"] as String).toLong(),
+                                (commentJson["message"] as String),
+                                (commentJson["avatar"] as String)
                             )
-                        }
-                        result
+                        )
                     }
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            viewState.setComments(it)
-                        }, {
-                            viewState.showError(it.localizedMessage)
-                        })
+                    if (result.size == 0) {
+                        viewState.showEmptyComments()
+                    } else {
+                        viewState.setComments(result)
+                    }
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)

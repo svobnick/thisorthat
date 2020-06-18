@@ -8,6 +8,7 @@ import com.svobnick.thisorthat.model.Comment
 
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface CommentsView : MvpView {
+    fun showEmptyComments()
     fun setComments(it: List<Comment>)
     fun updateComments()
     fun addComment(sendView: View)

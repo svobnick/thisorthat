@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.View.GONE
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +29,6 @@ import javax.inject.Inject
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
-
     @Inject
     lateinit var picasso: Picasso
 
@@ -44,6 +44,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     private lateinit var commentsList: RecyclerView
+    private lateinit var emptyCommentsText: TextView
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +57,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         errorWindow = setupErrorPopup(applicationContext)
 
         commentsList = comments_list
+        emptyCommentsText = empty_comments_list
         commentsList.setHasFixedSize(true)
         commentsList.setItemViewCacheSize(100)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -73,7 +75,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         fillQuestionFragment()
 
         // todo intent.extras!!.get("id") instead of 4
-        cPresenter.getComments(4, 0)
+        cPresenter.getComments(1, 0)
     }
 
     private fun fillQuestionFragment() {
@@ -106,6 +108,11 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     override fun addComment(sendView: View) {
         cPresenter.addComment(new_comment.text.toString())
+    }
+
+    override fun showEmptyComments() {
+        commentsList.visibility = View.GONE
+        emptyCommentsText.visibility = View.VISIBLE
     }
 
     override fun showError(errorMsg: String) {

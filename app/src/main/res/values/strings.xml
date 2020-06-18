@@ -31,6 +31,7 @@
     <string name="comment_author_name_placeholder">Пользователь #12345</string>
     <string name="comment_text_placeholder">Типичный текст комментария</string>
     <string name="comment_input_hint">Введите текст комментария</string>
+    <string name="empty_comments_list">Комментариев пока нет</string>
 
     <!--  profile  -->
     <string name="profile_header">Профиль</string>

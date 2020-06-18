@@ -30,4 +30,11 @@ class ProfileViewPagerAdapter(profileFragment: ProfileFragment, val presenter: P
     fun addFavoriteQuestions(questions: List<Question>) {
         favoriteQuestionsFragment.addQuestionsToList(questions)
     }
+
+    fun showEmptyList(position: Int) {
+        when (position) {
+            0 -> myQuestionsFragment.showEmptyList()
+            1 -> favoriteQuestionsFragment.showEmptyList()
+        }
+    }
 }

@@ -9,4 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/empty_question_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:fontFamily="@font/ubuntu_regular"
+        android:text="@string/empty_question_list"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        />
+
 </LinearLayout>

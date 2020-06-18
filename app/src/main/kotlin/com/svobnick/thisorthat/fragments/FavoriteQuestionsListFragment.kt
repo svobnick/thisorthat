@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.moxy.MvpAppCompatFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ import com.svobnick.thisorthat.view.OnItemClickListener
 class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFragment(),
     OnItemClickListener {
     lateinit var adapter: FavoriteQuestionsAdapter
+    private lateinit var questionsList: RecyclerView
+    private lateinit var emptyListText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +32,8 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val questionsList: RecyclerView = view.findViewById(R.id.questions_list)
+        questionsList = view.findViewById(R.id.questions_list)
+        emptyListText = view.findViewById(R.id.empty_question_list)
         adapter = FavoriteQuestionsAdapter(this)
 
         val linearLayoutManager = LinearLayoutManager(context)
@@ -51,6 +55,8 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         adapter.addQuestions(questions)
     }
 
+
+
     override fun onItemClick(position: Int, favorite: Boolean) {
         val item = adapter.getItem(position)
         val intent = Intent(context, HistoryChoiceActivity::class.java)
@@ -61,5 +67,10 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         intent.putExtra("lastRate", item.lastRate)
         intent.putExtra("isFavorite", favorite)
         startActivity(intent)
+    }
+
+    fun showEmptyList() {
+        questionsList.visibility = View.GONE
+        emptyListText.visibility = View.VISIBLE
     }
 }

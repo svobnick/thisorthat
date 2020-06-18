@@ -63,6 +63,10 @@ class ProfileFragment() : MvpAppCompatFragment(), ProfileView {
         }
     }
 
+    override fun showEmptyList(position: Int) {
+        adapter.showEmptyList(position)
+    }
+
     override fun showError(errorMsg: String) {
         Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
     }

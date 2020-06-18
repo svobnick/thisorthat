@@ -10,5 +10,7 @@ interface ProfileView : MvpView {
 
     fun setQuestions(position: Int, questions: List<Question>)
 
+    fun showEmptyList(position: Int)
+
     fun showError(errorMsg: String)
 }

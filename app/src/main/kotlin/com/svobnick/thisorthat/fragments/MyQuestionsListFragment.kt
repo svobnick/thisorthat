@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.moxy.MvpAppCompatFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +17,11 @@ import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.OnItemClickListener
 
-class MyQuestionsListFragment(val presenter: ProfilePresenter) :
-    MvpAppCompatFragment(), OnItemClickListener {
+class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFragment(),
+    OnItemClickListener {
     lateinit var adapter: MyQuestionsAdapter
+    private lateinit var questionsList: RecyclerView
+    private lateinit var emptyListText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +32,8 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val questionsList: RecyclerView = view.findViewById(R.id.questions_list)
-
+        questionsList = view.findViewById(R.id.questions_list)
+        emptyListText = view.findViewById(R.id.empty_question_list)
         adapter = MyQuestionsAdapter(this)
 
         val linearLayoutManager = LinearLayoutManager(context)
@@ -45,7 +48,7 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) :
         }
         questionsList.addOnScrollListener(scrollListener)
 
-        presenter.getMyQuestions(0)
+        presenter.getMyQuestions(1000)
     }
 
     fun addQuestionsToList(questions: List<Question>) {
@@ -62,5 +65,10 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) :
         intent.putExtra("lastRate", item.lastRate)
         intent.putExtra("isFavorite", favorite)
         startActivity(intent)
+    }
+
+    fun showEmptyList() {
+        questionsList.visibility = View.GONE
+        emptyListText.visibility = View.VISIBLE
     }
 }

@@ -38,22 +38,26 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                 json,
                 Response.Listener { response ->
                     val items = (JSONObject(response)["result"] as JSONObject)["items"] as JSONArray
-                    val questions = mutableListOf<Question>()
-                    for (i in 0 until items.length()) {
-                        val json = items.get(i) as JSONObject
-                        questions.add(
-                            Question(
-                                (json["item_id"] as String).toLong(),
-                                json["first_text"] as String,
-                                json["last_text"] as String,
-                                json["first_vote"] as Int,
-                                json["last_vote"] as Int,
-                                Question.HISTORY
+                    if (items.length() == 0 && offset == 0L) {
+                        viewState.showEmptyList(0)
+                    } else {
+                        val questions = mutableListOf<Question>()
+                        for (i in 0 until items.length()) {
+                            val json = items.get(i) as JSONObject
+                            questions.add(
+                                Question(
+                                    (json["item_id"] as String).toLong(),
+                                    json["first_text"] as String,
+                                    json["last_text"] as String,
+                                    json["first_vote"] as Int,
+                                    json["last_vote"] as Int,
+                                    Question.HISTORY
+                                )
                             )
-                        )
+                        }
+                        Log.i(TAG, "Receive my questions")
+                        viewState.setQuestions(0, questions)
                     }
-                    Log.i(TAG, "Receive my questions")
-                    viewState.setQuestions(0, questions)
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
@@ -71,22 +75,26 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                 json,
                 Response.Listener { response ->
                     val items = (JSONObject(response)["result"] as JSONObject)["items"] as JSONArray
-                    val questions = mutableListOf<Question>()
-                    for (i in 0 until items.length()) {
-                        val json = items.get(i) as JSONObject
-                        questions.add(
-                            Question(
-                                (json["item_id"] as String).toLong(),
-                                json["first_text"] as String,
-                                json["last_text"] as String,
-                                json["first_vote"] as Int,
-                                json["last_vote"] as Int,
-                                Question.HISTORY
+                    if (items.length() == 0 && offset == 0L) {
+                        viewState.showEmptyList(1)
+                    } else {
+                        val questions = mutableListOf<Question>()
+                        for (i in 0 until items.length()) {
+                            val json = items.get(i) as JSONObject
+                            questions.add(
+                                Question(
+                                    (json["item_id"] as String).toLong(),
+                                    json["first_text"] as String,
+                                    json["last_text"] as String,
+                                    json["first_vote"] as Int,
+                                    json["last_vote"] as Int,
+                                    Question.HISTORY
+                                )
                             )
-                        )
+                        }
+                        Log.i(TAG, "Receive my questions")
+                        viewState.setQuestions(1, questions)
                     }
-                    Log.i(TAG, "Receive my questions")
-                    viewState.setQuestions(1, questions)
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)

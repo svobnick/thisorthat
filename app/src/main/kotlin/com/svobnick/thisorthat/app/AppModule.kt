@@ -16,7 +16,7 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
     private lateinit var thisOrThatApp: ThisOrThatApp
 
     private var database =
-        Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "thisorthat-db")
+        Room.databaseBuilder(thisOrThatApp.applicationContext, ApplicationDatabase::class.java, "thisorthat-db-2")
             .build()
 
     private val picasso = Picasso.get()

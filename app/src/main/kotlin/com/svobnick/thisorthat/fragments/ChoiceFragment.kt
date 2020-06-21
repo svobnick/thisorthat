@@ -89,7 +89,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         } else {
             val clickedText = activity!!.findViewById<TextView>(choice.id)
             currentQuestion.choice =
-                if (clickedText.text.toString() == currentQuestion.firstText) Question.FIRST else Question.LAST
+                if (clickedText.text.toString() == currentQuestion.firstText) Question.Choices.FIRST else Question.Choices.LAST
             choicePresenter.saveChoice(currentQuestion)
             setResultToView(currentQuestion, isFavorite)
         }
@@ -124,14 +124,14 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         (childFragmentManager.findFragmentById(R.id.first_stat)!! as ChoiceStatFragment).setStat(
             firstPercent,
             firstRate,
-            question.choice == Question.FIRST
+            question.choice == Question.Choices.FIRST
         )
         (childFragmentManager.findFragmentById(R.id.last_stat)!! as ChoiceStatFragment).setStat(
             lastPercent,
             lastRate,
-            question.choice == Question.LAST
+            question.choice == Question.Choices.LAST
         )
-        if (question.choice == Question.FIRST) {
+        if (question.choice == Question.Choices.FIRST) {
             last_card_group.alpha = 0.75f
             last_text.alpha = 0.75f
         } else {
@@ -207,11 +207,13 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private fun addFavoriteQuestion() {
         choicePresenter.addFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+        isFavorite = true
     }
 
     private fun deleteFavoriteQuestion() {
         choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+        isFavorite = false
     }
 
     override fun shareQuestion() {

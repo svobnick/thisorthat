@@ -87,7 +87,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         c_first_percent_value.text = params.get("firstPercent") as String
         c_last_percent_value.text = params.get("lastPercent") as String
 
-        if (Question.NOT_ANSWERED == params.get("choice") as String) {
+        if (Question.Choices.NOT_ANSWERED == params.get("choice") as String) {
             c_first_stat.visibility = GONE
             c_last_stat.visibility = GONE
         }

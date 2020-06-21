@@ -65,6 +65,7 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         intent.putExtra("lastText", item.lastText)
         intent.putExtra("firstRate", item.firstRate)
         intent.putExtra("lastRate", item.lastRate)
+        intent.putExtra("status", item.status)
         intent.putExtra("isFavorite", favorite)
         startActivity(intent)
     }

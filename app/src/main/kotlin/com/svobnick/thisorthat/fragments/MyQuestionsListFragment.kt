@@ -48,7 +48,7 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFra
         }
         questionsList.addOnScrollListener(scrollListener)
 
-        presenter.getMyQuestions(1000)
+        presenter.getMyQuestions(0)
     }
 
     fun addQuestionsToList(questions: List<Question>) {
@@ -63,6 +63,7 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFra
         intent.putExtra("lastText", item.lastText)
         intent.putExtra("firstRate", item.firstRate)
         intent.putExtra("lastRate", item.lastRate)
+        intent.putExtra("status", item.status)
         intent.putExtra("isFavorite", favorite)
         startActivity(intent)
     }

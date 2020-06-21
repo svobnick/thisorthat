@@ -70,7 +70,8 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                                 json["last_text"] as String,
                                 json["first_vote"] as Int,
                                 json["last_vote"] as Int,
-                                Question.NOT_ANSWERED
+                                json["status"] as String,
+                                Question.Choices.NOT_ANSWERED
                             )
                         )
                     }
@@ -165,7 +166,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
-        question.choice = Question.SKIP
+        question.choice = Question.Choices.SKIP
         saveChoice(question)
         setNextQuestion()
     }

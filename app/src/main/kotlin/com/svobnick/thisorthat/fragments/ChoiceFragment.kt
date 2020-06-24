@@ -26,6 +26,7 @@ import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.CommentsActivity
+import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
@@ -80,15 +81,17 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (activity !is HistoryChoiceActivity) {
+            choicePresenter.setNextQuestion()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.reportChoiceWindow = setupReportPopupWindow()
         this.reportResultWindow = setupResponsePopupWindow()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        choicePresenter.setNextQuestion()
     }
 
     override fun onChoiceClick(choice: View) {
@@ -106,16 +109,18 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun setNewQuestion(question: Question) {
-        currentQuestion = question
-        first_text.text = currentQuestion.firstText
-        last_text.text = currentQuestion.lastText
-        isFavorite = false
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
-        first_card_group.alpha = 1f
-        first_text.alpha = 1f
-        last_card_group.alpha = 1f
-        last_text.alpha = 1f
-        hideResults()
+        activity!!.runOnUiThread {
+            currentQuestion = question
+            first_text.text = currentQuestion.firstText
+            last_text.text = currentQuestion.lastText
+            isFavorite = false
+            switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
+            first_card_group.alpha = 1f
+            first_text.alpha = 1f
+            last_card_group.alpha = 1f
+            last_text.alpha = 1f
+            hideResults()
+        }
     }
 
     override fun setResultToView(question: Question, favorite: Boolean) {
@@ -243,10 +248,15 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
                 MediaStore.Images.Media.RELATIVE_PATH,
                 Environment.DIRECTORY_PICTURES
             )
-            uri = context!!.contentResolver!!.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+            uri = context!!.contentResolver!!.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                values
+            )!!
             imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
         } else {
-            val imagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+            val imagePath =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    .toString()
             val image = File(imagePath, filename)
             imageOutStream = FileOutputStream(image)
             uri = Uri.fromFile(image)

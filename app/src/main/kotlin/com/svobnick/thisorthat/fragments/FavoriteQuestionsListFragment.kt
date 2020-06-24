@@ -50,19 +50,17 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         questionsList.addOnScrollListener(scrollListener)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.getFavoriteQuestions(0)
-    }
-
-    override fun onStop() {
-        super.onStop()
+    override fun onResume() {
+        super.onResume()
         adapter.clear()
         scrollListener.resetState()
+        presenter.getFavoriteQuestions(0)
     }
 
     fun addQuestionsToList(questions: List<Question>) {
         adapter.addQuestions(questions)
+        questionsList.visibility = View.VISIBLE
+        emptyListText.visibility = View.GONE
     }
 
     override fun onItemClick(position: Int, favorite: Boolean) {

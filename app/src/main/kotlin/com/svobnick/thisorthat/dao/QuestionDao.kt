@@ -13,6 +13,9 @@ interface QuestionDao {
     @Query("SELECT * FROM question WHERE choice IS NOT null")
     fun getAnsweredQuestions(): Single<List<Question>>
 
+    @Query("SELECT * FROM question WHERE id IN (:ids)")
+    fun getQuestionsByIds(ids: List<Long>): Single<List<Question>>
+
     @Insert
     fun insertAll(questions: List<Question>)
 
@@ -21,4 +24,7 @@ interface QuestionDao {
 
     @Delete
     fun delete(question: Question)
+
+    @Query("DELETE FROM question WHERE id IN (:ids)")
+    fun deleteByIds(ids: List<Long>)
 }

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.moxy.MvpAppCompatFragment
 import com.svobnick.thisorthat.R
@@ -44,6 +45,7 @@ class ChoiceStatFragment : MvpAppCompatFragment(), ChoiceStatView {
             peoples_amount.alpha = 1f
         }
 
+        percent_symbol.visibility = VISIBLE
         percentageAnim.start()
         amountAnim.start()
     }

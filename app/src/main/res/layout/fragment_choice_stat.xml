@@ -22,6 +22,7 @@
         android:fontFamily="@font/ubuntu_medium"
         android:includeFontPadding="false"
         android:text="@string/percentage_symbol"
+        android:visibility="invisible"
         android:textColor="@color/white"
         android:textSize="24sp" />
 

@@ -6,15 +6,9 @@ fun computeQuestionsPercentage(firstRate: Int, lastRate: Int): Pair<Int, Int> {
     val sum = firstRate + lastRate
     var firstPercent = 50
     var lastPercent = 50
-    try {
+    if (sum != 0) {
         firstPercent = ((firstRate.toDouble() / sum) * 100).roundToInt()
-    } catch (ignored: IllegalArgumentException) {
-        // todo
-    }
-    try {
-        lastPercent = ((lastRate.toDouble() / sum) * 100).roundToInt()
-    } catch (ignored: IllegalArgumentException) {
-        // todo
+        lastPercent = 100 - firstPercent
     }
     return Pair(firstPercent, lastPercent)
 }

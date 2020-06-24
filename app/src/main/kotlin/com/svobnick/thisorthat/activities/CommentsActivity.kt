@@ -1,9 +1,12 @@
 package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.moxy.MvpAppCompatActivity
@@ -71,6 +74,23 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
             }
         }
         commentsList.addOnScrollListener(scrollListener)
+
+        new_comment.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if (s.length < 4) {
+                    send_comment.visibility = GONE
+                } else {
+                    send_comment.visibility = VISIBLE
+                }
+            }
+        })
 
         fillQuestionFragment()
 

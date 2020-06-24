@@ -107,13 +107,14 @@
             android:maxLines="6" />
 
         <ImageButton
-            android:id="@+id/button_chatbox_send"
+            android:id="@+id/send_comment"
             android:layout_width="64dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:background="@color/transparent"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             android:gravity="center"
             android:onClick="addComment"
             android:src="@drawable/icon_send"

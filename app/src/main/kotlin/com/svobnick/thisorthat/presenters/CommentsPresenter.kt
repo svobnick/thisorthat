@@ -63,12 +63,12 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
         )
     }
 
-    fun addComment(text: String) {
+    fun addComment(text: String, questionId: Long) {
         if (isValidComment(text)) {
             requestQueue.add(
                 addCommentRequest(
                     app.authToken,
-                    4.toString(),
+                    questionId.toString(),
                     text,
                     0.toString(), // 0 means that there are no parent
                     Response.Listener {

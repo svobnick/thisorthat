@@ -49,6 +49,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     private lateinit var commentsList: RecyclerView
     private lateinit var emptyCommentsText: TextView
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private var questionId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -58,6 +59,9 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         adapter = CommentsAdapter(picasso)
         errorWindow = setupErrorPopup(applicationContext)
+
+        val params = intent.extras!!
+        questionId = params["id"] as Long
 
         commentsList = comments_list
         emptyCommentsText = empty_comments_list
@@ -69,8 +73,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         commentsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                // todo intent.extras!!.get("id") instead of 4
-                cPresenter.getComments(4, page * cPresenter.LIMIT)
+                cPresenter.getComments(questionId, page * cPresenter.LIMIT)
             }
         }
         commentsList.addOnScrollListener(scrollListener)
@@ -78,12 +81,16 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         new_comment.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
                 if (s.length < 4) {
                     send_comment.visibility = GONE
                 } else {
@@ -93,10 +100,19 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         })
 
         fillQuestionFragment()
-
-        // todo intent.extras!!.get("id") instead of 4
-        cPresenter.getComments(4, 0)
     }
+
+    override fun onStart() {
+        super.onStart()
+        cPresenter.getComments(questionId, 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.clear()
+        scrollListener.resetState()
+    }
+
 
     private fun fillQuestionFragment() {
         val params = intent.extras!!
@@ -128,7 +144,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun addComment(sendView: View) {
-        cPresenter.addComment(new_comment.text.toString())
+        cPresenter.addComment(new_comment.text.toString(), questionId)
     }
 
     override fun showEmptyComments() {

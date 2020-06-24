@@ -45,6 +45,11 @@ class CommentsAdapter(private val picasso: Picasso) :
         notifyDataSetChanged()
     }
 
+    fun clear() {
+        commentsList.clear()
+        notifyDataSetChanged()
+    }
+
     class CommentsViewHolder(itemView: View, private val picasso: Picasso) :
         RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View
@@ -62,12 +67,7 @@ class CommentsAdapter(private val picasso: Picasso) :
             } else {
                 comment_author.setTextColor(Color.parseColor("#B454B7"))
             }
-            if (comment.text == "Комментарий 20") {
-                comment_text.text =
-                    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
-            } else {
-                comment_text.text = comment.text
-            }
+            comment_text.text = comment.text
             comment_id.text = comment.commentId.toString()
             parent_id.text = comment.parentId.toString()
         }

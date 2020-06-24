@@ -1,13 +1,17 @@
 package com.svobnick.thisorthat.fragments
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -34,6 +38,10 @@ import kotlinx.android.synthetic.main.fragment_choice_menu.*
 import kotlinx.android.synthetic.main.fragment_header_menu.*
 import kotlinx.android.synthetic.main.popup_report_choice.view.*
 import kotlinx.android.synthetic.main.popup_report_result.view.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.util.*
 
 
 class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
@@ -223,23 +231,41 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun shareQuestion() {
-        val insertImage = MediaStore.Images.Media.insertImage(
-            context?.contentResolver,
-            combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo)),
-            "То или Это",
-            "thisorthat.ru"
-        )
+        val filename = UUID.randomUUID().toString() + ".png"
+
+        val imageOutStream: OutputStream
+        val uri: Uri
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val values = ContentValues()
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+            values.put(
+                MediaStore.Images.Media.RELATIVE_PATH,
+                Environment.DIRECTORY_PICTURES
+            )
+            uri = context!!.contentResolver!!.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+            imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
+        } else {
+            val imagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+            val image = File(imagePath, filename)
+            imageOutStream = FileOutputStream(image)
+            uri = Uri.fromFile(image)
+        }
+
+        combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo))
+            .compress(Bitmap.CompressFormat.PNG, 100, imageOutStream)
 
         val intent = Intent("com.instagram.share.ADD_TO_STORY")
-        intent.setDataAndType(Uri.parse(insertImage), "image/*");
+        intent.type = "image/*"
+        intent.putExtra("interactive_asset_uri", uri)
         intent.putExtra("content_url", "https://thisorthat.ru")
-        intent.putExtra("top_background_color", resources.getColor(R.color.gradient_start))
-        intent.putExtra("bottom_background_color", resources.getColor(R.color.gradient_end))
+        intent.putExtra("top_background_color", "#312F5A")
+        intent.putExtra("bottom_background_color", "#110F26")
 
         val activity: Activity? = activity
         activity?.grantUriPermission(
             "com.instagram.android",
-            Uri.parse(insertImage),
+            uri,
             Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
         if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
@@ -254,15 +280,26 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     private fun combineBitmaps(choiceBitmap: Bitmap, logoBitmap: Bitmap): Bitmap {
-        val width = choiceBitmap.width
+        val width = choiceBitmap.width + (choiceBitmap.width / 2)
         val height = logoBitmap.height + choiceBitmap.height
 
         val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         val comboImage = Canvas(result)
+        comboImage.drawColor(0, PorterDuff.Mode.CLEAR)
 
-        comboImage.drawBitmap(logoBitmap, 0f, 0f, null)
-        comboImage.drawBitmap(choiceBitmap, 0f, logoBitmap.height.toFloat(), null)
+        comboImage.drawBitmap(
+            logoBitmap,
+            ((result.width - logoBitmap.width) / 2).toFloat(),
+            0f,
+            null
+        )
+        comboImage.drawBitmap(
+            choiceBitmap,
+            ((result.width - choiceBitmap.width) / 2).toFloat(),
+            logoBitmap.height.toFloat(),
+            null
+        )
 
         return result
     }

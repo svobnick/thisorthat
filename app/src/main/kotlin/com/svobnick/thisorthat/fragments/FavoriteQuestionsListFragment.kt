@@ -22,6 +22,7 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
     lateinit var adapter: FavoriteQuestionsAdapter
     private lateinit var questionsList: RecyclerView
     private lateinit var emptyListText: TextView
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,21 +42,28 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         adapter.setHasStableIds(true)
         questionsList.adapter = adapter
 
-        val scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 presenter.getFavoriteQuestions(page * presenter.FAVORITE_QUESTIONS_LIMIT)
             }
         }
         questionsList.addOnScrollListener(scrollListener)
+    }
 
+    override fun onStart() {
+        super.onStart()
         presenter.getFavoriteQuestions(0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.clear()
+        scrollListener.resetState()
     }
 
     fun addQuestionsToList(questions: List<Question>) {
         adapter.addQuestions(questions)
     }
-
-
 
     override fun onItemClick(position: Int, favorite: Boolean) {
         val item = adapter.getItem(position)

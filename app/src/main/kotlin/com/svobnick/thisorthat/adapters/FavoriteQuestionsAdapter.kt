@@ -43,6 +43,11 @@ class FavoriteQuestionsAdapter(private val clickListener: OnItemClickListener) :
         return fQuestionsList[position]
     }
 
+    fun clear() {
+        fQuestionsList.clear()
+        notifyDataSetChanged()
+    }
+
     class QuestionListViewHolder(itemView: View, private val listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView), LayoutContainer, View.OnClickListener {
         override val containerView: View get() = itemView
 

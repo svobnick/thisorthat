@@ -22,6 +22,7 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFra
     lateinit var adapter: MyQuestionsAdapter
     private lateinit var questionsList: RecyclerView
     private lateinit var emptyListText: TextView
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,14 +42,23 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFra
         adapter.setHasStableIds(true)
         questionsList.adapter = adapter
 
-        val scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 presenter.getMyQuestions(page * presenter.MY_QUESTIONS_LIMIT)
             }
         }
         questionsList.addOnScrollListener(scrollListener)
+    }
 
+    override fun onStart() {
+        super.onStart()
         presenter.getMyQuestions(0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.clear()
+        scrollListener.resetState()
     }
 
     fun addQuestionsToList(questions: List<Question>) {

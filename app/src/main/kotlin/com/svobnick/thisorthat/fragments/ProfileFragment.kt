@@ -19,7 +19,7 @@ import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.ProfileView
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment() : MvpAppCompatFragment(), ProfileView {
+class ProfileFragment : MvpAppCompatFragment(), ProfileView {
     private lateinit var adapter: ProfileViewPagerAdapter
     private lateinit var viewPager: ViewPager2
 

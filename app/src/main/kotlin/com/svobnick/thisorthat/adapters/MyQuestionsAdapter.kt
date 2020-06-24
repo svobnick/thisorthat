@@ -37,6 +37,11 @@ class MyQuestionsAdapter(private val clickListener: OnItemClickListener) : Recyc
         return mQuestionsList[position]
     }
 
+    fun clear() {
+        mQuestionsList.clear()
+        notifyDataSetChanged()
+    }
+
     fun addQuestions(questions: List<Question>) {
         mQuestionsList.addAll(questions)
         notifyDataSetChanged()

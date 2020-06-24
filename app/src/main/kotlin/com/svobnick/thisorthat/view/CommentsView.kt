@@ -12,6 +12,6 @@ interface CommentsView : MvpView {
     fun setComments(it: List<Comment>)
     fun updateComments()
     fun addComment(sendView: View)
-    fun onCommentAdded()
+    fun onCommentAdded(comment: Comment)
     fun showError(errorMsg: String)
 }

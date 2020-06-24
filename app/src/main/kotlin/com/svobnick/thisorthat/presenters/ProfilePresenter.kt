@@ -36,8 +36,8 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
         requestQueue.add(
             com.svobnick.thisorthat.service.getMyQuestions(
                 json,
-                Response.Listener { response ->
-                    val items = (JSONObject(response)["result"] as JSONObject)["items"] as JSONArray
+                Response.Listener {
+                    val items = (JSONObject(it)["result"] as JSONObject)["items"] as JSONArray
                     if (items.length() == 0 && offset == 0L) {
                         viewState.showEmptyList(0)
                     } else {
@@ -74,8 +74,8 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
         requestQueue.add(
             getFavoriteRequest(
                 json,
-                Response.Listener { response ->
-                    val items = (JSONObject(response)["result"] as JSONObject)["items"] as JSONArray
+                Response.Listener {
+                    val items = (JSONObject(it)["result"] as JSONObject)["items"] as JSONArray
                     if (items.length() == 0 && offset == 0L) {
                         viewState.showEmptyList(1)
                     } else {

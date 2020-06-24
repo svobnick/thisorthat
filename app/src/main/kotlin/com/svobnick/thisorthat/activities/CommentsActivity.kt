@@ -95,7 +95,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         fillQuestionFragment()
 
         // todo intent.extras!!.get("id") instead of 4
-        cPresenter.getComments(1, 0)
+        cPresenter.getComments(4, 0)
     }
 
     private fun fillQuestionFragment() {
@@ -122,7 +122,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCommentAdded() {
+    override fun onCommentAdded(comment: Comment) {
+        adapter.addComment(comment)
         new_comment.text.clear()
     }
 
@@ -131,8 +132,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun showEmptyComments() {
-        commentsList.visibility = View.GONE
-        emptyCommentsText.visibility = View.VISIBLE
+        commentsList.visibility = GONE
+        emptyCommentsText.visibility = VISIBLE
     }
 
     override fun showError(errorMsg: String) {

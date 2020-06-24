@@ -50,7 +50,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                             )
                         )
                     }
-                    if (result.size == 0) {
+                    if (result.size == 0 && offset == 0L) {
                         viewState.showEmptyComments()
                     } else {
                         viewState.setComments(result)
@@ -71,9 +71,18 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                     4.toString(),
                     text,
                     0.toString(), // 0 means that there are no parent
-                    Response.Listener { response ->
-                        print(response)
-                        viewState.onCommentAdded()
+                    Response.Listener {
+                        val json = JSONObject(it)
+                        val item = (json["result"] as JSONObject)
+                        val comment = Comment(
+                            item["name"] as String,
+                            (item["comment_id"] as String).toLong(),
+                            (item["user_id"] as String).toLong(),
+                            (item["parent"] as String).toLong(),
+                            item["message"] as String,
+                            item["avatar"] as String
+                        )
+                        viewState.onCommentAdded(comment)
                     },
                     Response.ErrorListener {
                         ExceptionUtils.handleApiErrorResponse(it, viewState::showError)

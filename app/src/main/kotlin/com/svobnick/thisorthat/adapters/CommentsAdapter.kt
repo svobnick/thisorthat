@@ -40,6 +40,11 @@ class CommentsAdapter(private val picasso: Picasso) :
         notifyDataSetChanged()
     }
 
+    fun addComment(comment: Comment) {
+        commentsList.add(comment)
+        notifyDataSetChanged()
+    }
+
     class CommentsViewHolder(itemView: View, private val picasso: Picasso) :
         RecyclerView.ViewHolder(itemView), LayoutContainer {
         override val containerView: View

@@ -57,9 +57,9 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
         requestQueue.add(
             getNextQuestions(
                 app.authToken,
-                Response.Listener { response ->
+                Response.Listener {
                     val questions2save = ArrayList<Question>()
-                    val json = JSONObject(response)
+                    val json = JSONObject(it)
                     val items = (json["result"] as JSONObject)["items"] as JSONArray
                     for (i in 0 until items.length()) {
                         val json = items.get(i) as JSONObject
@@ -159,8 +159,8 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                 app.authToken,
                 question.id.toString(),
                 reportReason,
-                Response.Listener { response ->
-                    Log.i(TAG, response.toString())
+                Response.Listener {
+                    Log.i(TAG, it.toString())
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
@@ -176,8 +176,8 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             addFavoriteRequest(
                 app.authToken,
                 id,
-                Response.Listener { response ->
-                    Log.i(TAG, response.toString())
+                Response.Listener {
+                    Log.i(TAG, it.toString())
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
@@ -190,8 +190,8 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             deleteFavoriteRequest(
                 app.authToken,
                 id,
-                Response.Listener { response ->
-                    Log.i(TAG, response.toString())
+                Response.Listener {
+                    Log.i(TAG, it.toString())
                 },
                 Response.ErrorListener {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)

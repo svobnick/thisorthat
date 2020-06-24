@@ -52,7 +52,7 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                                     json["first_vote"] as Int,
                                     json["last_vote"] as Int,
                                     json["status"] as String,
-                                    Question.Choices.HISTORY
+                                    Question.Choices.MY_QUESTION
                                 )
                             )
                         }
@@ -90,7 +90,7 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
                                     json["first_vote"] as Int,
                                     json["last_vote"] as Int,
                                     json["status"] as String,
-                                    Question.Choices.HISTORY
+                                    Question.Choices.FAVORITE_QUESTION
                                 )
                             )
                         }

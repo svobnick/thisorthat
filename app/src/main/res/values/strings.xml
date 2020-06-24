@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">То или Это</string>
 
+    <string name="moderation_status">Вопрос пока не прошёл модерацию</string>
+
     <string name="choice_placeholder">Это текст плейсхолдер на 150 знаков.. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков. Это текст плейсхолдер на 150 знаков!!!</string>
     <string name="percentage_placeholder">74</string>
     <string name="percentage_symbol">%</string>

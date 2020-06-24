@@ -102,7 +102,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         first_text.text = currentQuestion.firstText
         last_text.text = currentQuestion.lastText
         isFavorite = false
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
         first_card_group.alpha = 1f
         first_text.alpha = 1f
         last_card_group.alpha = 1f
@@ -137,6 +137,12 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         } else {
             first_card_group.alpha = 0.75f
             first_text.alpha = 0.75f
+        }
+
+        if (Question.Status.NEW == question.status) {
+            moderation_status.visibility = View.VISIBLE
+        } else {
+            moderation_status.visibility = View.INVISIBLE
         }
 
         showResults()
@@ -212,7 +218,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun deleteFavoriteQuestion() {
         choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+        switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
         isFavorite = false
     }
 

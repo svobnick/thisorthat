@@ -27,7 +27,7 @@
         android:background="@color/transparent"
         android:cropToPadding="true"
         android:scaleType="center"
-        android:src="@drawable/icon_favorite_disabled"
+        android:src="@drawable/icon_favorite_off"
         tools:ignore="ContentDescription" />
 
     <ImageButton

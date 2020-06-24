@@ -17,7 +17,8 @@ data class Question(
 
     object Choices {
         const val NOT_ANSWERED = "n" // not answered yet
-        const val HISTORY = "h" // history choices from lists
+        const val MY_QUESTION = "mq" // history choice from my questions list
+        const val FAVORITE_QUESTION = "fq" // history choice from favorite questions list
 
         // these three 'answers' depends on API (other don't allowed)
         const val FIRST = "first"

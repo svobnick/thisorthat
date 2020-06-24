@@ -14,6 +14,7 @@ import com.svobnick.thisorthat.presenters.HistoryChoicePresenter
 import com.svobnick.thisorthat.view.HistoryChoiceView
 import kotlinx.android.synthetic.main.activity_history_choice.*
 import kotlinx.android.synthetic.main.fragment_choice.*
+import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
 class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
 
@@ -44,11 +45,23 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
             extras.get("firstRate") as Int,
             extras.get("lastRate") as Int,
             extras.get("status") as String,
-            Question.Choices.HISTORY
+            extras.get("choice") as String
         )
-        (history_choice as ChoiceFragment).setResultToView(question, extras.getBoolean("isFavorite"))
-        report_button.setOnClickListener(null)
-        first_text.setOnClickListener(null)
-        last_text.setOnClickListener(null)
+        (history_choice as ChoiceFragment).setResultToView(
+            question,
+            extras.getBoolean("isFavorite")
+        )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val extras = intent.extras!!
+        if (Question.Choices.MY_QUESTION == extras.get("choice")) {
+            switch_favorite_button.setImageResource(R.drawable.icon_favorite_disabled)
+            switch_favorite_button.setOnClickListener { }
+        }
+        report_button.setOnClickListener { }
+        first_text.setOnClickListener { }
+        last_text.setOnClickListener { }
     }
 }

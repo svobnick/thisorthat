@@ -13,7 +13,7 @@ interface QuestionDao {
     @Query("SELECT * FROM question WHERE choice IS NOT null")
     fun getAnsweredQuestions(): Single<List<Question>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insertAll(questions: List<Question>)
 
     @Update

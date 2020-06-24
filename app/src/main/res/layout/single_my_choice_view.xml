@@ -30,7 +30,6 @@
             android:gravity="center_vertical"
             android:maxLines="2"
             android:paddingTop="2dp"
-            android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -55,7 +54,6 @@
                 android:layout_marginBottom="-3dp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:includeFontPadding="false"
-                android:text="@string/percentage_placeholder"
                 android:textColor="@color/percentage_stat"
                 android:textSize="24sp" />
 
@@ -78,7 +76,6 @@
                 android:layout_alignParentStart="true"
                 android:fontFamily="@font/ubuntu_light"
                 android:paddingStart="1dp"
-                android:text="@string/amount_placeholder"
                 android:textColor="@color/amount_stat"
                 android:textSize="10sp" />
 
@@ -108,7 +105,6 @@
             android:gravity="center_vertical"
             android:maxLines="2"
             android:paddingTop="2dp"
-            android:text="@string/choice_placeholder"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -133,7 +129,6 @@
                 android:layout_marginBottom="-3dp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:includeFontPadding="false"
-                android:text="@string/percentage_placeholder"
                 android:textColor="@color/percentage_stat"
                 android:textSize="24sp" />
 
@@ -156,7 +151,6 @@
                 android:layout_alignParentStart="true"
                 android:fontFamily="@font/ubuntu_light"
                 android:paddingStart="1dp"
-                android:text="@string/amount_placeholder"
                 android:textColor="@color/amount_stat"
                 android:textSize="10sp" />
 

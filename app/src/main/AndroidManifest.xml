@@ -50,7 +50,9 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/CommentTheme"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".activities.HistoryChoiceActivity"
             android:noHistory="true"

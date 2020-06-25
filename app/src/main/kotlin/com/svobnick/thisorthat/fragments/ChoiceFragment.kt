@@ -84,17 +84,17 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (activity !is HistoryChoiceActivity) {
-            choicePresenter.setNextQuestion()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.reportChoiceWindow = setupReportPopupWindow()
         this.reportResultWindow = setupResponsePopupWindow()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (activity !is HistoryChoiceActivity) {
+            choicePresenter.setNextQuestion()
+        }
     }
 
     override fun onChoiceClick(choice: View) {

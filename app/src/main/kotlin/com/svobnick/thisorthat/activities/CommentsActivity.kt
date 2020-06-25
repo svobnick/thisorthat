@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,6 +51,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     private lateinit var commentsList: RecyclerView
     private lateinit var emptyCommentsText: TextView
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private var keyboardListenersAttached = false
+
     private var questionId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +103,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
             }
         })
 
+        attachKeyboardListeners()
+
         fillQuestionFragment()
     }
 
@@ -113,6 +119,44 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         scrollListener.resetState()
     }
 
+    private fun attachKeyboardListeners() {
+        if (keyboardListenersAttached) {
+            return
+        }
+
+        comments_root.viewTreeObserver.addOnGlobalLayoutListener {
+            val heightDiff = comments_root.rootView.height - comments_root.height
+            val contentViewTop = (window.decorView.bottom / 10)
+
+            val broadcastManager = LocalBroadcastManager.getInstance(baseContext)
+
+            if (heightDiff <= contentViewTop) {
+                onHideKeyboard()
+                val intent = Intent("KeyboardWillHide")
+                broadcastManager.sendBroadcast(intent)
+            } else {
+                val keyboardHeight = heightDiff - contentViewTop
+                onShowKeyboard()
+                val intent = Intent("KeyboardWillShow")
+                intent.putExtra("KeyboardHeight", keyboardHeight)
+                broadcastManager.sendBroadcast(intent)
+            }
+        }
+
+        keyboardListenersAttached = true
+    }
+
+    private fun onHideKeyboard() {
+        bottom_guideline.visibility = VISIBLE
+        supportFragmentManager.beginTransaction().show(bottom_menu).commit()
+        bottom_menu.view!!.visibility = VISIBLE
+    }
+
+    private fun onShowKeyboard() {
+        bottom_guideline.visibility = GONE
+        supportFragmentManager.beginTransaction().hide(bottom_menu).commit()
+        bottom_menu.view!!.visibility = GONE
+    }
 
     private fun fillQuestionFragment() {
         val params = intent.extras!!

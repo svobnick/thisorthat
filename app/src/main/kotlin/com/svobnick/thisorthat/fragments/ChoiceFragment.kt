@@ -1,5 +1,6 @@
 package com.svobnick.thisorthat.fragments
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -39,12 +40,14 @@ import kotlinx.android.synthetic.main.fragment_choice_menu.*
 import kotlinx.android.synthetic.main.fragment_header_menu.*
 import kotlinx.android.synthetic.main.popup_report_choice.view.*
 import kotlinx.android.synthetic.main.popup_report_result.view.*
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.*
 
-
+@RuntimePermissions
 class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private val TAG = this::class.java.name
 
@@ -235,6 +238,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         isFavorite = false
     }
 
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     override fun shareQuestion() {
         val filename = UUID.randomUUID().toString() + ".png"
 
@@ -254,16 +258,16 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             )!!
             imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
         } else {
-            val imagePath =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    .toString()
+            val imagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
             val image = File(imagePath, filename)
             imageOutStream = FileOutputStream(image)
             uri = Uri.fromFile(image)
         }
 
-        combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo))
-            .compress(Bitmap.CompressFormat.PNG, 100, imageOutStream)
+        imageOutStream.use {
+            combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo))
+                .compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
 
         val intent = Intent("com.instagram.share.ADD_TO_STORY")
         intent.type = "image/*"
@@ -272,14 +276,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         intent.putExtra("top_background_color", "#312F5A")
         intent.putExtra("bottom_background_color", "#110F26")
 
-        val activity: Activity? = activity
-        activity?.grantUriPermission(
-            "com.instagram.android",
-            uri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
-        if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
-            activity.startActivityForResult(intent, 0);
+        val activity: Activity = activity!!
+        activity.grantUriPermission("com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        if (activity.packageManager?.resolveActivity(intent, 0) != null) {
+            activity.startActivityForResult(intent, 0)
         }
     }
 

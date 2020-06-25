@@ -1,6 +1,11 @@
 package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.moxy.MvpAppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -32,6 +37,7 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
         msPresenter.attachView(this)
+        setupUI(main_screen_root)
 
         MobileAds.initialize(this)
         MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(listOf("A933D6D3E36429812DB83020D06BEAC7")).build())
@@ -41,6 +47,29 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewPager.adapter = adapter
         viewPager.isUserInputEnabled = false
+    }
+
+    private fun setupUI(view: View) {
+        if (view !is EditText) {
+            view.setOnTouchListener { _, _ ->
+                hideSoftKeyboard()
+                view.performClick()
+            }
+        }
+
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupUI(innerView)
+            }
+        }
+    }
+
+    private fun hideSoftKeyboard() {
+        currentFocus?.let {
+            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
     }
 
     override fun switchFragment(fragmentNumber: Int) {

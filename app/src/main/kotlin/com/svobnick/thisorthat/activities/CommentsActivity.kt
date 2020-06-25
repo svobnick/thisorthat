@@ -6,10 +6,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_comments.*
 import kotlinx.android.synthetic.main.popup_error_view.view.*
 import kotlinx.android.synthetic.main.single_choice_in_comment_view.*
 import javax.inject.Inject
+
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
@@ -60,6 +64,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
         cPresenter.attachView(this)
+        setupUI(comments_root)
 
         adapter = CommentsAdapter(picasso)
         errorWindow = setupErrorPopup(applicationContext)
@@ -158,6 +163,29 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         bottom_menu.view!!.visibility = GONE
     }
 
+    private fun setupUI(view: View) {
+        if (view !is EditText) {
+            view.setOnTouchListener { _, _ ->
+                hideSoftKeyboard()
+                view.performClick()
+            }
+        }
+
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupUI(innerView)
+            }
+        }
+    }
+
+    private fun hideSoftKeyboard() {
+        currentFocus?.let {
+            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
+
     private fun fillQuestionFragment() {
         val params = intent.extras!!
         c_first_text.text = params.get("firstText") as String
@@ -168,8 +196,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         c_last_percent_value.text = params.get("lastPercent") as String
 
         if (Question.Choices.NOT_ANSWERED == params.get("choice") as String) {
-            c_first_stat.visibility = GONE
-            c_last_stat.visibility = GONE
+            c_first_stat.visibility = INVISIBLE
+            c_last_stat.visibility = INVISIBLE
         }
     }
 

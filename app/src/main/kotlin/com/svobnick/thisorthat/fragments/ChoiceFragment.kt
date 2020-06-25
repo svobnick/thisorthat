@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.moxy.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -258,10 +259,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             )!!
             imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
         } else {
-            val imagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+            val imagePath = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
             val image = File(imagePath, filename)
+            uri = FileProvider.getUriForFile(context!!, "com.svobnick.thisorthat.fileprovider", image)
             imageOutStream = FileOutputStream(image)
-            uri = Uri.fromFile(image)
         }
 
         imageOutStream.use {

@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.ThisOrThatApp"
@@ -20,6 +20,16 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/application_ad_id" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.svobnick.thisorthat.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepath" />
+        </provider>
 
         <activity
             android:name=".activities.StartupActivity"
@@ -50,9 +60,8 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/CommentTheme"
-            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustResize"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".activities.HistoryChoiceActivity"
             android:noHistory="true"

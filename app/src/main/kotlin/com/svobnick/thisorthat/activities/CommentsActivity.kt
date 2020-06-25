@@ -133,13 +133,10 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         adapter.setComments(it)
     }
 
-    // todo add swipe-to-refresh to update the list
-    override fun updateComments() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onCommentAdded(comment: Comment) {
         adapter.addComment(comment)
+        commentsList.visibility = VISIBLE
+        emptyCommentsText.visibility = GONE
         new_comment.text.clear()
     }
 

@@ -10,7 +10,6 @@ import com.svobnick.thisorthat.model.Comment
 interface CommentsView : MvpView {
     fun showEmptyComments()
     fun setComments(it: List<Comment>)
-    fun updateComments()
     fun addComment(sendView: View)
     fun onCommentAdded(comment: Comment)
     fun showError(errorMsg: String)

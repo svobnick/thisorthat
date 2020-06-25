@@ -4,23 +4,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/popup_background">
 
-    <ImageView
-        android:id="@+id/choice_added_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/icon_new_choice"
-        android:scaleType="fitXY"
-        />
-
     <TextView
         android:id="@+id/choice_added_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/choice_added_icon"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/ubuntu_bold"
         android:text="@string/choice_added_header"
         android:textColor="@color/white"
@@ -33,6 +24,8 @@
         android:layout_below="@id/choice_added_header"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/ubuntu_light"
         android:maxWidth="360dp"
         android:text="@string/choice_added_text"
@@ -50,6 +43,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:background="@color/report_separator" />
 
         <TextView

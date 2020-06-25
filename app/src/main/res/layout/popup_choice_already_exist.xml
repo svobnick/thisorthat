@@ -5,25 +5,13 @@
     android:background="@drawable/popup_background">
 
     <TextView
-        android:id="@+id/choice_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@color/transparent"
-        android:fontFamily="@font/ubuntu_regular"
-        android:scaleType="fitXY"
-        android:text="@string/choice_already_exist_shrug"
-        android:textColor="@color/white"
-        android:textSize="30sp" />
-
-    <TextView
         android:id="@+id/choice_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/choice_icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/ubuntu_bold"
         android:text="@string/choice_already_exist_header"
         android:textColor="@color/white"
@@ -35,7 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/choice_header"
         android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/ubuntu_light"
         android:maxWidth="360dp"
         android:text="@string/choice_already_exist_text"
@@ -47,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/choice_text"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="3dp"
         android:background="@color/report_separator" />
 
     <LinearLayout
@@ -78,8 +69,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/report_separator"
-            />
+            android:background="@color/report_separator" />
 
         <TextView
             android:id="@+id/choice_ok"

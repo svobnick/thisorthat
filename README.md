@@ -6,7 +6,7 @@ This repository contains source code of android application for https://thisorth
 
 ### Build with
 
-This application based on [thisorthat.ru API](https://github.com/antonlukin/thisorthat-api/wiki/API)
+This application based on [thisorthat.ru API](https://docs.thisorthat.ru)
 
 ### Requirements
 

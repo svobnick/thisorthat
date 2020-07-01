@@ -16,8 +16,6 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.NewChoicePresenter
@@ -30,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_new_choice.*
 import kotlinx.android.synthetic.main.fragment_new_choice.view.*
 import kotlinx.android.synthetic.main.popup_choice_already_exist.view.*
 import kotlinx.android.synthetic.main.popup_error_view.view.*
+import javax.inject.Inject
 
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     private val ANALYTICS_SCREEN_NAME = "Question maker"
@@ -37,10 +36,11 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     private lateinit var mInterstitialAd: InterstitialAd
     private var prevClickTime: Long = 0
 
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var newChoicePresenter: NewChoicePresenter
-
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideNewQuestionPresenter(): NewChoicePresenter {
@@ -52,12 +52,12 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity!!.application as ThisOrThatApp).injector.inject(this)
+
         val view = inflater.inflate(R.layout.fragment_new_choice, container, false)
         view.send_button.setOnClickListener(this::onSendQuestionButtonClick)
 
         initialAdvertisingComponent()
-
-        firebaseAnalytics = Firebase.analytics
 
         return view
     }

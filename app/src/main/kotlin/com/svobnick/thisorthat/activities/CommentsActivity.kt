@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.CommentsAdapter
@@ -45,13 +43,14 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     @Inject
     lateinit var picasso: Picasso
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @InjectPresenter
     lateinit var cPresenter: CommentsPresenter
 
     private lateinit var errorWindow: PopupWindow
     private lateinit var adapter: CommentsAdapter
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ProvidePresenter
     fun providePresenter(): CommentsPresenter {
@@ -75,8 +74,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         adapter = CommentsAdapter(picasso)
         errorWindow = setupErrorPopup(applicationContext)
-
-        firebaseAnalytics = Firebase.analytics
 
         val params = intent.extras!!
         questionId = params["id"] as Long

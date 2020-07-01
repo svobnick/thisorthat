@@ -27,8 +27,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
@@ -50,6 +48,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.*
+import javax.inject.Inject
 
 @RuntimePermissions
 class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
@@ -61,7 +60,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private lateinit var reportChoiceWindow: PopupWindow
     private lateinit var reportResultWindow: PopupWindow
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var currentQuestion: Question
     private var isFavorite: Boolean = false
@@ -84,8 +84,6 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
-
-        firebaseAnalytics = Firebase.analytics
 
         val view = inflater.inflate(R.layout.fragment_choice, container, false)
         view.first_text.setOnClickListener(this::onChoiceClick)

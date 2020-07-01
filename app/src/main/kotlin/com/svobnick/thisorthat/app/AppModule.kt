@@ -3,6 +3,9 @@ package com.svobnick.thisorthat.app
 import androidx.room.Room
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import com.svobnick.thisorthat.service.BottomMenuState
@@ -25,6 +28,7 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
 
     private val menuInteractor = BottomMenuState()
 
+    private val firebaseAnalytics = Firebase.analytics
 
     @Provides
     @Singleton
@@ -57,4 +61,8 @@ class AppModule constructor(thisOrThatApp: ThisOrThatApp) {
     @Provides
     @Singleton
     fun getMenuInteractor(): BottomMenuState = menuInteractor
+
+    @Provides
+    @Singleton
+    fun getAnalytics(): FirebaseAnalytics = firebaseAnalytics
 }

@@ -15,6 +15,9 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.presenters.NewChoicePresenter
@@ -29,11 +32,15 @@ import kotlinx.android.synthetic.main.popup_choice_already_exist.view.*
 import kotlinx.android.synthetic.main.popup_error_view.view.*
 
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
+    private val ANALYTICS_SCREEN_NAME = "Question maker"
+
     private lateinit var mInterstitialAd: InterstitialAd
     private var prevClickTime: Long = 0
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var newChoicePresenter: NewChoicePresenter
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideNewQuestionPresenter(): NewChoicePresenter {
@@ -50,7 +57,14 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
 
         initialAdvertisingComponent()
 
+        firebaseAnalytics = Firebase.analytics
+
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        firebaseAnalytics.setCurrentScreen(this.activity!!, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 
     private fun initialAdvertisingComponent() {

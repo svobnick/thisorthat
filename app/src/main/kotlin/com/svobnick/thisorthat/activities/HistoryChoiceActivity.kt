@@ -6,6 +6,9 @@ import androidx.moxy.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.fragments.ChoiceFragment
@@ -17,9 +20,12 @@ import kotlinx.android.synthetic.main.fragment_choice.*
 import kotlinx.android.synthetic.main.fragment_choice_menu.*
 
 class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
+    private val ANALYTICS_SCREEN_NAME = "Question viewer"
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var hcPresenter: HistoryChoicePresenter
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun providePresenter(): HistoryChoicePresenter {
@@ -31,6 +37,8 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_choice)
         hcPresenter.attachView(this)
+
+        firebaseAnalytics = Firebase.analytics
 
         initFields()
     }
@@ -63,5 +71,7 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
         report_button.setOnClickListener { }
         first_text.setOnClickListener { }
         last_text.setOnClickListener { }
+
+        firebaseAnalytics.setCurrentScreen(this, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 }

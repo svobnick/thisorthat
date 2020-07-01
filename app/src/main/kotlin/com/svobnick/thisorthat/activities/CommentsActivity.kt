@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.CommentsAdapter
@@ -38,6 +41,7 @@ import javax.inject.Inject
 
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
+    private val ANALYTICS_SCREEN_NAME = "Comments"
 
     @Inject
     lateinit var picasso: Picasso
@@ -47,6 +51,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     private lateinit var errorWindow: PopupWindow
     private lateinit var adapter: CommentsAdapter
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ProvidePresenter
     fun providePresenter(): CommentsPresenter {
@@ -70,6 +75,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         adapter = CommentsAdapter(picasso)
         errorWindow = setupErrorPopup(applicationContext)
+
+        firebaseAnalytics = Firebase.analytics
 
         val params = intent.extras!!
         questionId = params["id"] as Long
@@ -118,6 +125,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     override fun onStart() {
         super.onStart()
         cPresenter.getComments(questionId, 0)
+        firebaseAnalytics.setCurrentScreen(this, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 
     override fun onStop() {

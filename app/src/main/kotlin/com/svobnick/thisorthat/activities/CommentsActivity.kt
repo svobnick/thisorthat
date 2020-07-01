@@ -2,6 +2,7 @@ package com.svobnick.thisorthat.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -58,6 +59,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     private var keyboardListenersAttached = false
 
     private var questionId: Long = 0
+    private var prevClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
@@ -213,7 +215,11 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun addComment(sendView: View) {
-        cPresenter.addComment(new_comment.text.toString(), questionId)
+        val current = SystemClock.elapsedRealtime()
+        if (current - prevClickTime > 500L) {
+            cPresenter.addComment(new_comment.text.toString(), questionId)
+            prevClickTime = SystemClock.elapsedRealtime()
+        }
     }
 
     override fun showEmptyComments() {

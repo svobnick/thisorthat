@@ -1,6 +1,7 @@
 package com.svobnick.thisorthat.fragments
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,13 @@ import com.svobnick.thisorthat.presenters.BottomMenuPresenter
 import com.svobnick.thisorthat.view.BottomMenuView
 import kotlinx.android.synthetic.main.fragment_bottom_menu.*
 
+
 class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: BottomMenuPresenter
+
+    private var prevClickTime: Long = 0
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun provideBottomMenuPresenter(): BottomMenuPresenter {
@@ -45,9 +49,13 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     }
 
     fun switchFragment(menuNumber: Int) {
-        goBackToMainScreen()
-        presenter.switchFragment(menuNumber)
-        updateUI(menuNumber)
+        val current = SystemClock.elapsedRealtime()
+        if (current - prevClickTime > 100L) {
+            goBackToMainScreen()
+            presenter.switchFragment(menuNumber)
+            updateUI(menuNumber)
+            prevClickTime = SystemClock.elapsedRealtime()
+        }
     }
 
     override fun onResume() {

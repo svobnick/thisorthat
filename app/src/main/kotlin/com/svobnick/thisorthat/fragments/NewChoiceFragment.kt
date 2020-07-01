@@ -1,6 +1,7 @@
 package com.svobnick.thisorthat.fragments
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ import kotlinx.android.synthetic.main.popup_error_view.view.*
 
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     private lateinit var mInterstitialAd: InterstitialAd
+    private var prevClickTime: Long = 0
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var newChoicePresenter: NewChoicePresenter
@@ -73,10 +75,17 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     }
 
     override fun onSendQuestionButtonClick(selected: View) {
-        if (mInterstitialAd.isLoaded) {
-            mInterstitialAd.show()
-        } else {
-            newChoicePresenter.send(new_first_text.text.toString(), new_last_text.text.toString())
+        val current = SystemClock.elapsedRealtime()
+        if (current - prevClickTime > 500L) {
+            prevClickTime = SystemClock.elapsedRealtime()
+            if (mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+            } else {
+                newChoicePresenter.send(
+                    new_first_text.text.toString(),
+                    new_last_text.text.toString()
+                )
+            }
         }
     }
 

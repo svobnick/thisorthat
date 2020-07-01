@@ -65,11 +65,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
 
     override fun onStart() {
         super.onStart()
-        firebaseAnalytics.setCurrentScreen(
-            this.activity!!,
-            ANALYTICS_SCREEN_NAME,
-            ANALYTICS_SCREEN_NAME
-        )
+        firebaseAnalytics.setCurrentScreen(this.activity!!, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 
     override fun setQuestions(position: Int, questions: List<Question>) {

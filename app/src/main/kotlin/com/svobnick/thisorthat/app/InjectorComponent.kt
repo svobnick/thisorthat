@@ -8,9 +8,7 @@ import com.svobnick.thisorthat.activities.StartupActivity
 import com.svobnick.thisorthat.dao.AnswerDao
 import com.svobnick.thisorthat.dao.ClaimDao
 import com.svobnick.thisorthat.dao.QuestionDao
-import com.svobnick.thisorthat.fragments.ChoiceFragment
-import com.svobnick.thisorthat.fragments.NewChoiceFragment
-import com.svobnick.thisorthat.fragments.ProfileFragment
+import com.svobnick.thisorthat.fragments.*
 import com.svobnick.thisorthat.presenters.*
 import com.svobnick.thisorthat.service.ApplicationDatabase
 import dagger.Component
@@ -29,6 +27,8 @@ interface InjectorComponent {
     fun inject(fragment: ChoiceFragment)
     fun inject(fragment: NewChoiceFragment)
     fun inject(fragment: ProfileFragment)
+    fun inject(fragment: MyQuestionsListFragment)
+    fun inject(fragment: FavoriteQuestionsListFragment)
 
     fun inject(presenter: StartupPresenter)
     fun inject(presenter: ChoicePresenter)

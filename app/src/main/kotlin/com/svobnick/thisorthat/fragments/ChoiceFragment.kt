@@ -65,6 +65,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private lateinit var currentQuestion: Question
     private var isFavorite: Boolean = false
+    private var questionsSessionCounter = 0
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var choicePresenter: ChoicePresenter
@@ -110,6 +111,14 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         firebaseAnalytics.setCurrentScreen(this.activity!!, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 
+    override fun onStop() {
+        val params = Bundle()
+        params.putString("count", questionsSessionCounter.toString())
+        firebaseAnalytics.logEvent("question_answered", params)
+        questionsSessionCounter = 0
+        super.onStop()
+    }
+
     override fun onChoiceClick(choice: View) {
         if (state == STATE.RESULT) {
             choicePresenter.setNextQuestion()
@@ -125,6 +134,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun setNewQuestion(question: Question) {
+        questionsSessionCounter.inc()
         activity!!.runOnUiThread {
             currentQuestion = question
             first_text.text = currentQuestion.firstText
@@ -215,6 +225,9 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun openComments() {
+        val params = Bundle()
+        params.putString("question_id", currentQuestion.id.toString())
+        firebaseAnalytics.logEvent("open_comments", params)
         val intent = Intent(context, CommentsActivity::class.java)
         intent.putExtra("id", currentQuestion.id)
         intent.putExtra("firstText", currentQuestion.firstText)
@@ -253,6 +266,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     override fun shareQuestion() {
+        firebaseAnalytics.logEvent("share_instagram", null)
         val filename = UUID.randomUUID().toString() + ".png"
 
         val imageOutStream: OutputStream

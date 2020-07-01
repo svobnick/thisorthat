@@ -9,16 +9,23 @@ import android.widget.TextView
 import androidx.moxy.MvpAppCompatFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
+import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.OnItemClickListener
+import javax.inject.Inject
 
 class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFragment(),
     OnItemClickListener {
+
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     lateinit var adapter: FavoriteQuestionsAdapter
     private lateinit var questionsList: RecyclerView
     private lateinit var emptyListText: TextView
@@ -29,6 +36,7 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity!!.application as ThisOrThatApp).injector.inject(this)
         return inflater.inflate(R.layout.fragment_questions_list, container, false)
     }
 
@@ -52,6 +60,7 @@ class FavoriteQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCom
 
     override fun onResume() {
         super.onResume()
+        firebaseAnalytics.logEvent("open_favorites_questions", null)
         adapter.clear()
         scrollListener.resetState()
         presenter.getFavoriteQuestions(0)

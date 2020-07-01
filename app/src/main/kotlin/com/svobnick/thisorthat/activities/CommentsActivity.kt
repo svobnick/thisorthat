@@ -120,9 +120,9 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     override fun onStart() {
+        firebaseAnalytics.setCurrentScreen(this, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
         super.onStart()
         cPresenter.getComments(questionId, 0)
-        firebaseAnalytics.setCurrentScreen(this, ANALYTICS_SCREEN_NAME, ANALYTICS_SCREEN_NAME)
     }
 
     override fun onStop() {

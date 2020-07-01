@@ -73,11 +73,16 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
 
         val adRequestBuilder = AdRequest.Builder()
         mInterstitialAd.adListener = object : AdListener() {
+            override fun onAdOpened() {
+                firebaseAnalytics.logEvent("start_send_question_ad", null)
+            }
+
             override fun onAdLoaded() {
                 Log.i("Ads", "Loaded!")
             }
 
             override fun onAdClosed() {
+                firebaseAnalytics.logEvent("send_question_ad_was_viewed", null)
                 mInterstitialAd.loadAd(AdRequest.Builder().build())
                 newChoicePresenter.send(
                     new_first_text.text.toString(),
@@ -91,6 +96,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     override fun onSendQuestionButtonClick(selected: View) {
         val current = SystemClock.elapsedRealtime()
         if (current - prevClickTime > 500L) {
+            firebaseAnalytics.logEvent("try_send_question", null)
             prevClickTime = SystemClock.elapsedRealtime()
             if (mInterstitialAd.isLoaded) {
                 mInterstitialAd.show()
@@ -104,6 +110,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     }
 
     override fun onSuccessfullyAdded() {
+        firebaseAnalytics.logEvent("question_was_sent", null)
         clearForm()
         val successPopup = setupSuccessPopup(context!!, PopupWindow.OnDismissListener {
             (activity!!.supportFragmentManager.findFragmentById(R.id.bottom_menu) as BottomMenuFragment).switchFragment(

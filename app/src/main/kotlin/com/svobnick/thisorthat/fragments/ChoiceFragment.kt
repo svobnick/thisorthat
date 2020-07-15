@@ -278,7 +278,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         val filename = UUID.randomUUID().toString() + ".png"
 
         val imageOutStream: OutputStream
-        val uri: Uri
+        var uri: Uri? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val values = ContentValues()
             values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
@@ -293,9 +293,19 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             )!!
             imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
         } else {
-            val imagePath = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+            val imagePath =
+                context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
             val image = File(imagePath, filename)
-            uri = FileProvider.getUriForFile(context!!, "com.svobnick.thisorthat.fileprovider", image)
+            try {
+                uri = FileProvider.getUriForFile(context!!, "com.svobnick.thisorthat.fileprovider", image)
+            } catch (e: Exception) {
+                // strange hook for problem with huawei devices
+                // more info at https://stackoverflow.com/a/41309223
+                if ("Huawei" == Build.MANUFACTURER) {
+                    uri = Uri.fromFile(image)
+                }
+            }
+
             imageOutStream = FileOutputStream(image)
         }
 
@@ -312,7 +322,11 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         intent.putExtra("bottom_background_color", "#110F26")
 
         val activity: Activity = activity!!
-        activity.grantUriPermission("com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        activity.grantUriPermission(
+            "com.instagram.android",
+            uri,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         if (activity.packageManager?.resolveActivity(intent, 0) != null) {
             activity.startActivityForResult(intent, 0)
         }

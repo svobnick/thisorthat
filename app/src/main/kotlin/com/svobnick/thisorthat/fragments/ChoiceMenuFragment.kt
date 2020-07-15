@@ -49,7 +49,8 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
 
     private fun choiceFragment(): ChoiceFragment {
         if (parentActivity() is MainScreenActivity) {
-            return parentActivity().supportFragmentManager.findFragmentByTag("f" + (parentActivity() as MainScreenActivity).viewPager.currentItem) as ChoiceFragment
+            val currentItem = (parentActivity() as MainScreenActivity).viewPager.currentItem
+            return parentActivity().supportFragmentManager.findFragmentByTag("f$currentItem") as ChoiceFragment
         } else {
             return parentActivity().supportFragmentManager.findFragmentById((parentActivity() as HistoryChoiceActivity).history_choice.id) as ChoiceFragment
         }

@@ -233,6 +233,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun openComments() {
+        if (!this::currentQuestion.isInitialized) {
+            return
+        }
+
         val params = Bundle()
         params.putString("question_id", currentQuestion.id.toString())
         firebaseAnalytics.logEvent("open_comments", params)
@@ -261,12 +265,20 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     private fun addFavoriteQuestion() {
+        if (!this::currentQuestion.isInitialized) {
+            return
+        }
+
         choicePresenter.addFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite)
         isFavorite = true
     }
 
     private fun deleteFavoriteQuestion() {
+        if (!this::currentQuestion.isInitialized) {
+            return
+        }
+
         choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
         switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
         isFavorite = false

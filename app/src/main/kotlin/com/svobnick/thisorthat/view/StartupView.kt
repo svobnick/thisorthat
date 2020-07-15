@@ -7,7 +7,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface StartupView : MvpView {
 
-    fun startup()
     fun onStartupEnd()
     fun showError(errorMsg: String)
 }

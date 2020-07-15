@@ -120,6 +120,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun onChoiceClick(choice: View) {
+        if (!this::currentQuestion.isInitialized) {
+            return
+        }
+
         if (state == STATE.RESULT) {
             choicePresenter.setNextQuestion()
         } else {
@@ -211,6 +215,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     }
 
     override fun reportQuestion(selected: View) {
+        if (!this::currentQuestion.isInitialized) {
+            return
+        }
+
         reportChoiceWindow.showAtLocation(
             activity!!.findViewById(R.id.main_screen_root),
             Gravity.CENTER,

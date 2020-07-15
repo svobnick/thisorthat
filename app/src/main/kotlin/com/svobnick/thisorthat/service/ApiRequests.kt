@@ -23,7 +23,7 @@ fun registrationRequest(
     ) {
         override fun getParams(): MutableMap<String, String> {
             return mutableMapOf(
-                Pair("client", "android_v2"),
+                Pair("client", "android"),
                 Pair("uniqid", instanceId)
             )
         }

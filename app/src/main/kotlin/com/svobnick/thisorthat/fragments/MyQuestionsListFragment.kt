@@ -20,11 +20,13 @@ import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.OnItemClickListener
 import javax.inject.Inject
 
-class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFragment(),
+class MyQuestionsListFragment : MvpAppCompatFragment(),
     OnItemClickListener {
 
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    lateinit var presenter: ProfilePresenter
 
     lateinit var adapter: MyQuestionsAdapter
     private lateinit var questionsList: RecyclerView
@@ -49,6 +51,8 @@ class MyQuestionsListFragment(val presenter: ProfilePresenter) : MvpAppCompatFra
         questionsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)
         questionsList.adapter = adapter
+
+        presenter = (parentFragment as ProfileFragment).profilePresenter
 
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {

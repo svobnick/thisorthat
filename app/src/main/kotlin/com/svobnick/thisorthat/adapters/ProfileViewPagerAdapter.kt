@@ -10,8 +10,8 @@ import com.svobnick.thisorthat.presenters.ProfilePresenter
 
 class ProfileViewPagerAdapter(profileFragment: ProfileFragment, val presenter: ProfilePresenter) :
     FragmentStateAdapter(profileFragment) {
-    private val myQuestionsFragment = MyQuestionsListFragment(presenter)
-    private val favoriteQuestionsFragment = FavoriteQuestionsListFragment(presenter)
+    private val myQuestionsFragment = MyQuestionsListFragment()
+    private val favoriteQuestionsFragment = FavoriteQuestionsListFragment()
 
     override fun getItemCount() = 2
 

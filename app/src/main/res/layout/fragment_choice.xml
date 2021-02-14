@@ -146,8 +146,8 @@
             android:text="@string/or_delimiter"
             android:textColor="@color/gradient_center"
             app:layout_constraintBottom_toTopOf="@id/last_card_group"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/first_card_group" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

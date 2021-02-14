@@ -1,18 +1,14 @@
 package com.svobnick.thisorthat.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
 data class Question(
-    @PrimaryKey var id: Long,
-    @ColumnInfo(name = "first_text") var firstText: String,
-    @ColumnInfo(name = "last_text") var lastText: String,
-    @ColumnInfo(name = "first_rate") var firstRate: Int,
-    @ColumnInfo(name = "last_rate") var lastRate: Int,
-    @ColumnInfo(name = "status") var status: String,
-    @ColumnInfo(name = "choice") var choice: String
+    var id: Long,
+    var firstText: String,
+    var lastText: String,
+    var firstRate: Int,
+    var lastRate: Int,
+    var status: String,
+    var choice: String
 ) {
 
     object Choices {

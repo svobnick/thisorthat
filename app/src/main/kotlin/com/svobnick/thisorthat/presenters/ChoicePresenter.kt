@@ -7,40 +7,26 @@ import com.android.volley.Response
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
-import com.svobnick.thisorthat.dao.AnswerDao
-import com.svobnick.thisorthat.dao.ClaimDao
-import com.svobnick.thisorthat.dao.QuestionDao
 import com.svobnick.thisorthat.model.Answer
-import com.svobnick.thisorthat.model.Claim
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.*
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.ChoiceView
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 @InjectViewState
 class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>() {
     private val TAG = this::class.java.name
 
     @Inject
-    lateinit var questionDao: QuestionDao
-
-    @Inject
-    lateinit var answerDao: AnswerDao
-
-    @Inject
-    lateinit var claimDao: ClaimDao
-
-    @Inject
     lateinit var requestQueue: RequestQueue
 
-    private var questionsQueue: Queue<Question> = LinkedList()
+    private var questionsQueue: TreeMap<Long, Question> = TreeMap()
+    private var answersQueue: LinkedList<Answer> = LinkedList()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -52,22 +38,21 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             getNextQuestions(
                 app.authToken,
                 Response.Listener {
-                    val questions2save = ArrayList<Question>()
+                    val questions2save = HashMap<Long, Question>()
                     val json = JSONObject(it)
                     val items = (json["result"] as JSONObject)["items"] as JSONArray
                     for (i in 0 until items.length()) {
                         val item = items.get(i) as JSONObject
-                        questions2save.add(
-                            Question(
-                                (item["item_id"] as String).toLong(),
-                                item["first_text"] as String,
-                                item["last_text"] as String,
-                                item["first_vote"] as Int,
-                                item["last_vote"] as Int,
-                                item["status"] as String,
-                                Question.Choices.NOT_ANSWERED
-                            )
+                        val question = Question(
+                            (item["item_id"] as String).toLong(),
+                            item["first_text"] as String,
+                            item["last_text"] as String,
+                            item["first_vote"] as Int,
+                            item["last_vote"] as Int,
+                            item["status"] as String,
+                            Question.Choices.NOT_ANSWERED
                         )
+                        questions2save[question.id] = question
                     }
                     saveNewQuestions(questions2save)
                 },
@@ -77,85 +62,33 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
         )
     }
 
-    private fun saveNewQuestions(questions2save: ArrayList<Question>) {
-        val ids = questions2save.map { it.id }
-        questionDao.getQuestionsByIds(ids)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ oldQuestions ->
-                val oldIds = oldQuestions.map { it.id }.toSet()
-                val newQuestions = questions2save.filter { !oldIds.contains(it.id) }
-                Log.i(TAG, "Save ${newQuestions.size} new questions to database")
-                Single.fromCallable { questionDao.insertAll(newQuestions) }
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        fillUnansweredQuestionsQueue()
-                    }, {
-                        viewState.showError(it.localizedMessage)
-                    })
-            }, {
-                viewState.showError(it.localizedMessage)
-            })
+    private fun saveNewQuestions(questions2save: HashMap<Long, Question>) {
+        for (entry in questions2save.entries) {
+            if (!questionsQueue.containsKey(entry.key)) {
+                questionsQueue[entry.key] = entry.value
+            }
+        }
+        setNextQuestion()
     }
 
     @SuppressLint("CheckResult")
     fun saveChoice(choice: Question) {
-        Single.fromCallable { questionDao.saveUserChoice(choice) }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.i(TAG, "Choice saved successfully")
-            }, {
-                viewState.showError(it.localizedMessage)
-            })
+        answersQueue.push(Answer(choice.id, choice.choice))
 
-        Single.fromCallable { answerDao.saveAnswer(Answer(choice.id, choice.choice)) }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.i(TAG, "Answer saved successfully")
-            }, {
-                viewState.showError(it.localizedMessage)
-            })
-
-        answerDao.getAnswers()
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ it ->
-                if (it.size >= 10) {
-                    Log.i(TAG, "Answers size is ${it.size}, try to send it to server")
-                    val value = JSONObject()
-                    it.forEach { answer -> value.put(answer.id.toString(), answer.choice) }
-                    sendAnswers(it)
-                }
-            }, {
-                viewState.showError(it.localizedMessage)
-            })
+        if (answersQueue.size >= 10) {
+            Log.i(TAG, "Answers queue size is ${answersQueue.size}, try to send it to server")
+            val answers2send = ArrayList<Answer>(10)
+            repeat(10) { answers2send.add(answersQueue.poll()!!) }
+            sendAnswers(answers2send)
+        }
     }
 
-    private fun sendAnswers(it: List<Answer>) {
-        val ids = it.map { it.id }
+    private fun sendAnswers(it: Collection<Answer>) {
         requestQueue.add(sendAnswersRequest(
             app.authToken,
             it,
             Response.Listener {
                 Log.i(TAG, "Answers successfully was sent to server!")
-                Single.fromCallable {
-                    answerDao.clear()
-                    questionDao.deleteByIds(ids)
-                }
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(Schedulers.newThread())
-                    .subscribe({
-                        Log.i(TAG, "Answers table successfully cleared!")
-                    }, {
-                        Log.e(
-                            TAG,
-                            "Failed to clear answers table: ${it.localizedMessage}"
-                        )
-                        viewState.showError(it.localizedMessage)
-                    })
             },
             Response.ErrorListener {
                 ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
@@ -164,9 +97,6 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     }
 
     fun reportQuestion(question: Question, reportReason: String) {
-        val claim = Claim(question.id, reportReason)
-        Single.fromCallable { claimDao.saveClaim(claim) }
-            .subscribeOn(Schedulers.newThread())
         requestQueue.add(
             sendReportRequest(
                 app.authToken,
@@ -213,26 +143,11 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
     }
 
     fun setNextQuestion() {
-        val question = questionsQueue.poll()
+        val question = questionsQueue.pollFirstEntry()
         if (question != null) {
-            viewState.setNewQuestion(question)
+            viewState.setNewQuestion(question.value)
         } else {
             getNewQuestions()
         }
-    }
-
-    private fun fillUnansweredQuestionsQueue() {
-        questionDao
-            .getUnansweredQuestions()
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(Schedulers.newThread())
-            .subscribe({
-                questionsQueue.clear() // to avoid inconsistencies (duplicates in queue)
-                questionsQueue.addAll(it)
-                setNextQuestion()
-                Log.i(TAG, "Add ${it.size} unanswered questions to queue")
-            }, {
-                viewState.showError(it.localizedMessage)
-            })
     }
 }

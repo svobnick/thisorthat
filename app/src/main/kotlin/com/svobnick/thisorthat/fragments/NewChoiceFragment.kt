@@ -2,32 +2,25 @@ package com.svobnick.thisorthat.fragments
 
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import androidx.moxy.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.FragmentNewChoiceBinding
 import com.svobnick.thisorthat.presenters.NewChoicePresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.PopupUtils.setupChoicePopup
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
 import com.svobnick.thisorthat.utils.PopupUtils.setupSuccessPopup
 import com.svobnick.thisorthat.view.NewChoiceView
-import kotlinx.android.synthetic.main.fragment_new_choice.*
-import kotlinx.android.synthetic.main.fragment_new_choice.view.*
-import kotlinx.android.synthetic.main.popup_choice_already_exist.view.*
-import kotlinx.android.synthetic.main.popup_error_view.view.*
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
@@ -39,12 +32,15 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var newChoicePresenter: NewChoicePresenter
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    private var _binding: FragmentNewChoiceBinding? = null
+    private val binding get() = _binding!!
+
+    @ProvidePresenter
     fun provideNewQuestionPresenter(): NewChoicePresenter {
-        return NewChoicePresenter(activity!!.application as ThisOrThatApp)
+        return NewChoicePresenter(requireActivity().application as ThisOrThatApp)
     }
 
     override fun onCreateView(
@@ -52,14 +48,13 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity!!.application as ThisOrThatApp).injector.inject(this)
+        (requireActivity().application as ThisOrThatApp).injector.inject(this)
 
-        val view = inflater.inflate(R.layout.fragment_new_choice, container, false)
-        view.send_button.setOnClickListener(this::onSendQuestionButtonClick)
+        _binding = FragmentNewChoiceBinding.inflate(inflater, container, false)
+        binding.sendButton.setOnClickListener(this::onSendQuestionButtonClick)
 
-        initialAdvertisingComponent()
-
-        return view
+//        initialAdvertisingComponent()
+        return binding.root
     }
 
     override fun onStart() {
@@ -70,100 +65,104 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 
-    private fun initialAdvertisingComponent() {
-        mInterstitialAd = InterstitialAd(context)
-        mInterstitialAd.adUnitId = getString(R.string.new_choice_interstitial_ad_id)
-
-        val adRequestBuilder = AdRequest.Builder()
-        mInterstitialAd.adListener = object : AdListener() {
-            override fun onAdOpened() {
-                firebaseAnalytics.logEvent("start_send_question_ad", null)
-            }
-
-            override fun onAdLoaded() {
-                Log.i("Ads", "Loaded!")
-            }
-
-            override fun onAdClosed() {
-                firebaseAnalytics.logEvent("send_question_ad_was_viewed", null)
-                mInterstitialAd.loadAd(AdRequest.Builder().build())
-                newChoicePresenter.send(
-                    new_first_text.text.toString(),
-                    new_last_text.text.toString()
-                )
-            }
-        }
-        mInterstitialAd.loadAd(adRequestBuilder.build())
-    }
+//    private fun initialAdvertisingComponent() {
+//        mInterstitialAd = InterstitialAd(context)
+//        mInterstitialAd.adUnitId = getString(R.string.new_choice_interstitial_ad_id)
+//
+//        val adRequestBuilder = AdRequest.Builder()
+//        mInterstitialAd.adListener = object : AdListener() {
+//            override fun onAdOpened() {
+//                firebaseAnalytics.logEvent("start_send_question_ad", null)
+//            }
+//
+//            override fun onAdLoaded() {
+//                Log.i("Ads", "Loaded!")
+//            }
+//
+//            override fun onAdClosed() {
+//                firebaseAnalytics.logEvent("send_question_ad_was_viewed", null)
+////                mInterstitialAd.loadAd(AdRequest.Builder().build())
+//                newChoicePresenter.send(
+//                    binding.newFirstText.text.toString(),
+//                    binding.newLastText.text.toString()
+//                )
+//            }
+//        }
+//        mInterstitialAd.loadAd(adRequestBuilder.build())
+//    }
 
     override fun onSendQuestionButtonClick(selected: View) {
         val current = SystemClock.elapsedRealtime()
         if (current - prevClickTime > 500L) {
-            firebaseAnalytics.logEvent("try_send_question", null)
-            prevClickTime = SystemClock.elapsedRealtime()
-            if (mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-            } else {
-                newChoicePresenter.send(
-                    new_first_text.text.toString(),
-                    new_last_text.text.toString()
-                )
-            }
+//            firebaseAnalytics.logEvent("try_send_question", null)
+//            prevClickTime = SystemClock.elapsedRealtime()
+//            if (mInterstitialAd.isLoaded) {
+//                mInterstitialAd.show()
+//            } else {
+//                newChoicePresenter.send(
+//                    binding.newFirstText.text.toString(),
+//                    binding.newLastText.text.toString()
+//                )
+//            }
         }
     }
 
     override fun onSuccessfullyAdded() {
         firebaseAnalytics.logEvent("question_was_sent", null)
         clearForm()
-        val successPopup = setupSuccessPopup(context!!, PopupWindow.OnDismissListener {
-            (activity!!.supportFragmentManager.findFragmentById(R.id.bottom_menu) as BottomMenuFragment).switchFragment(
+        val successPopup = setupSuccessPopup(requireContext(), PopupWindow.OnDismissListener {
+            (requireActivity().supportFragmentManager.findFragmentById(R.id.bottom_menu) as BottomMenuFragment).switchFragment(
                 2
             )
         })
-        successPopup.showAtLocation(
-            activity!!.findViewById(R.id.main_screen_root),
+        successPopup.first.showAtLocation(
+            requireActivity().findViewById(R.id.main_screen_root),
             Gravity.CENTER,
             0,
             0
         )
-        dimBackground(activity!!, successPopup.contentView.rootView)
+        dimBackground(requireActivity(), successPopup.second.root)
     }
 
     private fun clearForm() {
-        new_first_text.text.clear()
-        new_last_text.text.clear()
+        binding.newFirstText.text.clear()
+        binding.newLastText.text.clear()
     }
 
     override fun showError(errorMsg: String) {
-        val errorPopup = setupErrorPopup(context!!)
-        errorPopup.contentView.error_text.text = errorMsg
-        errorPopup.showAtLocation(
-            activity!!.findViewById(R.id.main_screen_root),
+        val errorPopup = setupErrorPopup(requireContext())
+        errorPopup.second.errorText.text = errorMsg
+        errorPopup.first.showAtLocation(
+            requireActivity().findViewById(R.id.main_screen_root),
             Gravity.CENTER,
             0,
             0
         )
-        dimBackground(activity!!, errorPopup.contentView.rootView)
+        dimBackground(requireActivity(), errorPopup.second.root)
     }
 
     override fun onChoiceAlreadyExist(cloneId: String) {
-        val choicePopup = setupChoicePopup(context!!,
-            PopupWindow.OnDismissListener { clearForm() })
-        choicePopup.contentView.choice_not_ok.setOnClickListener {
+        val choicePopup = setupChoicePopup(requireContext(), PopupWindow.OnDismissListener { clearForm() })
+        choicePopup.second.choiceNotOk.setOnClickListener {
             clearForm()
-            choicePopup.dismiss()
+            choicePopup.first.dismiss()
         }
-        choicePopup.contentView.choice_ok.setOnClickListener {
+        choicePopup.second.choiceOk.setOnClickListener {
             newChoicePresenter.addFavoriteQuestion(cloneId)
-            choicePopup.dismiss()
+            choicePopup.first.dismiss()
         }
 
-        choicePopup.showAtLocation(
-            activity!!.findViewById(R.id.main_screen_root),
+        choicePopup.first.showAtLocation(
+            requireActivity().findViewById(R.id.main_screen_root),
             Gravity.CENTER,
             0,
             0
         )
-        dimBackground(activity!!, choicePopup.contentView.rootView)
+        dimBackground(requireActivity(), choicePopup.second.root)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

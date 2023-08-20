@@ -1,15 +1,14 @@
 package com.svobnick.thisorthat.presenters
 
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.addFavoriteRequest
 import com.svobnick.thisorthat.service.sendNewQuestion
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.NewChoiceView
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -33,10 +32,8 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
             requestQueue.add(
                 sendNewQuestion(
                     json,
-                    Response.Listener {
-                        viewState.onSuccessfullyAdded()
-                    },
-                    Response.ErrorListener {
+                    { viewState.onSuccessfullyAdded() },
+                    {
                         if (it.networkResponse?.statusCode == 500) {
                             viewState.showError("Проблемы с сервером, попробуйте позже")
                         } else {
@@ -60,8 +57,8 @@ class NewChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<NewChoiceView>()
             addFavoriteRequest(
                 app.authToken,
                 id,
-                Response.Listener { },
-                Response.ErrorListener {
+                { },
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )

@@ -4,16 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.moxy.MvpAppCompatFragment
-import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.databinding.SingleChoiceInCommentViewBinding
+import moxy.MvpAppCompatFragment
 
 class SingleQuestionFragment : MvpAppCompatFragment() {
+
+    private var _binding: SingleChoiceInCommentViewBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.single_choice_in_comment_view, container, false)
+        _binding = SingleChoiceInCommentViewBinding.inflate(inflater, container,false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

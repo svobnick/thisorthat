@@ -5,19 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.moxy.MvpAppCompatFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.adapters.FavoriteQuestionsAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.FragmentQuestionsListBinding
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.OnItemClickListener
+import moxy.MvpAppCompatFragment
 import javax.inject.Inject
 
 class FavoriteQuestionsListFragment : MvpAppCompatFragment(), OnItemClickListener {
@@ -28,28 +27,29 @@ class FavoriteQuestionsListFragment : MvpAppCompatFragment(), OnItemClickListene
     lateinit var presenter: ProfilePresenter
 
     lateinit var adapter: FavoriteQuestionsAdapter
-    private lateinit var questionsList: RecyclerView
-    private lateinit var emptyListText: TextView
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
+    private var _binding: FragmentQuestionsListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity!!.application as ThisOrThatApp).injector.inject(this)
-        return inflater.inflate(R.layout.fragment_questions_list, container, false)
+        (requireActivity().application as ThisOrThatApp).injector.inject(this)
+        _binding = FragmentQuestionsListBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        questionsList = view.findViewById(R.id.questions_list)
-        emptyListText = view.findViewById(R.id.empty_question_list)
         adapter = FavoriteQuestionsAdapter(this)
 
         val linearLayoutManager = LinearLayoutManager(context)
-        questionsList.layoutManager = linearLayoutManager
+        binding.questionsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)
-        questionsList.adapter = adapter
+        binding.questionsList.adapter = adapter
 
         presenter = (parentFragment as ProfileFragment).profilePresenter
 
@@ -58,7 +58,7 @@ class FavoriteQuestionsListFragment : MvpAppCompatFragment(), OnItemClickListene
                 presenter.getFavoriteQuestions(page * presenter.FAVORITE_QUESTIONS_LIMIT)
             }
         }
-        questionsList.addOnScrollListener(scrollListener)
+        binding.questionsList.addOnScrollListener(scrollListener)
     }
 
     override fun onResume() {
@@ -71,8 +71,8 @@ class FavoriteQuestionsListFragment : MvpAppCompatFragment(), OnItemClickListene
 
     fun addQuestionsToList(questions: List<Question>) {
         adapter.addQuestions(questions)
-        questionsList.visibility = View.VISIBLE
-        emptyListText.visibility = View.GONE
+        binding.questionsList.visibility = View.VISIBLE
+        binding.emptyQuestionList.visibility = View.GONE
     }
 
     override fun onItemClick(position: Int, favorite: Boolean) {
@@ -90,7 +90,12 @@ class FavoriteQuestionsListFragment : MvpAppCompatFragment(), OnItemClickListene
     }
 
     fun showEmptyList() {
-        questionsList.visibility = View.GONE
-        emptyListText.visibility = View.VISIBLE
+        binding.questionsList.visibility = View.GONE
+        binding.emptyQuestionList.visibility = View.VISIBLE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header_menu"
         android:name="com.svobnick.thisorthat.fragments.HeaderMenuFragment"
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/white" />
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/first_stat"
                 android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/white" />
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/last_stat"
                 android:name="com.svobnick.thisorthat.fragments.ChoiceStatFragment"
                 android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/choice_menu"
         android:name="com.svobnick.thisorthat.fragments.ChoiceMenuFragment"
         android:layout_width="match_parent"

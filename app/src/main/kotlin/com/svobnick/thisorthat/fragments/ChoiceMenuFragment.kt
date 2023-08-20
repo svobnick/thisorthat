@@ -5,30 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.moxy.MvpAppCompatFragment
-import com.svobnick.thisorthat.R
-import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.activities.MainScreenActivity
+import com.svobnick.thisorthat.databinding.ActivityHistoryChoiceBinding
+import com.svobnick.thisorthat.databinding.ActivityMainScreenBinding
+import com.svobnick.thisorthat.databinding.FragmentChoiceMenuBinding
 import com.svobnick.thisorthat.view.ChoiceMenuView
-import kotlinx.android.synthetic.main.activity_history_choice.*
-import kotlinx.android.synthetic.main.fragment_choice_menu.*
+import moxy.MvpAppCompatFragment
 
 class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
+
+    private var _binding: FragmentChoiceMenuBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_choice_menu, container, false)
+        _binding = FragmentChoiceMenuBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        comments_button.setOnClickListener { commentsHandler() }
-        switch_favorite_button.setOnClickListener { switchFavoriteHandler() }
-        share_button.setOnClickListener { shareHandler() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.commentsButton.setOnClickListener { commentsHandler() }
+        binding.switchFavoriteButton.setOnClickListener { switchFavoriteHandler() }
+        binding.shareButton.setOnClickListener { shareHandler() }
     }
 
     override fun commentsHandler() {
@@ -44,16 +47,23 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
     }
 
     private fun parentActivity(): FragmentActivity {
-        return activity!!
+        return requireActivity()
     }
 
     private fun choiceFragment(): ChoiceFragment {
         if (parentActivity() is MainScreenActivity) {
-            val currentItem = (parentActivity() as MainScreenActivity).viewPager.currentItem
+            val currentItem =
+                ActivityMainScreenBinding.inflate(layoutInflater).mainFragmentsViewPager.currentItem
             return parentActivity().supportFragmentManager.findFragmentByTag("f$currentItem") as ChoiceFragment
         } else {
-            return parentActivity().supportFragmentManager.findFragmentById((parentActivity() as HistoryChoiceActivity).history_choice.id) as ChoiceFragment
+            return parentActivity().supportFragmentManager.findFragmentById(
+                ActivityHistoryChoiceBinding.inflate(layoutInflater).historyChoice.id
+            ) as ChoiceFragment
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

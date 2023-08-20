@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.moxy.MvpAppCompatFragment
 import androidx.viewpager2.widget.ViewPager2
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.ProfileViewPagerAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.FragmentProfileBinding
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ProfilePresenter
 import com.svobnick.thisorthat.view.ProfileView
-import kotlinx.android.synthetic.main.fragment_profile.*
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 class ProfileFragment : MvpAppCompatFragment(), ProfileView {
@@ -28,16 +26,18 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var adapter: ProfileViewPagerAdapter
-    private lateinit var viewPager: ViewPager2
 
     private val tabs = listOf("Мои вопросы", "Избранное")
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var profilePresenter: ProfilePresenter
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
+    @ProvidePresenter
     fun provideProfilePresenter(): ProfilePresenter {
-        return ProfilePresenter(activity!!.application as ThisOrThatApp)
+        return ProfilePresenter(requireActivity().application as ThisOrThatApp)
     }
 
     override fun onCreateView(
@@ -45,20 +45,19 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity!!.application as ThisOrThatApp).injector.inject(this)
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        (requireActivity().application as ThisOrThatApp).injector.inject(this)
+        _binding = FragmentProfileBinding.inflate(inflater,container,false)
         profilePresenter.attachView(this)
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = ProfileViewPagerAdapter(this, profilePresenter)
-        viewPager = view_pager
-        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        viewPager.adapter = adapter
+        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.viewPager.adapter = adapter
 
-        TabLayoutMediator(tab_layout, viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = tabs[position]
         }.attach()
     }
@@ -85,5 +84,10 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
 
     override fun showError(errorMsg: String) {
         Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

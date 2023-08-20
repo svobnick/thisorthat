@@ -1,9 +1,9 @@
 package com.svobnick.thisorthat.presenters
 
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.view.HistoryChoiceView
+import moxy.InjectViewState
+import moxy.MvpPresenter
 
 @InjectViewState
 class HistoryChoicePresenter(val app: ThisOrThatApp) : MvpPresenter<HistoryChoiceView>()  {

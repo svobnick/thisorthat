@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.svobnick.thisorthat">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.ThisOrThatApp"
@@ -32,8 +29,9 @@
         </provider>
 
         <activity
-            android:name=".activities.StartupActivity"
-            android:noHistory="true">
+            android:name="com.svobnick.thisorthat.activities.StartupActivity"
+            android:noHistory="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,9 +39,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainScreenActivity"
+            android:name="com.svobnick.thisorthat.activities.MainScreenActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -56,14 +55,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CommentsActivity"
+            android:name="com.svobnick.thisorthat.activities.CommentsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/CommentTheme"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".activities.HistoryChoiceActivity"
+            android:name="com.svobnick.thisorthat.activities.HistoryChoiceActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

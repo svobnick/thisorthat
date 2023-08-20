@@ -7,34 +7,34 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.moxy.MvpAppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.picasso.Picasso
-import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.CommentsAdapter
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.ActivityCommentsBinding
+import com.svobnick.thisorthat.databinding.PopupErrorViewBinding
+import com.svobnick.thisorthat.databinding.SingleChoiceInCommentViewBinding
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.CommentsPresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
 import com.svobnick.thisorthat.view.CommentsView
-import kotlinx.android.synthetic.main.activity_comments.*
-import kotlinx.android.synthetic.main.popup_error_view.view.*
-import kotlinx.android.synthetic.main.single_choice_in_comment_view.*
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 
@@ -49,7 +49,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     @InjectPresenter
     lateinit var cPresenter: CommentsPresenter
 
-    private lateinit var errorWindow: PopupWindow
+    private lateinit var errorWindow: Pair<PopupWindow, PopupErrorViewBinding>
     private lateinit var adapter: CommentsAdapter
 
     @ProvidePresenter
@@ -57,8 +57,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         return CommentsPresenter(application as ThisOrThatApp)
     }
 
-    private lateinit var commentsList: RecyclerView
-    private lateinit var emptyCommentsText: TextView
+    private lateinit var binding: ActivityCommentsBinding
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private var keyboardListenersAttached = false
 
@@ -68,9 +67,11 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comments)
+
+        binding = ActivityCommentsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         cPresenter.attachView(this)
-        setupUI(comments_root)
+        setupUI(binding.commentsRoot)
 
         adapter = CommentsAdapter(picasso)
         errorWindow = setupErrorPopup(applicationContext)
@@ -78,22 +79,20 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         val params = intent.extras!!
         questionId = params["id"] as Long
 
-        commentsList = comments_list
-        emptyCommentsText = empty_comments_list
-        commentsList.setHasFixedSize(true)
-        commentsList.setItemViewCacheSize(100)
+        binding.commentsList.setHasFixedSize(true)
+        binding.commentsList.setItemViewCacheSize(100)
         val linearLayoutManager = LinearLayoutManager(this)
-        commentsList.layoutManager = linearLayoutManager
+        binding.commentsList.layoutManager = linearLayoutManager
         adapter.setHasStableIds(true)
-        commentsList.adapter = adapter
+        binding.commentsList.adapter = adapter
         scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 cPresenter.getComments(questionId, page * cPresenter.LIMIT)
             }
         }
-        commentsList.addOnScrollListener(scrollListener)
+        binding.commentsList.addOnScrollListener(scrollListener)
 
-        new_comment.addTextChangedListener(object : TextWatcher {
+        binding.newComment.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
             override fun beforeTextChanged(
@@ -107,9 +106,9 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
                 before: Int, count: Int
             ) {
                 if (s.length < 4) {
-                    send_comment.visibility = GONE
+                    binding.sendComment.visibility = GONE
                 } else {
-                    send_comment.visibility = VISIBLE
+                    binding.sendComment.visibility = VISIBLE
                 }
             }
         })
@@ -139,8 +138,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
             return
         }
 
-        comments_root.viewTreeObserver.addOnGlobalLayoutListener {
-            val heightDiff = comments_root.rootView.height - comments_root.height
+        binding.commentsRoot.viewTreeObserver.addOnGlobalLayoutListener {
+            val heightDiff = binding.commentsRoot.rootView.height - binding.commentsRoot.height
             val contentViewTop = (window.decorView.bottom / 10)
 
             val broadcastManager = LocalBroadcastManager.getInstance(baseContext)
@@ -162,15 +161,15 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
     }
 
     private fun onHideKeyboard() {
-        bottom_guideline.visibility = VISIBLE
-        supportFragmentManager.beginTransaction().show(bottom_menu).commit()
-        bottom_menu.view!!.visibility = VISIBLE
+        binding.bottomGuideline.visibility = VISIBLE
+        supportFragmentManager.beginTransaction().show(supportFragmentManager.findFragmentById(binding.bottomMenu.id)!!).commit()
+        binding.bottomMenu.visibility = VISIBLE
     }
 
     private fun onShowKeyboard() {
-        bottom_guideline.visibility = GONE
-        supportFragmentManager.beginTransaction().hide(bottom_menu).commit()
-        bottom_menu.view!!.visibility = GONE
+        binding.bottomGuideline.visibility = GONE
+        supportFragmentManager.beginTransaction().hide(supportFragmentManager.findFragmentById(binding.bottomMenu.id)!!).commit()
+        binding.bottomMenu.visibility = GONE
     }
 
     private fun setupUI(view: View) {
@@ -198,16 +197,17 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     private fun fillQuestionFragment() {
         val params = intent.extras!!
-        c_first_text.text = params.get("firstText") as String
-        c_last_text.text = params.get("lastText") as String
-        c_first_peoples_amount.text = params.get("firstRate") as String
-        c_last_peoples_amount.text = params.get("lastRate") as String
-        c_first_percent_value.text = params.get("firstPercent") as String
-        c_last_percent_value.text = params.get("lastPercent") as String
+        val singleChoice = SingleChoiceInCommentViewBinding.inflate(layoutInflater)
+        singleChoice.cFirstText.text = params.getString("firstText")!!
+        singleChoice.cLastText.text = params.getString("lastText")!!
+        singleChoice.cFirstPeoplesAmount.text = params.getString("firstRate")
+        singleChoice.cLastPeoplesAmount.text = params.getString("lastRate")
+        singleChoice.cFirstPercentValue.text = params.getString("firstPercent")
+        singleChoice.cLastPercentValue.text = params.getString("lastPercent")
 
-        if (Question.Choices.NOT_ANSWERED == params.get("choice") as String) {
-            c_first_stat.visibility = INVISIBLE
-            c_last_stat.visibility = INVISIBLE
+        if (Question.Choices.NOT_ANSWERED == params.getString("choice")) {
+            singleChoice.cFirstStat.visibility = INVISIBLE
+            singleChoice.cLastStat.visibility = INVISIBLE
         }
     }
 
@@ -217,27 +217,27 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     override fun onCommentAdded(comment: Comment) {
         adapter.addComment(comment)
-        commentsList.visibility = VISIBLE
-        emptyCommentsText.visibility = GONE
-        new_comment.text.clear()
+        binding.commentsList.visibility = VISIBLE
+        binding.emptyCommentsList.visibility = GONE
+        binding.newComment.text.clear()
     }
 
     override fun addComment(sendView: View) {
         val current = SystemClock.elapsedRealtime()
         if (current - prevClickTime > 500L) {
-            cPresenter.addComment(new_comment.text.toString(), questionId)
+            cPresenter.addComment(binding.newComment.text.toString(), questionId)
             prevClickTime = SystemClock.elapsedRealtime()
         }
     }
 
     override fun showEmptyComments() {
-        commentsList.visibility = GONE
-        emptyCommentsText.visibility = VISIBLE
+        binding.commentsList.visibility = GONE
+        binding.emptyCommentsList.visibility = VISIBLE
     }
 
     override fun showError(errorMsg: String) {
-        errorWindow.contentView.error_text.text = errorMsg
-        errorWindow.showAtLocation(comments_root, Gravity.CENTER, 0, 0)
-        dimBackground(this, errorWindow.contentView.rootView)
+        errorWindow.second.errorText.text = errorMsg
+        errorWindow.first.showAtLocation(binding.commentsRoot, Gravity.CENTER, 0, 0)
+        dimBackground(this, errorWindow.second.root)
     }
 }

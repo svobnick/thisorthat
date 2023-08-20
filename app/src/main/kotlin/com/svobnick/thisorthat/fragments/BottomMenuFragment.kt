@@ -5,30 +5,31 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.moxy.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.FragmentBottomMenuBinding
 import com.svobnick.thisorthat.presenters.BottomMenuPresenter
 import com.svobnick.thisorthat.view.BottomMenuView
-import kotlinx.android.synthetic.main.fragment_bottom_menu.*
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 
 class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var presenter: BottomMenuPresenter
 
     private var prevClickTime: Long = 0
+    private var _binding: FragmentBottomMenuBinding? = null
+    private val binding get() = _binding!!
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter
     fun provideBottomMenuPresenter(): BottomMenuPresenter {
         return BottomMenuPresenter(
-            activity!!.application as ThisOrThatApp
+            requireActivity().application as ThisOrThatApp
         )
     }
 
@@ -37,15 +38,15 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_bottom_menu, container, false)
+        _binding = FragmentBottomMenuBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        choice_button.setOnClickListener { switchFragment(0) }
-        new_choice_button.setOnClickListener { switchFragment(1) }
-        profile_button.setOnClickListener { switchFragment(2) }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.choiceButton.setOnClickListener { switchFragment(0) }
+        binding.newChoiceButton.setOnClickListener { switchFragment(1) }
+        binding.profileButton.setOnClickListener { switchFragment(2) }
     }
 
     fun switchFragment(menuNumber: Int) {
@@ -66,29 +67,34 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     override fun updateUI(menuNumber: Int) {
         when (menuNumber) {
             0 -> {
-                choice_button.setImageResource(R.drawable.icon_choice)
-                new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
-                profile_button.setImageResource(R.drawable.icon_profile_disabled)
+                binding.choiceButton.setImageResource(R.drawable.icon_choice)
+                binding.newChoiceButton.setImageResource(R.drawable.icon_new_choice_disabled)
+                binding.profileButton.setImageResource(R.drawable.icon_profile_disabled)
             }
             1 -> {
-                choice_button.setImageResource(R.drawable.icon_choice_disabled)
-                new_choice_button.setImageResource(R.drawable.icon_new_choice)
-                profile_button.setImageResource(R.drawable.icon_profile_disabled)
+                binding.choiceButton.setImageResource(R.drawable.icon_choice_disabled)
+                binding.newChoiceButton.setImageResource(R.drawable.icon_new_choice)
+                binding.profileButton.setImageResource(R.drawable.icon_profile_disabled)
             }
             2 -> {
-                choice_button.setImageResource(R.drawable.icon_choice_disabled)
-                new_choice_button.setImageResource(R.drawable.icon_new_choice_disabled)
-                profile_button.setImageResource(R.drawable.icon_profile)
+                binding.choiceButton.setImageResource(R.drawable.icon_choice_disabled)
+                binding.newChoiceButton.setImageResource(R.drawable.icon_new_choice_disabled)
+                binding.profileButton.setImageResource(R.drawable.icon_profile)
             }
         }
     }
 
     private fun goBackToMainScreen() {
         if (activity is CommentsActivity) {
-            activity!!.onBackPressed()
+            requireActivity().onBackPressed()
         }
         if (activity is HistoryChoiceActivity) {
-            activity!!.onBackPressed()
+            requireActivity().onBackPressed()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

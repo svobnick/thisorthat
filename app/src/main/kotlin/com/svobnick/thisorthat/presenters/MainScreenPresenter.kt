@@ -1,11 +1,11 @@
 package com.svobnick.thisorthat.presenters
 
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.BottomMenuState
 import com.svobnick.thisorthat.view.MainScreenView
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState

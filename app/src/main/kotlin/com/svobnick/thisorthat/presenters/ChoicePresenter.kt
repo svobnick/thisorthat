@@ -3,20 +3,18 @@ package com.svobnick.thisorthat.presenters
 import android.annotation.SuppressLint
 import android.util.Log
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Answer
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.service.*
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.ChoiceView
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 @InjectViewState
 class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>() {
@@ -37,7 +35,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
         requestQueue.add(
             getNextQuestions(
                 app.authToken,
-                Response.Listener {
+                {
                     val questions2save = HashMap<Long, Question>()
                     val json = JSONObject(it)
                     val items = (json["result"] as JSONObject)["items"] as JSONArray
@@ -56,7 +54,7 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                     }
                     saveNewQuestions(questions2save)
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
@@ -87,10 +85,10 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
         requestQueue.add(sendAnswersRequest(
             app.authToken,
             it,
-            Response.Listener {
+            {
                 Log.i(TAG, "Answers successfully was sent to server!")
             },
-            Response.ErrorListener {
+            {
                 ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
             }
         ))
@@ -102,10 +100,10 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
                 app.authToken,
                 question.id.toString(),
                 reportReason,
-                Response.Listener {
+                {
                     Log.i(TAG, "Question successfully reported")
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
@@ -119,10 +117,10 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             addFavoriteRequest(
                 app.authToken,
                 id,
-                Response.Listener {
+                {
                     Log.i(TAG, it.toString())
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )
@@ -133,10 +131,10 @@ class ChoicePresenter(private val app: ThisOrThatApp) : MvpPresenter<ChoiceView>
             deleteFavoriteRequest(
                 app.authToken,
                 id,
-                Response.Listener {
+                {
                     Log.i(TAG, it.toString())
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )

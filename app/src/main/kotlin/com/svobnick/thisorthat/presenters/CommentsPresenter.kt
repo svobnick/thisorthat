@@ -1,15 +1,14 @@
 package com.svobnick.thisorthat.presenters
 
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.service.addCommentRequest
 import com.svobnick.thisorthat.service.getCommentsRequest
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.CommentsView
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                 questionId.toString(),
                 LIMIT.toString(),
                 offset.toString(),
-                Response.Listener {
+                {
                     val commentsJson = (JSONObject(it)["result"] as JSONObject)["comments"] as JSONArray
                     val result = mutableListOf<Comment>()
                     for (i in 0 until commentsJson.length()) {
@@ -56,7 +55,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                         viewState.setComments(result)
                     }
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 }
             )
@@ -71,7 +70,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                     questionId.toString(),
                     text,
                     0.toString(), // 0 means that there are no parent
-                    Response.Listener {
+                    {
                         val json = JSONObject(it)
                         val item = (json["result"] as JSONObject)
                         val comment = Comment(
@@ -84,7 +83,7 @@ class CommentsPresenter(private val app: ThisOrThatApp) : MvpPresenter<CommentsV
                         )
                         viewState.onCommentAdded(comment)
                     },
-                    Response.ErrorListener {
+                    {
                         ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                     }
                 )

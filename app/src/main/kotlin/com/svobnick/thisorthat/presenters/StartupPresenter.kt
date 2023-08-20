@@ -2,17 +2,17 @@ package com.svobnick.thisorthat.presenters
 
 import android.util.Log
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.registrationRequest
 import com.svobnick.thisorthat.utils.ExceptionUtils
 import com.svobnick.thisorthat.view.StartupView
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import org.json.JSONObject
 import java.io.File
 import javax.inject.Inject
@@ -32,21 +32,28 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
     }
 
     fun checkRegistration() {
-        val instanceId = FirebaseInstanceId.getInstance().id
-        Log.i(this::javaClass.name, "Firebase instance id: $instanceId")
-
-        Single.fromCallable {
-            Thread.sleep(TWO_SECONDS) // two second for show startup screen
-            val tokenFile = File(app.filesDir, "authToken")
-            if (tokenFile.exists()) {
-                readToken(tokenFile)
-            } else {
-                signUp(instanceId, tokenFile)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
             }
-        }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+
+            val token = task.result
+            Log.i(this::javaClass.name, "Firebase instance id: $token")
+
+            Single.fromCallable {
+                Thread.sleep(TWO_SECONDS) // two second for show startup screen
+                val tokenFile = File(app.filesDir, "authToken")
+                if (tokenFile.exists()) {
+                    readToken(tokenFile)
+                } else {
+                    signUp(token, tokenFile)
+                }
+            }
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        })
     }
 
     private fun readToken(tokenFile: File) {
@@ -59,7 +66,7 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
         requestQueue.add(
             registrationRequest(
                 instanceId,
-                Response.Listener {
+                {
                     val jsonResponse = JSONObject(it)
                     val result = jsonResponse["result"] as JSONObject
                     val authToken = result["token"] as String
@@ -67,7 +74,7 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
                     app.authToken = authToken
                     viewState.onStartupEnd()
                 },
-                Response.ErrorListener {
+                {
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )

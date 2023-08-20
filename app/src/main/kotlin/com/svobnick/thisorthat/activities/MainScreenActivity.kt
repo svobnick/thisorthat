@@ -6,28 +6,26 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.ContextCompat
-import androidx.moxy.MvpAppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
-import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.MainScreenViewPagerAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.ActivityMainScreenBinding
 import com.svobnick.thisorthat.presenters.MainScreenPresenter
 import com.svobnick.thisorthat.view.MainScreenView
-import kotlinx.android.synthetic.main.activity_main_screen.*
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
     private lateinit var adapter: MainScreenViewPagerAdapter
-    lateinit var viewPager: ViewPager2
+    private lateinit var binding: ActivityMainScreenBinding
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var msPresenter: MainScreenPresenter
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter
     fun providePresenter(): MainScreenPresenter {
         return MainScreenPresenter(application as ThisOrThatApp)
     }
@@ -35,18 +33,21 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_screen)
+        binding = ActivityMainScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         msPresenter.attachView(this)
-        setupUI(main_screen_root)
+        setupUI(binding.mainScreenRoot)
 
         MobileAds.initialize(this)
-        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(listOf("A933D6D3E36429812DB83020D06BEAC7")).build())
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf("A933D6D3E36429812DB83020D06BEAC7")).build()
+        )
 
         adapter = MainScreenViewPagerAdapter(this)
-        viewPager = main_fragments_view_pager
-        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        viewPager.adapter = adapter
-        viewPager.isUserInputEnabled = false
+        binding.mainFragmentsViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.mainFragmentsViewPager.adapter = adapter
+        binding.mainFragmentsViewPager.isUserInputEnabled = false
     }
 
     private fun setupUI(view: View) {
@@ -67,14 +68,13 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
 
     private fun hideSoftKeyboard() {
         currentFocus?.let {
-            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+            val inputMethodManager =
+                ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
         }
     }
 
     override fun switchFragment(fragmentNumber: Int) {
-        if (this::viewPager.isInitialized) {
-            viewPager.setCurrentItem(fragmentNumber, false)
-        }
+        binding.mainFragmentsViewPager.setCurrentItem(fragmentNumber, false)
     }
 }

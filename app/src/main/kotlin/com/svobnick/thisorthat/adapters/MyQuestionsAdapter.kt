@@ -4,21 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.databinding.SingleMyChoiceViewBinding
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.OnItemClickListener
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.single_my_choice_view.*
 
 class MyQuestionsAdapter(private val clickListener: OnItemClickListener) : RecyclerView.Adapter<MyQuestionsAdapter.QuestionListViewHolder>() {
 
     private val mQuestionsList = ArrayList<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_my_choice_view, parent, false)
-        return QuestionListViewHolder(view, clickListener)
+        val binding = SingleMyChoiceViewBinding.inflate(LayoutInflater.from(parent.context))
+        return QuestionListViewHolder(binding.root, binding, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -47,9 +44,11 @@ class MyQuestionsAdapter(private val clickListener: OnItemClickListener) : Recyc
         notifyDataSetChanged()
     }
 
-    class QuestionListViewHolder(itemView: View, private val listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView), LayoutContainer, View.OnClickListener {
-        override val containerView: View get() = itemView
-
+    class QuestionListViewHolder(
+        private val itemView: View,
+        private val binding: SingleMyChoiceViewBinding,
+        private val listener: OnItemClickListener
+    ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         init {
             itemView.setOnClickListener(this)
         }
@@ -59,24 +58,24 @@ class MyQuestionsAdapter(private val clickListener: OnItemClickListener) : Recyc
                 question.firstRate,
                 question.lastRate
             )
-            m_first_text.text = question.firstText
+            binding.mFirstText.text = question.firstText
             setFirstStat(firstPercent, question.firstRate)
-            m_last_text.text = question.lastText
+            binding.mLastText.text = question.lastText
             setLastStat(lastPercent, question.lastRate)
         }
 
         private fun setFirstStat(percentage: Int, amount: Int) {
-            m_first_percent_value.text = percentage.toString()
-            m_first_peoples_amount.text = amount.toString()
+            binding.mFirstPercentValue.text = percentage.toString()
+            binding.mFirstPeoplesAmount.text = amount.toString()
         }
 
         private fun setLastStat(percentage: Int, amount: Int) {
-            m_last_percent_value.text = percentage.toString()
-            m_last_peoples_amount.text = amount.toString()
+            binding.mLastPercentValue.text = percentage.toString()
+            binding.mLastPeoplesAmount.text = amount.toString()
         }
 
         override fun onClick(v: View) {
-            listener.onItemClick(adapterPosition, false)
+            listener.onItemClick(bindingAdapterPosition, false)
         }
     }
 }

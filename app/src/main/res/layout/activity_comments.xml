@@ -34,7 +34,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/question"
         android:name="com.svobnick.thisorthat.fragments.SingleQuestionFragment"
         android:layout_width="match_parent"
@@ -105,6 +105,8 @@
             android:fontFamily="@font/ubuntu_light"
             android:background="@color/transparent"
             android:hint="@string/comment_input_hint"
+            android:autofillHints=""
+            android:inputType="text"
             android:maxLength="300"
             android:maxLines="6" />
 
@@ -130,7 +132,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.93" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_menu"
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"

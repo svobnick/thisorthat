@@ -22,32 +22,30 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.moxy.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.FragmentChoiceBinding
+import com.svobnick.thisorthat.databinding.FragmentChoiceMenuBinding
+import com.svobnick.thisorthat.databinding.FragmentHeaderMenuBinding
+import com.svobnick.thisorthat.databinding.PopupReportChoiceBinding
+import com.svobnick.thisorthat.databinding.PopupReportResultBinding
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.ChoicePresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.computeQuestionsPercentage
 import com.svobnick.thisorthat.view.ChoiceView
-import kotlinx.android.synthetic.main.fragment_choice.*
-import kotlinx.android.synthetic.main.fragment_choice.view.*
-import kotlinx.android.synthetic.main.fragment_choice_menu.*
-import kotlinx.android.synthetic.main.fragment_header_menu.*
-import kotlinx.android.synthetic.main.popup_report_choice.view.*
-import kotlinx.android.synthetic.main.popup_report_result.view.*
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @RuntimePermissions
@@ -60,6 +58,11 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private lateinit var reportChoiceWindow: PopupWindow
     private lateinit var reportResultWindow: PopupWindow
 
+    private lateinit var menuBinding: FragmentChoiceMenuBinding
+    private lateinit var headerBinding: FragmentHeaderMenuBinding
+    private var _binding: FragmentChoiceBinding? = null
+    private val binding get() = _binding!!
+
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -67,12 +70,12 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private var isFavorite: Boolean = false
     private var questionsSessionCounter = 0
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var choicePresenter: ChoicePresenter
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter
     fun provideChoicePresenter(): ChoicePresenter {
-        return ChoicePresenter(activity!!.application as ThisOrThatApp)
+        return ChoicePresenter(requireActivity().application as ThisOrThatApp)
     }
 
     override fun onCreateView(
@@ -80,16 +83,18 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity!!.application as ThisOrThatApp).injector.inject(this)
+        (requireActivity().application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
         choicePresenter.attachView(this)
 
         this.state = STATE.QUESTION
 
-        val view = inflater.inflate(R.layout.fragment_choice, container, false)
-        view.first_text.setOnClickListener(this::onChoiceClick)
-        view.last_text.setOnClickListener(this::onChoiceClick)
-        view.report_button.setOnClickListener(this::reportQuestion)
+        _binding = FragmentChoiceBinding.inflate(inflater, container, false)
+        menuBinding = FragmentChoiceMenuBinding.inflate(inflater, container, false)
+        val view = binding.root
+        binding.firstText.setOnClickListener(this::onChoiceClick)
+        binding.lastText.setOnClickListener(this::onChoiceClick)
+        binding.reportButton.setOnClickListener(this::reportQuestion)
         return view
     }
 
@@ -99,8 +104,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         this.reportResultWindow = setupResponsePopupWindow()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (activity !is HistoryChoiceActivity) {
             choicePresenter.setNextQuestion()
         }
@@ -130,7 +135,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         if (state == STATE.RESULT) {
             choicePresenter.setNextQuestion()
         } else {
-            val clickedText = activity!!.findViewById<TextView>(choice.id)
+            val clickedText = requireActivity().findViewById<TextView>(choice.id)
             currentQuestion.choice =
                 if (clickedText.text.toString() == currentQuestion.firstText) Question.Choices.FIRST else Question.Choices.LAST
             choicePresenter.saveChoice(currentQuestion)
@@ -142,28 +147,28 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     override fun setNewQuestion(question: Question) {
         questionsSessionCounter.inc()
-        activity!!.runOnUiThread {
+        requireActivity().runOnUiThread {
             currentQuestion = question
-            first_text.text = currentQuestion.firstText
-            last_text.text = currentQuestion.lastText
+            binding.firstText.text = currentQuestion.firstText
+            binding.lastText.text = currentQuestion.lastText
             isFavorite = false
-            switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
-            first_card_group.alpha = 1f
-            first_text.alpha = 1f
-            last_card_group.alpha = 1f
-            last_text.alpha = 1f
+            menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite_off)
+            binding.firstCardGroup.alpha = 1f
+            binding.firstText.alpha = 1f
+            binding.lastCardGroup.alpha = 1f
+            binding.lastText.alpha = 1f
             hideResults()
         }
     }
 
     override fun setResultToView(question: Question, favorite: Boolean) {
         currentQuestion = question
-        first_text.text = question.firstText
-        last_text.text = question.lastText
+        binding.firstText.text = question.firstText
+        binding.lastText.text = question.lastText
         val firstRate = question.firstRate
         val lastRate = question.lastRate
         if (favorite) {
-            switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+            menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite)
             isFavorite = true
         }
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
@@ -178,17 +183,17 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             question.choice == Question.Choices.LAST
         )
         if (question.choice == Question.Choices.FIRST) {
-            last_card_group.alpha = 0.75f
-            last_text.alpha = 0.75f
+            binding.lastCardGroup.alpha = 0.75f
+            binding.lastText.alpha = 0.75f
         } else {
-            first_card_group.alpha = 0.75f
-            first_text.alpha = 0.75f
+            binding.firstCardGroup.alpha = 0.75f
+            binding.firstText.alpha = 0.75f
         }
 
         if (Question.Status.NEW == question.status) {
-            moderation_status.visibility = View.VISIBLE
+            binding.moderationStatus.visibility = View.VISIBLE
         } else {
-            moderation_status.visibility = View.INVISIBLE
+            binding.moderationStatus.visibility = View.INVISIBLE
         }
 
         showResults()
@@ -209,12 +214,12 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private fun reportResult() {
         reportChoiceWindow.dismiss()
         reportResultWindow.showAtLocation(
-            activity!!.findViewById(R.id.main_screen_root),
+            requireActivity().findViewById(R.id.main_screen_root),
             Gravity.CENTER,
             0,
             0
         )
-        dimBackground(activity!!, reportResultWindow.contentView.rootView)
+        dimBackground(requireActivity(), reportResultWindow.contentView.rootView)
     }
 
     override fun reportQuestion(selected: View) {
@@ -223,12 +228,12 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         reportChoiceWindow.showAtLocation(
-            activity!!.findViewById(R.id.main_screen_root),
+            requireActivity().findViewById(R.id.main_screen_root),
             Gravity.CENTER,
             0,
             0
         )
-        dimBackground(activity!!, reportChoiceWindow.contentView.rootView)
+        dimBackground(requireActivity(), reportChoiceWindow.contentView.rootView)
     }
 
     private fun hideReportResult() {
@@ -273,7 +278,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         choicePresenter.addFavoriteQuestion(currentQuestion.id.toString())
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite)
+        menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite)
         isFavorite = true
     }
 
@@ -283,11 +288,11 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
-        switch_favorite_button.setImageResource(R.drawable.icon_favorite_off)
+        menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite_off)
         isFavorite = false
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @NeedsPermission(value = [Manifest.permission.WRITE_EXTERNAL_STORAGE])
     override fun shareQuestion() {
         firebaseAnalytics.logEvent("share_instagram", null)
         val filename = UUID.randomUUID().toString() + ".png"
@@ -302,17 +307,17 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
                 MediaStore.Images.Media.RELATIVE_PATH,
                 Environment.DIRECTORY_PICTURES
             )
-            uri = context!!.contentResolver!!.insert(
+            uri = requireContext().contentResolver!!.insert(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 values
             )!!
-            imageOutStream = context!!.contentResolver!!.openOutputStream(uri)!!
+            imageOutStream = requireContext().contentResolver!!.openOutputStream(uri)!!
         } else {
             val imagePath =
-                context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+                requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
             val image = File(imagePath, filename)
             try {
-                uri = FileProvider.getUriForFile(context!!, "com.svobnick.thisorthat.fileprovider", image)
+                uri = FileProvider.getUriForFile(requireContext(), "com.svobnick.thisorthat.fileprovider", image)
             } catch (e: Exception) {
                 // strange hook for problem with huawei devices
                 // more info at https://stackoverflow.com/a/41309223
@@ -325,7 +330,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         imageOutStream.use {
-            combineBitmaps(getViewBitmap(choice_view), getViewBitmap(header_logo))
+            combineBitmaps(getViewBitmap(binding.choiceView), getViewBitmap(headerBinding.headerLogo))
                 .compress(Bitmap.CompressFormat.PNG, 100, it)
         }
 
@@ -336,7 +341,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         intent.putExtra("top_background_color", "#312F5A")
         intent.putExtra("bottom_background_color", "#110F26")
 
-        val activity: Activity = activity!!
+        val activity: Activity = requireActivity()
         activity.grantUriPermission(
             "com.instagram.android",
             uri,
@@ -384,8 +389,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun setupReportPopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(context)
-        val reportView = LayoutInflater.from(context).inflate(R.layout.popup_report_choice, null)
-        popupWindow.contentView = reportView
+        val reportView = PopupReportChoiceBinding.inflate(LayoutInflater.from(context))
+        popupWindow.contentView = reportView.root
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
@@ -398,13 +403,13 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private fun setupResponsePopupWindow(): PopupWindow {
         val popupWindow = PopupWindow(context)
-        val responseView = LayoutInflater.from(context).inflate(R.layout.popup_report_result, null)
-        popupWindow.contentView = responseView
+        val responseView = PopupReportResultBinding.inflate(LayoutInflater.from(context))
+        popupWindow.contentView = responseView.root
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
-        responseView.report_result_ok.setOnClickListener { hideReportResult() }
+        responseView.reportResultOk.setOnClickListener { hideReportResult() }
         return popupWindow
     }
 
@@ -420,6 +425,11 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             .show(childFragmentManager.findFragmentById(R.id.first_stat)!!)
             .show(childFragmentManager.findFragmentById(R.id.last_stat)!!)
             .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION

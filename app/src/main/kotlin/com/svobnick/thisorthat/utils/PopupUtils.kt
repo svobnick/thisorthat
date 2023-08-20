@@ -8,51 +8,51 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.fragment.app.FragmentActivity
-import com.svobnick.thisorthat.R
-import kotlinx.android.synthetic.main.popup_choice_added.view.*
-import kotlinx.android.synthetic.main.popup_error_view.view.*
+import com.svobnick.thisorthat.databinding.PopupChoiceAddedBinding
+import com.svobnick.thisorthat.databinding.PopupChoiceAlreadyExistBinding
+import com.svobnick.thisorthat.databinding.PopupErrorViewBinding
 
 object PopupUtils {
 
-    fun setupErrorPopup(context: Context): PopupWindow {
+    fun setupErrorPopup(context: Context): Pair<PopupWindow, PopupErrorViewBinding> {
         val popupWindow = PopupWindow(context)
-        val reportView = LayoutInflater.from(context).inflate(R.layout.popup_error_view, null)
-        popupWindow.contentView = reportView
+        val binding = PopupErrorViewBinding.inflate(LayoutInflater.from(context))
+        popupWindow.contentView = binding.root
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
-        reportView.error_ok.setOnClickListener {
+        binding.errorOk.setOnClickListener {
             popupWindow.dismiss()
         }
-        return popupWindow
+        return Pair(popupWindow, binding)
     }
 
-    fun setupSuccessPopup(context: Context, onDismiss: PopupWindow.OnDismissListener): PopupWindow {
+    fun setupSuccessPopup(context: Context, onDismiss: PopupWindow.OnDismissListener): Pair<PopupWindow, PopupChoiceAddedBinding> {
         val popupWindow = PopupWindow(context)
-        val reportView = LayoutInflater.from(context).inflate(R.layout.popup_choice_added, null)
-        popupWindow.contentView = reportView
+        val binding = PopupChoiceAddedBinding.inflate(LayoutInflater.from(context))
+        popupWindow.contentView = binding.root
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
-        reportView.choice_added_ok.setOnClickListener {
+        binding.choiceAddedOk.setOnClickListener {
             popupWindow.dismiss()
         }
         popupWindow.setOnDismissListener(onDismiss)
-        return popupWindow
+        return Pair(popupWindow, binding)
     }
 
-    fun setupChoicePopup(context: Context, onDismiss: PopupWindow.OnDismissListener): PopupWindow {
+    fun setupChoicePopup(context: Context, onDismiss: PopupWindow.OnDismissListener): Pair<PopupWindow, PopupChoiceAlreadyExistBinding> {
         val popupWindow = PopupWindow(context)
-        val view = LayoutInflater.from(context).inflate(R.layout.popup_choice_already_exist, null)
-        popupWindow.contentView = view
+        val binding = PopupChoiceAlreadyExistBinding.inflate(LayoutInflater.from(context))
+        popupWindow.contentView = binding.root
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
         popupWindow.setOnDismissListener(onDismiss)
-        return popupWindow
+        return Pair(popupWindow,binding)
     }
 
     fun dimBackground(activity: FragmentActivity, container: View) {

@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.moxy.MvpAppCompatActivity
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
+import com.svobnick.thisorthat.databinding.ActivityStartupBinding
 import com.svobnick.thisorthat.presenters.StartupPresenter
 import com.svobnick.thisorthat.view.StartupView
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 class StartupActivity : MvpAppCompatActivity(), StartupView {
+    private lateinit var binding: ActivityStartupBinding
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     lateinit var sPresenter: StartupPresenter
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter
     fun provideStartupPresenter(): StartupPresenter {
         return StartupPresenter(application as ThisOrThatApp)
     }
@@ -31,7 +31,8 @@ class StartupActivity : MvpAppCompatActivity(), StartupView {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        setContentView(R.layout.activity_startup)
+        binding = ActivityStartupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         sPresenter.attachView(this)
     }
 

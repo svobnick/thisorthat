@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     tools:context=".activities.HistoryChoiceActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/history_choice"
         android:name="com.svobnick.thisorthat.fragments.ChoiceFragment"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.92" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_menu"
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"

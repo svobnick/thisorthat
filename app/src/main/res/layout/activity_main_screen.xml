@@ -32,7 +32,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.92" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_menu"
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"

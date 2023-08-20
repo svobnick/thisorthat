@@ -7,20 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import com.svobnick.thisorthat.R
+import com.svobnick.thisorthat.databinding.SingleCommentViewBinding
 import com.svobnick.thisorthat.model.Comment
 import com.svobnick.thisorthat.utils.RoundedCornersTransform
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.single_comment_view.*
 
 class CommentsAdapter(private val picasso: Picasso) :
     RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     private val commentsList = ArrayList<Comment>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.single_comment_view, parent, false)
-        return CommentsViewHolder(view, picasso)
+        val binding = SingleCommentViewBinding.inflate(LayoutInflater.from(parent.context))
+        return CommentsViewHolder(binding.root, binding, picasso)
     }
 
     override fun getItemCount(): Int {
@@ -50,26 +47,28 @@ class CommentsAdapter(private val picasso: Picasso) :
         notifyDataSetChanged()
     }
 
-    class CommentsViewHolder(itemView: View, private val picasso: Picasso) :
-        RecyclerView.ViewHolder(itemView), LayoutContainer {
-        override val containerView: View
-            get() = itemView
+    class CommentsViewHolder(
+        private val itemView: View,
+        private val binding: SingleCommentViewBinding,
+        private val picasso: Picasso
+    ) :
+        RecyclerView.ViewHolder(itemView) {
 
         fun bind(comment: Comment, position: Int) {
             picasso.load(comment.avatarUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .transform(RoundedCornersTransform(24.0f))
-                .into(avatar)
-            user_id.text = comment.userId.toString()
-            comment_author.text = comment.name
+                .into(binding.avatar)
+            binding.userId.text = comment.userId.toString()
+            binding.commentAuthor.text = comment.name
             if (position % 2 == 0) {
-                comment_author.setTextColor(Color.parseColor("#FF6642"))
+                binding.commentAuthor.setTextColor(Color.parseColor("#FF6642"))
             } else {
-                comment_author.setTextColor(Color.parseColor("#B454B7"))
+                binding.commentAuthor.setTextColor(Color.parseColor("#B454B7"))
             }
-            comment_text.text = comment.text
-            comment_id.text = comment.commentId.toString()
-            parent_id.text = comment.parentId.toString()
+            binding.commentText.text = comment.text
+            binding.commentId.text = comment.commentId.toString()
+            binding.parentId.text = comment.parentId.toString()
         }
     }
 }

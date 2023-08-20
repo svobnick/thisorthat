@@ -2,8 +2,7 @@ package com.svobnick.thisorthat.presenters
 
 import android.util.Log
 import com.android.volley.RequestQueue
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.installations.FirebaseInstallations
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.service.registrationRequest
 import com.svobnick.thisorthat.utils.ExceptionUtils
@@ -32,14 +31,14 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
     }
 
     fun checkRegistration() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
+        FirebaseInstallations.getInstance().id.addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Log.w(TAG, "Fetching firebase installation id failed", it.exception)
+                return@addOnCompleteListener
             }
 
-            val token = task.result
-            Log.i(this::javaClass.name, "Firebase instance id: $token")
+            val token = it.result
+            Log.i(this::javaClass.name, "Firebase installation id: $token")
 
             Single.fromCallable {
                 Thread.sleep(TWO_SECONDS) // two second for show startup screen
@@ -53,7 +52,7 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
-        })
+        }
     }
 
     private fun readToken(tokenFile: File) {

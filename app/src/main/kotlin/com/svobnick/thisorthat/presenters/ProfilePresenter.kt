@@ -28,13 +28,13 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
     }
 
     fun getMyQuestions(offset: Long) {
-        val json = JSONObject()
+        val requestJson = JSONObject()
             .put("token", app.authToken)
             .put("limit", MY_QUESTIONS_LIMIT.toString())
             .put("offset", offset.toString())
         requestQueue.add(
             com.svobnick.thisorthat.service.getMyQuestions(
-                json,
+                requestJson,
                 {
                     val items = (JSONObject(it)["result"] as JSONObject)["items"] as JSONArray
                     if (items.length() == 0 && offset == 0L) {
@@ -66,13 +66,13 @@ class ProfilePresenter(private val app: ThisOrThatApp) : MvpPresenter<ProfileVie
     }
 
     fun getFavoriteQuestions(offset: Long) {
-        val json = JSONObject()
+        val requestJson = JSONObject()
             .put("token", app.authToken)
             .put("limit", FAVORITE_QUESTIONS_LIMIT.toString())
             .put("offset", offset.toString())
         requestQueue.add(
             getFavoriteRequest(
-                json,
+                requestJson,
                 {
                     val items = (JSONObject(it)["result"] as JSONObject)["items"] as JSONArray
                     if (items.length() == 0 && offset == 0L) {

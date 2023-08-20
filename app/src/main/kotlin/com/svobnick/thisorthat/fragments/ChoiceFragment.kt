@@ -60,8 +60,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
     private lateinit var menuBinding: FragmentChoiceMenuBinding
     private lateinit var headerBinding: FragmentHeaderMenuBinding
-    private var _binding: FragmentChoiceBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChoiceBinding
 
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -89,7 +88,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
 
         this.state = STATE.QUESTION
 
-        _binding = FragmentChoiceBinding.inflate(inflater, container, false)
+        binding = FragmentChoiceBinding.inflate(inflater, container, false)
         menuBinding = FragmentChoiceMenuBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.firstText.setOnClickListener(this::onChoiceClick)
@@ -115,7 +114,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         super.onStart()
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, ANALYTICS_SCREEN_NAME)
-        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS,ANALYTICS_SCREEN_NAME)
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, ANALYTICS_SCREEN_NAME)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 
@@ -317,7 +316,11 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
                 requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
             val image = File(imagePath, filename)
             try {
-                uri = FileProvider.getUriForFile(requireContext(), "com.svobnick.thisorthat.fileprovider", image)
+                uri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "com.svobnick.thisorthat.fileprovider",
+                    image
+                )
             } catch (e: Exception) {
                 // strange hook for problem with huawei devices
                 // more info at https://stackoverflow.com/a/41309223
@@ -330,7 +333,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         imageOutStream.use {
-            combineBitmaps(getViewBitmap(binding.choiceView), getViewBitmap(headerBinding.headerLogo))
+            combineBitmaps(
+                getViewBitmap(binding.choiceView),
+                getViewBitmap(headerBinding.headerLogo)
+            )
                 .compress(Bitmap.CompressFormat.PNG, 100, it)
         }
 
@@ -425,11 +431,6 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             .show(childFragmentManager.findFragmentById(R.id.first_stat)!!)
             .show(childFragmentManager.findFragmentById(R.id.last_stat)!!)
             .commit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION

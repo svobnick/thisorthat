@@ -10,17 +10,10 @@ import moxy.MvpAppCompatFragment
 
 class HeaderMenuFragment : MvpAppCompatFragment(), HeaderMenuView {
 
-    private var _binding: FragmentHeaderMenuBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: FragmentHeaderMenuBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentHeaderMenuBinding.inflate(inflater, container, false)
+        binding = FragmentHeaderMenuBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

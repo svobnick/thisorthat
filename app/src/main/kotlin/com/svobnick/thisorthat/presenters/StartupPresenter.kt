@@ -58,6 +58,7 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
     private fun readToken(tokenFile: File) {
         val authToken = tokenFile.readText()
         app.authToken = authToken
+        Log.i(TAG, "Successfully read authToken: ${authToken}")
         viewState.onStartupEnd()
     }
 
@@ -70,10 +71,12 @@ class StartupPresenter(val app: ThisOrThatApp) : MvpPresenter<StartupView>() {
                     val result = jsonResponse["result"] as JSONObject
                     val authToken = result["token"] as String
                     tokenFile.writeText(authToken)
+                    Log.i(TAG,"Successfully registration for instanceId: ${instanceId}, receive authToken: $authToken")
                     app.authToken = authToken
                     viewState.onStartupEnd()
                 },
                 {
+                    Log.e(TAG,"Failed registration for instanceId: ${instanceId}")
                     ExceptionUtils.handleApiErrorResponse(it, viewState::showError)
                 })
         )

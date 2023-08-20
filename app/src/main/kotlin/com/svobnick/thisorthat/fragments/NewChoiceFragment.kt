@@ -35,8 +35,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     @InjectPresenter
     lateinit var newChoicePresenter: NewChoicePresenter
 
-    private var _binding: FragmentNewChoiceBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentNewChoiceBinding
 
     @ProvidePresenter
     fun provideNewQuestionPresenter(): NewChoicePresenter {
@@ -50,7 +49,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     ): View {
         (requireActivity().application as ThisOrThatApp).injector.inject(this)
 
-        _binding = FragmentNewChoiceBinding.inflate(inflater, container, false)
+        binding = FragmentNewChoiceBinding.inflate(inflater, container, false)
         binding.sendButton.setOnClickListener(this::onSendQuestionButtonClick)
 
 //        initialAdvertisingComponent()
@@ -61,7 +60,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         super.onStart()
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, ANALYTICS_SCREEN_NAME)
-        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS,ANALYTICS_SCREEN_NAME)
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, ANALYTICS_SCREEN_NAME)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 
@@ -142,7 +141,8 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     }
 
     override fun onChoiceAlreadyExist(cloneId: String) {
-        val choicePopup = setupChoicePopup(requireContext(), PopupWindow.OnDismissListener { clearForm() })
+        val choicePopup =
+            setupChoicePopup(requireContext(), PopupWindow.OnDismissListener { clearForm() })
         choicePopup.second.choiceNotOk.setOnClickListener {
             clearForm()
             choicePopup.first.dismiss()
@@ -159,10 +159,5 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
             0
         )
         dimBackground(requireActivity(), choicePopup.second.root)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

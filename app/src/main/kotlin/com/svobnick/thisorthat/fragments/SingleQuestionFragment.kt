@@ -9,20 +9,14 @@ import moxy.MvpAppCompatFragment
 
 class SingleQuestionFragment : MvpAppCompatFragment() {
 
-    private var _binding: SingleChoiceInCommentViewBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: SingleChoiceInCommentViewBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = SingleChoiceInCommentViewBinding.inflate(inflater, container,false)
+        binding = SingleChoiceInCommentViewBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

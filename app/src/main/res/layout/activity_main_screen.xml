@@ -39,7 +39,6 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_first_guideline"
-        tools:layout="@layout/fragment_bottom_menu"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout="@layout/fragment_bottom_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

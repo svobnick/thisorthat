@@ -13,6 +13,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="@color/transparent"
+        android:contentDescription="choice screen button"
         android:cropToPadding="true"
         android:scaleType="center"
         android:src="@drawable/icon_choice_disabled" />
@@ -23,6 +24,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="@color/transparent"
+        android:contentDescription="new choice screen button"
         android:cropToPadding="true"
         android:scaleType="center"
         android:src="@drawable/icon_new_choice_disabled" />
@@ -33,6 +35,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="@color/transparent"
+        android:contentDescription="profile screen button"
         android:cropToPadding="true"
         android:scaleType="center"
         android:src="@drawable/icon_profile_disabled" />

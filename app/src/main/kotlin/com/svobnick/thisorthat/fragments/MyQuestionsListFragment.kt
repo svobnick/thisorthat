@@ -27,11 +27,9 @@ class MyQuestionsListFragment : MvpAppCompatFragment(),
 
     lateinit var presenter: ProfilePresenter
 
-    lateinit var adapter: MyQuestionsAdapter
+    private lateinit var adapter: MyQuestionsAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
-
-    private var _binding: FragmentQuestionsListBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentQuestionsListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +37,7 @@ class MyQuestionsListFragment : MvpAppCompatFragment(),
         savedInstanceState: Bundle?
     ): View {
         (requireActivity().application as ThisOrThatApp).injector.inject(this)
-        _binding = FragmentQuestionsListBinding.inflate(inflater, container, false)
+        binding = FragmentQuestionsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -92,10 +90,5 @@ class MyQuestionsListFragment : MvpAppCompatFragment(),
     fun showEmptyList() {
         binding.questionsList.visibility = View.GONE
         binding.emptyQuestionList.visibility = View.VISIBLE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import com.svobnick.thisorthat.activities.MainScreenActivity
 import com.svobnick.thisorthat.databinding.ActivityHistoryChoiceBinding
 import com.svobnick.thisorthat.databinding.ActivityMainScreenBinding
@@ -14,17 +13,15 @@ import moxy.MvpAppCompatFragment
 
 class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
 
-    private var _binding: FragmentChoiceMenuBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChoiceMenuBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChoiceMenuBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        binding = FragmentChoiceMenuBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,24 +43,15 @@ class ChoiceMenuFragment : MvpAppCompatFragment(), ChoiceMenuView {
         choiceFragment().shareQuestion()
     }
 
-    private fun parentActivity(): FragmentActivity {
-        return requireActivity()
-    }
-
     private fun choiceFragment(): ChoiceFragment {
-        if (parentActivity() is MainScreenActivity) {
+        if (requireActivity() is MainScreenActivity) {
             val currentItem =
                 ActivityMainScreenBinding.inflate(layoutInflater).mainFragmentsViewPager.currentItem
-            return parentActivity().supportFragmentManager.findFragmentByTag("f$currentItem") as ChoiceFragment
+            return requireActivity().supportFragmentManager.findFragmentByTag("f$currentItem") as ChoiceFragment
         } else {
-            return parentActivity().supportFragmentManager.findFragmentById(
+            return requireActivity().supportFragmentManager.findFragmentById(
                 ActivityHistoryChoiceBinding.inflate(layoutInflater).historyChoice.id
             ) as ChoiceFragment
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -118,10 +118,9 @@
             android:background="@color/transparent"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="gone"
             android:gravity="center"
             android:onClick="addComment"
-            android:src="@drawable/icon_send"
+            android:src="@drawable/icon_send_disabled"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -130,7 +129,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.93" />
+        app:layout_constraintGuide_percent="0.92" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_menu"

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.picasso.Picasso
+import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.adapters.CommentsAdapter
 import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
@@ -77,7 +78,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         errorWindow = setupErrorPopup(applicationContext)
 
         val params = intent.extras!!
-        questionId = params["id"] as Long
+        questionId = params.getLong("id")
 
         binding.commentsList.setHasFixedSize(true)
         binding.commentsList.setItemViewCacheSize(100)
@@ -106,9 +107,11 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
                 before: Int, count: Int
             ) {
                 if (s.length < 4) {
-                    binding.sendComment.visibility = GONE
+                    binding.sendComment.isClickable = false
+                    binding.sendComment.setImageResource(R.drawable.icon_send_disabled)
                 } else {
-                    binding.sendComment.visibility = VISIBLE
+                    binding.sendComment.isClickable = true
+                    binding.sendComment.setImageResource(R.drawable.icon_send)
                 }
             }
         })

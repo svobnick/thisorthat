@@ -13,17 +13,15 @@ import moxy.MvpAppCompatFragment
 
 class ChoiceStatFragment : MvpAppCompatFragment(), ChoiceStatView {
 
-    private var _binding: FragmentChoiceStatBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChoiceStatBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChoiceStatBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        binding = FragmentChoiceStatBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun setStat(percentage: Int, amount: Int, userChoice: Boolean) {
@@ -52,10 +50,5 @@ class ChoiceStatFragment : MvpAppCompatFragment(), ChoiceStatView {
         binding.percentSymbol.visibility = VISIBLE
         percentageAnim.start()
         amountAnim.start()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -32,8 +32,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
     @InjectPresenter
     lateinit var profilePresenter: ProfilePresenter
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentProfileBinding
 
     @ProvidePresenter
     fun provideProfilePresenter(): ProfilePresenter {
@@ -46,7 +45,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
         savedInstanceState: Bundle?
     ): View {
         (requireActivity().application as ThisOrThatApp).injector.inject(this)
-        _binding = FragmentProfileBinding.inflate(inflater,container,false)
+        binding = FragmentProfileBinding.inflate(inflater,container,false)
         profilePresenter.attachView(this)
         return binding.root
     }
@@ -84,10 +83,5 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView {
 
     override fun showError(errorMsg: String) {
         Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

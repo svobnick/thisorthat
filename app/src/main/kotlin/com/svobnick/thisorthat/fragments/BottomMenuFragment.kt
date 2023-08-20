@@ -23,8 +23,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
     lateinit var presenter: BottomMenuPresenter
 
     private var prevClickTime: Long = 0
-    private var _binding: FragmentBottomMenuBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentBottomMenuBinding
 
     @ProvidePresenter
     fun provideBottomMenuPresenter(): BottomMenuPresenter {
@@ -38,7 +37,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomMenuBinding.inflate(inflater, container, false)
+        binding = FragmentBottomMenuBinding.inflate(inflater)
         return binding.root
     }
 
@@ -91,10 +90,5 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
         if (activity is HistoryChoiceActivity) {
             requireActivity().onBackPressed()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

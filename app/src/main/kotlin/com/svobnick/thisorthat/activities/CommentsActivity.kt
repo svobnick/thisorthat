@@ -8,13 +8,13 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.View.GONE
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,9 +26,8 @@ import com.svobnick.thisorthat.adapters.EndlessRecyclerViewScrollListener
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.databinding.ActivityCommentsBinding
 import com.svobnick.thisorthat.databinding.PopupErrorViewBinding
-import com.svobnick.thisorthat.databinding.SingleChoiceInCommentViewBinding
 import com.svobnick.thisorthat.model.Comment
-import com.svobnick.thisorthat.model.Question
+import com.svobnick.thisorthat.model.SingleQuestionDataViewModel
 import com.svobnick.thisorthat.presenters.CommentsPresenter
 import com.svobnick.thisorthat.utils.PopupUtils.dimBackground
 import com.svobnick.thisorthat.utils.PopupUtils.setupErrorPopup
@@ -40,6 +39,7 @@ import javax.inject.Inject
 
 
 class CommentsActivity : MvpAppCompatActivity(), CommentsView {
+    private val TAG = this::class.java.name
     private val ANALYTICS_SCREEN_NAME = "Comments"
 
     @Inject
@@ -118,7 +118,8 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         attachKeyboardListeners()
 
-        fillQuestionFragment()
+        val viewModel = ViewModelProvider(this).get(SingleQuestionDataViewModel::class.java)
+        fillQuestionFragment(viewModel)
     }
 
     override fun onStart() {
@@ -198,20 +199,15 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         }
     }
 
-    private fun fillQuestionFragment() {
+    private fun fillQuestionFragment(viewModel: SingleQuestionDataViewModel) {
         val params = intent.extras!!
-        val singleChoice = SingleChoiceInCommentViewBinding.inflate(layoutInflater)
-        singleChoice.cFirstText.text = params.getString("firstText")!!
-        singleChoice.cLastText.text = params.getString("lastText")!!
-        singleChoice.cFirstPeoplesAmount.text = params.getString("firstRate")
-        singleChoice.cLastPeoplesAmount.text = params.getString("lastRate")
-        singleChoice.cFirstPercentValue.text = params.getString("firstPercent")
-        singleChoice.cLastPercentValue.text = params.getString("lastPercent")
-
-        if (Question.Choices.NOT_ANSWERED == params.getString("choice")) {
-            singleChoice.cFirstStat.visibility = INVISIBLE
-            singleChoice.cLastStat.visibility = INVISIBLE
-        }
+        viewModel.firstText.value = params.getString("firstText")!!
+        viewModel.lastText.value = params.getString("lastText")!!
+        viewModel.firstRate.value = params.getString("firstRate")
+        viewModel.lastRate.value = params.getString("lastRate")
+        viewModel.firstPercent.value = params.getString("firstPercent")
+        viewModel.lastPercent.value = params.getString("lastPercent")
+        viewModel.choice.value = params.getString("choice")
     }
 
     override fun setComments(it: List<Comment>) {

@@ -2,12 +2,12 @@ package com.svobnick.thisorthat.activities
 
 import android.os.Bundle
 import android.view.View.INVISIBLE
+import android.widget.ImageView
+import android.widget.TextView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.databinding.ActivityHistoryChoiceBinding
-import com.svobnick.thisorthat.databinding.FragmentChoiceBinding
-import com.svobnick.thisorthat.databinding.FragmentChoiceMenuBinding
 import com.svobnick.thisorthat.fragments.ChoiceFragment
 import com.svobnick.thisorthat.model.Question
 import com.svobnick.thisorthat.presenters.HistoryChoicePresenter
@@ -27,8 +27,6 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
     lateinit var hcPresenter: HistoryChoicePresenter
 
     private lateinit var binding: ActivityHistoryChoiceBinding
-    private lateinit var choiceBinding: FragmentChoiceBinding
-    private lateinit var menuBinding: FragmentChoiceMenuBinding
 
     @ProvidePresenter
     fun providePresenter(): HistoryChoicePresenter {
@@ -39,17 +37,18 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
         (application as ThisOrThatApp).injector.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryChoiceBinding.inflate(layoutInflater)
-        choiceBinding = FragmentChoiceBinding.bind(binding.historyChoice)
-        menuBinding = FragmentChoiceMenuBinding.bind(choiceBinding.choiceMenu)
         setContentView(binding.root)
         hcPresenter.attachView(this)
+    }
 
+    override fun onResume() {
+        super.onResume()
         initFields()
     }
 
     private fun initFields() {
-        val choiceBinding = FragmentChoiceBinding.inflate(layoutInflater)
-        choiceBinding.reportButton.visibility = INVISIBLE
+        supportFragmentManager.findFragmentById(R.id.history_choice)!!.requireView()
+            .findViewById<ImageView>(R.id.report_button).visibility = INVISIBLE
         val extras = intent.extras!!
         val question = Question(
             extras.getLong("itemId"),
@@ -60,7 +59,7 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
             extras.getString("status")!!,
             extras.getString("choice")!!
         )
-        (supportFragmentManager.findFragmentById(binding.historyChoice.id) as ChoiceFragment).setResultToView(
+        (supportFragmentManager.findFragmentById(R.id.history_choice) as ChoiceFragment).setResultToView(
             question,
             extras.getBoolean("isFavorite")
         )
@@ -70,16 +69,17 @@ class HistoryChoiceActivity : MvpAppCompatActivity(), HistoryChoiceView {
         super.onStart()
         val extras = intent.extras!!
         if (Question.Choices.MY_QUESTION == extras.getString("choice")) {
-            menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite_disabled)
-            menuBinding.switchFavoriteButton.setOnClickListener { }
+            val favoriteButton = findViewById<ImageView>(R.id.switch_favorite_button)
+            favoriteButton.setImageResource(R.drawable.icon_favorite_disabled)
+            favoriteButton.setOnClickListener { }
         }
-        choiceBinding.reportButton.setOnClickListener { }
-        choiceBinding.firstText.setOnClickListener { }
-        choiceBinding.lastText.setOnClickListener { }
+        findViewById<ImageView>(R.id.report_button).setOnClickListener { }
+        findViewById<TextView>(R.id.first_text).setOnClickListener { }
+        findViewById<TextView>(R.id.last_text).setOnClickListener { }
 
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, ANALYTICS_SCREEN_NAME)
-        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS,ANALYTICS_SCREEN_NAME)
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, ANALYTICS_SCREEN_NAME)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 }

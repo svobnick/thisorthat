@@ -118,7 +118,7 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
         attachKeyboardListeners()
 
-        val viewModel = ViewModelProvider(this).get(SingleQuestionDataViewModel::class.java)
+        val viewModel = ViewModelProvider(this)[SingleQuestionDataViewModel::class.java]
         fillQuestionFragment(viewModel)
     }
 

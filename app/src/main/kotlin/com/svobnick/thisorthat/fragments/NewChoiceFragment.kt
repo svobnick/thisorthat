@@ -93,15 +93,15 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     override fun onSendQuestionButtonClick(selected: View) {
         val current = SystemClock.elapsedRealtime()
         if (current - prevClickTime > 500L) {
-//            firebaseAnalytics.logEvent("try_send_question", null)
-//            prevClickTime = SystemClock.elapsedRealtime()
+            firebaseAnalytics.logEvent("try_send_question", null)
+            prevClickTime = SystemClock.elapsedRealtime()
 //            if (mInterstitialAd.isLoaded) {
 //                mInterstitialAd.show()
 //            } else {
-//                newChoicePresenter.send(
-//                    binding.newFirstText.text.toString(),
-//                    binding.newLastText.text.toString()
-//                )
+            newChoicePresenter.send(
+                binding.newFirstText.text.toString(),
+                binding.newLastText.text.toString()
+            )
 //            }
         }
     }
@@ -110,7 +110,7 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         firebaseAnalytics.logEvent("question_was_sent", null)
         clearForm()
         val successPopup = setupSuccessPopup(requireContext(), PopupWindow.OnDismissListener {
-            (requireActivity().supportFragmentManager.findFragmentById(R.id.bottom_menu) as BottomMenuFragment).switchFragment(
+            (requireActivity().supportFragmentManager.findFragmentById(R.id.main_bottom_menu) as BottomMenuFragment).switchFragment(
                 2
             )
         })

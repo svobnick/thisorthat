@@ -2,6 +2,7 @@ package com.svobnick.thisorthat.fragments
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class BottomMenuFragment : MvpAppCompatFragment(), BottomMenuView {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBottomMenuBinding.inflate(inflater)
+        Log.i(javaClass.simpleName, "Bottom menu fragment initialization")
         return binding.root
     }
 

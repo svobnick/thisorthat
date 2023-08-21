@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/bottom_delimiter"
-        app:layout_constraintBottom_toTopOf="@id/bottom_menu" />
+        app:layout_constraintBottom_toTopOf="@id/main_bottom_menu" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -33,7 +33,7 @@
         app:layout_constraintGuide_percent="0.92" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/bottom_menu"
+        android:id="@+id/main_bottom_menu"
         android:name="com.svobnick.thisorthat.fragments.BottomMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"

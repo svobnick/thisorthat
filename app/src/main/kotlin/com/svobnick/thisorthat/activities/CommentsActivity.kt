@@ -1,6 +1,5 @@
 package com.svobnick.thisorthat.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Editable
@@ -15,7 +14,6 @@ import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -60,7 +58,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
 
     private lateinit var binding: ActivityCommentsBinding
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
-    private var keyboardListenersAttached = false
 
     private var questionId: Long = 0
     private var prevClickTime: Long = 0
@@ -80,6 +77,14 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         val params = intent.extras!!
         questionId = params.getLong("id")
 
+        setParametersToCommentsList()
+        attachTextChangedListenerToNewCommentField()
+
+        val viewModel = ViewModelProvider(this)[SingleQuestionDataViewModel::class.java]
+        fillQuestionFragment(viewModel)
+    }
+
+    private fun setParametersToCommentsList() {
         binding.commentsList.setHasFixedSize(true)
         binding.commentsList.setItemViewCacheSize(100)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -92,7 +97,9 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
             }
         }
         binding.commentsList.addOnScrollListener(scrollListener)
+    }
 
+    private fun attachTextChangedListenerToNewCommentField() {
         binding.newComment.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
@@ -115,11 +122,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
                 }
             }
         })
-
-        attachKeyboardListeners()
-
-        val viewModel = ViewModelProvider(this)[SingleQuestionDataViewModel::class.java]
-        fillQuestionFragment(viewModel)
     }
 
     override fun onStart() {
@@ -135,45 +137,6 @@ class CommentsActivity : MvpAppCompatActivity(), CommentsView {
         super.onStop()
         adapter.clear()
         scrollListener.resetState()
-    }
-
-    private fun attachKeyboardListeners() {
-        if (keyboardListenersAttached) {
-            return
-        }
-
-        binding.commentsRoot.viewTreeObserver.addOnGlobalLayoutListener {
-            val heightDiff = binding.commentsRoot.rootView.height - binding.commentsRoot.height
-            val contentViewTop = (window.decorView.bottom / 10)
-
-            val broadcastManager = LocalBroadcastManager.getInstance(baseContext)
-
-            if (heightDiff <= contentViewTop) {
-                onHideKeyboard()
-                val intent = Intent("KeyboardWillHide")
-                broadcastManager.sendBroadcast(intent)
-            } else {
-                val keyboardHeight = heightDiff - contentViewTop
-                onShowKeyboard()
-                val intent = Intent("KeyboardWillShow")
-                intent.putExtra("KeyboardHeight", keyboardHeight)
-                broadcastManager.sendBroadcast(intent)
-            }
-        }
-
-        keyboardListenersAttached = true
-    }
-
-    private fun onHideKeyboard() {
-        binding.bottomGuideline.visibility = VISIBLE
-        supportFragmentManager.beginTransaction().show(supportFragmentManager.findFragmentById(binding.bottomMenu.id)!!).commit()
-        binding.bottomMenu.visibility = VISIBLE
-    }
-
-    private fun onShowKeyboard() {
-        binding.bottomGuideline.visibility = GONE
-        supportFragmentManager.beginTransaction().hide(supportFragmentManager.findFragmentById(binding.bottomMenu.id)!!).commit()
-        binding.bottomMenu.visibility = GONE
     }
 
     private fun setupUI(view: View) {

@@ -18,6 +18,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -28,7 +29,6 @@ import com.svobnick.thisorthat.activities.CommentsActivity
 import com.svobnick.thisorthat.activities.HistoryChoiceActivity
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.databinding.FragmentChoiceBinding
-import com.svobnick.thisorthat.databinding.FragmentChoiceMenuBinding
 import com.svobnick.thisorthat.databinding.FragmentHeaderMenuBinding
 import com.svobnick.thisorthat.databinding.PopupReportChoiceBinding
 import com.svobnick.thisorthat.databinding.PopupReportResultBinding
@@ -58,7 +58,6 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
     private lateinit var reportChoiceWindow: PopupWindow
     private lateinit var reportResultWindow: PopupWindow
 
-    private lateinit var menuBinding: FragmentChoiceMenuBinding
     private lateinit var headerBinding: FragmentHeaderMenuBinding
     private lateinit var binding: FragmentChoiceBinding
 
@@ -89,8 +88,8 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         this.state = STATE.QUESTION
 
         binding = FragmentChoiceBinding.inflate(inflater, container, false)
-        menuBinding = FragmentChoiceMenuBinding.inflate(inflater, container, false)
         val view = binding.root
+
         binding.firstText.setOnClickListener(this::onChoiceClick)
         binding.lastText.setOnClickListener(this::onChoiceClick)
         binding.reportButton.setOnClickListener(this::reportQuestion)
@@ -151,7 +150,9 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             binding.firstText.text = currentQuestion.firstText
             binding.lastText.text = currentQuestion.lastText
             isFavorite = false
-            menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite_off)
+
+            getFavoriteButtonView().setImageResource(R.drawable.icon_favorite_off)
+
             binding.firstCardGroup.alpha = 1f
             binding.firstText.alpha = 1f
             binding.lastCardGroup.alpha = 1f
@@ -167,7 +168,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         val firstRate = question.firstRate
         val lastRate = question.lastRate
         if (favorite) {
-            menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite)
+            getFavoriteButtonView().setImageResource(R.drawable.icon_favorite)
             isFavorite = true
         }
         val (firstPercent, lastPercent) = computeQuestionsPercentage(firstRate, lastRate)
@@ -277,7 +278,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         choicePresenter.addFavoriteQuestion(currentQuestion.id.toString())
-        menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite)
+        getFavoriteButtonView().setImageResource(R.drawable.icon_favorite)
         isFavorite = true
     }
 
@@ -287,7 +288,7 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
         }
 
         choicePresenter.deleteFavoriteQuestion(currentQuestion.id.toString())
-        menuBinding.switchFavoriteButton.setImageResource(R.drawable.icon_favorite_off)
+        getFavoriteButtonView().setImageResource(R.drawable.icon_favorite_off)
         isFavorite = false
     }
 
@@ -431,6 +432,10 @@ class ChoiceFragment : MvpAppCompatFragment(), ChoiceView {
             .show(childFragmentManager.findFragmentById(R.id.first_stat)!!)
             .show(childFragmentManager.findFragmentById(R.id.last_stat)!!)
             .commit()
+    }
+
+    private fun getFavoriteButtonView(): ImageView {
+        return childFragmentManager.findFragmentById(R.id.choice_menu)!!.requireView().findViewById(R.id.switch_favorite_button)
     }
 
     private fun changeState() = if (state == STATE.QUESTION) STATE.RESULT else STATE.QUESTION

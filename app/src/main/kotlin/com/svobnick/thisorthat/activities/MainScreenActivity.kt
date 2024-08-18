@@ -7,8 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.svobnick.thisorthat.adapters.MainScreenViewPagerAdapter
 import com.svobnick.thisorthat.app.ThisOrThatApp
 import com.svobnick.thisorthat.databinding.ActivityMainScreenBinding
@@ -37,12 +35,6 @@ class MainScreenActivity : MvpAppCompatActivity(), MainScreenView {
         setContentView(binding.root)
         msPresenter.attachView(this)
         setupUI(binding.mainScreenRoot)
-
-        MobileAds.initialize(this)
-        MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder()
-                .setTestDeviceIds(listOf("A933D6D3E36429812DB83020D06BEAC7")).build()
-        )
 
         adapter = MainScreenViewPagerAdapter(this)
         binding.mainFragmentsViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL

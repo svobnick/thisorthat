@@ -28,7 +28,10 @@ object PopupUtils {
         return Pair(popupWindow, binding)
     }
 
-    fun setupSuccessPopup(context: Context, onDismiss: PopupWindow.OnDismissListener): Pair<PopupWindow, PopupChoiceAddedBinding> {
+    fun setupSuccessPopup(
+        context: Context,
+        onDismiss: PopupWindow.OnDismissListener
+    ): Pair<PopupWindow, PopupChoiceAddedBinding> {
         val popupWindow = PopupWindow(context)
         val binding = PopupChoiceAddedBinding.inflate(LayoutInflater.from(context))
         popupWindow.contentView = binding.root
@@ -43,7 +46,10 @@ object PopupUtils {
         return Pair(popupWindow, binding)
     }
 
-    fun setupChoicePopup(context: Context, onDismiss: PopupWindow.OnDismissListener): Pair<PopupWindow, PopupChoiceAlreadyExistBinding> {
+    fun setupChoicePopup(
+        context: Context,
+        onDismiss: PopupWindow.OnDismissListener
+    ): Pair<PopupWindow, PopupChoiceAlreadyExistBinding> {
         val popupWindow = PopupWindow(context)
         val binding = PopupChoiceAlreadyExistBinding.inflate(LayoutInflater.from(context))
         popupWindow.contentView = binding.root
@@ -52,14 +58,16 @@ object PopupUtils {
         popupWindow.isOutsideTouchable = true
         popupWindow.update()
         popupWindow.setOnDismissListener(onDismiss)
-        return Pair(popupWindow,binding)
+        return Pair(popupWindow, binding)
     }
 
     fun dimBackground(activity: FragmentActivity, container: View) {
-        val wm = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val p = container.layoutParams as WindowManager.LayoutParams
-        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-        p.dimAmount = 0.7f
-        wm.updateViewLayout(container, p)
+        val params = container.layoutParams as? WindowManager.LayoutParams
+        if (params != null) {
+            params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+            params.dimAmount = 0.7f
+            val wm = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            wm.updateViewLayout(container, params)
+        }
     }
 }

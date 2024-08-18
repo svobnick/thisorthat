@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.svobnick.thisorthat.R
 import com.svobnick.thisorthat.app.ThisOrThatApp
@@ -26,7 +25,6 @@ import javax.inject.Inject
 class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
     private val ANALYTICS_SCREEN_NAME = "Question maker"
 
-    private lateinit var mInterstitialAd: InterstitialAd
     private var prevClickTime: Long = 0
 
     @Inject
@@ -52,7 +50,6 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         binding = FragmentNewChoiceBinding.inflate(inflater, container, false)
         binding.sendButton.setOnClickListener(this::onSendQuestionButtonClick)
 
-//        initialAdvertisingComponent()
         return binding.root
     }
 

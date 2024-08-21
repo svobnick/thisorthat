@@ -19,10 +19,6 @@
     <string name="report_reason_abuse">Некорректный вопрос</string>
     <string name="report_reason_clone">Такой вопрос уже есть</string>
 
-    <!-- advertising ids -->
-    <string name="application_ad_id">ca-app-pub-7005450343890487~7223429492</string>
-    <string name="new_choice_interstitial_ad_id">ca-app-pub-7005450343890487/9651781392</string>
-
     <!--  comments -->
     <string name="comment_header">Комментарии</string>
     <string name="comment_input_hint">Введите текст комментария</string>

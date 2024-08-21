@@ -61,45 +61,15 @@ class NewChoiceFragment : MvpAppCompatFragment(), NewChoiceView {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 
-//    private fun initialAdvertisingComponent() {
-//        mInterstitialAd = InterstitialAd(context)
-//        mInterstitialAd.adUnitId = getString(R.string.new_choice_interstitial_ad_id)
-//
-//        val adRequestBuilder = AdRequest.Builder()
-//        mInterstitialAd.adListener = object : AdListener() {
-//            override fun onAdOpened() {
-//                firebaseAnalytics.logEvent("start_send_question_ad", null)
-//            }
-//
-//            override fun onAdLoaded() {
-//                Log.i("Ads", "Loaded!")
-//            }
-//
-//            override fun onAdClosed() {
-//                firebaseAnalytics.logEvent("send_question_ad_was_viewed", null)
-////                mInterstitialAd.loadAd(AdRequest.Builder().build())
-//                newChoicePresenter.send(
-//                    binding.newFirstText.text.toString(),
-//                    binding.newLastText.text.toString()
-//                )
-//            }
-//        }
-//        mInterstitialAd.loadAd(adRequestBuilder.build())
-//    }
-
     override fun onSendQuestionButtonClick(selected: View) {
         val current = SystemClock.elapsedRealtime()
         if (current - prevClickTime > 500L) {
             firebaseAnalytics.logEvent("try_send_question", null)
             prevClickTime = SystemClock.elapsedRealtime()
-//            if (mInterstitialAd.isLoaded) {
-//                mInterstitialAd.show()
-//            } else {
             newChoicePresenter.send(
                 binding.newFirstText.text.toString(),
                 binding.newLastText.text.toString()
             )
-//            }
         }
     }
 

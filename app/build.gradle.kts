@@ -17,8 +17,8 @@ android {
     defaultConfig {
         applicationId = "com.svobnick.thisorthat"
 
-        versionCode = 5
-        versionName = "1.4.0"
+        versionCode = 6
+        versionName = "1.4.1"
 
         minSdk = 28
         targetSdk = 34
@@ -39,7 +39,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
         }
@@ -55,7 +55,6 @@ dependencies {
     // firebase
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-messaging:24.0.0")
-//    implementation("com.google.firebase:firebase-ads:23.3.0")
     implementation("com.google.firebase:firebase-analytics:22.0.2")
     implementation("com.google.firebase:firebase-analytics-ktx:22.0.2")
     implementation("com.google.firebase:firebase-crashlytics:19.0.3")

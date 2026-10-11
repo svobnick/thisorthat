@@ -26,11 +26,17 @@ The next version replaces the native app with a new one:
 What the Flutter app still lacks next to the native one: Firebase (Analytics and Crashlytics). It
 needs an iOS app registered in the Firebase console first.
 
-Two things in the mock-up go beyond what the API can do today. The onboarding asks for age and
-gender: the app keeps the answers on the device (`profile.json`) and sends them nowhere. Questions
-with pictures are not built at all: the API has only the two texts.
+Two things in the mock-up go beyond what the current API can do and wait for the new backend (see
+below). The onboarding asks for age and gender: the app keeps the answers on the device
+(`profile.json`) and sends them nowhere. Questions with pictures are not built at all: the API has
+only the two texts.
 
 ## Backend
+
+**A new backend will be written for the Flutter app** (decided 2026-10-12). Until it exists the
+Flutter app is worked on with tests and mocks only: it runs on the mock backend built into it,
+`mobile/lib/api/mock_backend.dart`, and nothing in development goes to the production API. The mock
+answers the same requests with the same JSON as the current API, described here:
 
 - The backend is a separate repository with its own owner:
   https://github.com/antonlukin/thisorthat — a PHP API (`api/`), the React web app (`src/`), cron
@@ -107,10 +113,11 @@ flutter build apk --debug      # build/app/outputs/flutter-apk/app-debug.apk
 flutter build ios --simulator
 ```
 
-- `flutter run` talks to the production API. Voting, commenting and adding questions there is
-  real; to try those flows, point the app at a stand-in with
-  `--dart-define=API_BASE_URL=http://localhost:8787/` (`http://10.0.2.2:8787/` from the Android
-  emulator).
+- With no `API_BASE_URL` the app runs on its built-in mock backend: made-up questions, and
+  whatever the person does kept in memory until the app closes. The mock keeps its files in a
+  `mock/` folder of its own, so it never replaces the token that ties an install to a real user.
+- `--dart-define=API_BASE_URL=<url>` points the app at a server instead. The production API still
+  speaks this protocol; every vote, comment and question sent there is real.
 - Both apps share one application id, so installing one over the other on a device replaces it and
   keeps its data.
 
@@ -144,6 +151,8 @@ and billing, its ad and tracking consent, its sharing and file-access model.
   `versionCode` Google Play has seen.
 - The version bump is its own commit, `chore(release): build N`, holding the version file and
   nothing else.
+- A store build has to name its server with `--dart-define=API_BASE_URL=…`; without it the app
+  ships on the mock.
 - There is no release script here yet. `lino` and `audio-library` cut builds with a `release-build`
   skill (`../audio-library/.claude/skills/release-build`); port it once the Flutter app exists.
 - The last step — uploading to the Play Console or App Store Connect — is the human's click.

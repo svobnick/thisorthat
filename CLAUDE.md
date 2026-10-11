@@ -1,21 +1,34 @@
 # This or That
 
 Mobile client for the Russian "This or That" game («То или Это», https://thisorthat.ru): the player
-picks one of two answers to a question and sees how everyone else voted. Today this repo holds the
-native Android app — Kotlin, Moxy MVP, Dagger 2, Volley — published on Google Play as
-`com.svobnick.thisorthat`.
+picks one of two answers to a question and sees how everyone else voted. This repo holds two
+versions of it:
+
+- `app/` — the native Android app (Kotlin, Moxy MVP, Dagger 2, Volley), the one published on Google
+  Play as `com.svobnick.thisorthat`.
+- `mobile/` — the Flutter app for iOS and Android that replaces it. It does everything the native
+  app does, in the refreshed design, and is not in the stores yet.
 
 ## The idea
 
 The next version replaces the native app with a new one:
 
 - **Flutter, iOS and Android.** One codebase for both stores, built the way the sibling `together`
-  and `lino` apps are (`../together`, `../lino`).
+  and `lino` apps are (`../together`, `../lino`). Done: `mobile/`.
 - **A refreshed design.** The current mock-up is `../thisorthatnew/to-ili-eto-v5.html`, outside
-  this repo.
+  this repo. Done for the screens the mock-up draws; the others (comments, new question, profile)
+  are drawn in its style.
 - **18 languages.** Russian plus the 17 other locales `together` and `lino` ship: `da`, `de`, `en`,
-  `es`, `fi`, `fr`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt`, `sv`, `tr`, `zh`, `zh_Hant`.
-- **Ads.** The app earns through advertising.
+  `es`, `fi`, `fr`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt`, `sv`, `tr`, `zh`, `zh_Hant`. Only
+  Russian so far; every string is already an ARB key in `mobile/lib/l10n/app_ru.arb`.
+- **Ads.** The app earns through advertising. Not started.
+
+What the Flutter app still lacks next to the native one: Firebase (Analytics and Crashlytics). It
+needs an iOS app registered in the Firebase console first.
+
+Two things in the mock-up go beyond what the API can do today. The onboarding asks for age and
+gender: the app keeps the answers on the device (`profile.json`) and sends them nowhere. Questions
+with pictures are not built at all: the API has only the two texts.
 
 ## Backend
 
@@ -23,10 +36,17 @@ The next version replaces the native app with a new one:
   https://github.com/antonlukin/thisorthat — a PHP API (`api/`), the React web app (`src/`), cron
   jobs and the API docs. This repo holds only the mobile client.
 - Production API is `https://api.thisorthat.ru/`, documented at https://docs.thisorthat.ru. Every
-  call the app makes is in `app/src/main/kotlin/com/svobnick/thisorthat/service/ApiRequests.kt`.
-- Users are anonymous. On first launch the app calls `/register` with the Firebase installation id
-  and keeps the returned token in the file `authToken` under the app's `filesDir`; the token is the
-  only link to a user's favorites and own questions.
+  call the Flutter app makes is in `mobile/lib/api/api_client.dart`; the native app's are in
+  `app/src/main/kotlin/com/svobnick/thisorthat/service/ApiRequests.kt`.
+- Users are anonymous. On first launch the app calls `/register` and keeps the returned token in
+  the file `authToken` under the app's `filesDir`; the token is the only link to a user's favorites
+  and own questions. The Flutter app reads the same file on Android, so an install upgraded from
+  the native app keeps its user. (The native app registers with the Firebase installation id, the
+  Flutter app with a random one; the server does not care.)
+- `/setViewed` adds a vote to the public counter every time it receives one, even for a question
+  this user already answered. Each question must be sent exactly once.
+- `/getItems` returns up to 30 questions the user has not answered. A short or empty list is not
+  the end: the server walks its sections one call at a time, so the client asks again.
 - The API has no language parameter: every question, vote count and comment belongs to the one
   Russian database.
 
@@ -69,12 +89,32 @@ commit messages, docs — is in English.
 - The native app has no tests beyond the template `ExampleUnitTest`. Before a commit that touches
   it, `./gradlew assembleDebug` succeeds.
 - In the Flutter app, `flutter analyze` and `flutter test` are green before every commit.
+  `flutter test` does not regenerate the strings: run `flutter gen-l10n` after editing an ARB (the
+  generated `app_localizations*.dart` are not committed).
 - Every feature comes with tests, but only the necessary ones — do not over-test.
 - A throwaway test (a screenshot capture, a one-off probe) is deleted, never committed.
 - Passing tests do not prove how a screen looks. After a visual change, render it and compare with
   the mock-up.
 
 ### Build and run
+
+The Flutter app, from `mobile/`:
+
+```sh
+flutter run                    # on the booted simulator, emulator or a connected phone
+flutter analyze && flutter test
+flutter build apk --debug      # build/app/outputs/flutter-apk/app-debug.apk
+flutter build ios --simulator
+```
+
+- `flutter run` talks to the production API. Voting, commenting and adding questions there is
+  real; to try those flows, point the app at a stand-in with
+  `--dart-define=API_BASE_URL=http://localhost:8787/` (`http://10.0.2.2:8787/` from the Android
+  emulator).
+- Both apps share one application id, so installing one over the other on a device replaces it and
+  keeps its data.
+
+The native app, from the repo root:
 
 ```sh
 ./gradlew assembleDebug        # debug APK in app/build/outputs/apk/debug/
@@ -99,7 +139,7 @@ and billing, its ad and tracking consent, its sharing and file-access model.
 
 - **Only when asked.** Fixes pile up in git first; nobody cuts a build after each one.
 - The native app's version is `versionCode` and `versionName` in `app/build.gradle.kts`. The
-  Flutter app's lives in `pubspec.yaml` as `X.Y.Z+N`. Every store upload needs a higher number than
+  Flutter app's lives in `mobile/pubspec.yaml` as `X.Y.Z+N`. Every store upload needs a higher number than
   the last one, both platforms of one release carry the same `N`, and `N` carries on from the last
   `versionCode` Google Play has seen.
 - The version bump is its own commit, `chore(release): build N`, holding the version file and

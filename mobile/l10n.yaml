@@ -1,0 +1,7 @@
+# gen_l10n configuration. `app_ru.arb` is the template while Russian is the
+# only language: every key is defined there first.
+arb-dir: lib/l10n
+template-arb-file: app_ru.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false

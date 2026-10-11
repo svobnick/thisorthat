@@ -1,0 +1,105 @@
+{
+  "@@locale": "ru",
+
+  "appName": "То или Это",
+  "logoFirst": "ТО",
+  "logoOr": "или",
+  "logoLast": "ЭТО",
+  "tagline": "А что выберете вы?",
+  "orDivider": "ИЛИ",
+
+  "ok": "Ок",
+  "yes": "Да",
+  "no": "Нет",
+  "retry": "Повторить",
+  "back": "Назад",
+  "errorTitle": "Ошибка",
+  "errorNetwork": "Проблемы с сетью, попробуйте позже",
+  "errorServer": "Проблемы с сервером, попробуйте позже",
+
+  "navFeed": "Лента",
+  "navCreate": "Создать",
+  "navProfile": "Профиль",
+
+  "swipeHint": "Листайте дальше",
+  "votesCount": "{count, plural, one{{count} голос} few{{count} голоса} many{{count} голосов} other{{count} голоса}}",
+  "@votesCount": {
+    "description": "How many people picked an answer, under its percentage.",
+    "placeholders": {
+      "count": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "youVoted": "✅ Ваш выбор: «{answer}»",
+  "@youVoted": {
+    "description": "Toast after picking an answer.",
+    "placeholders": {
+      "answer": {"type": "String"}
+    }
+  },
+  "feedEmpty": "Новых вопросов пока нет",
+  "moderationStatus": "Вопрос пока не прошёл модерацию",
+
+  "actionComments": "Обсудить",
+  "actionLike": "Нравится",
+  "actionShare": "Поделиться",
+  "shareSubject": "То или Это",
+
+  "reportAction": "Пожаловаться",
+  "reportQuestion": "Почему вы хотите пожаловаться на этот вопрос?",
+  "reportReasonTypo": "В вопросе ошибка",
+  "reportReasonAbuse": "Некорректный вопрос",
+  "reportReasonClone": "Такой вопрос уже есть",
+  "reportResultTitle": "Жалоба",
+  "reportResultText": "Спасибо, мы рассмотрим вашу жалобу в ближайшее время. Вопрос пропущен, а его рейтинг снижен.",
+
+  "commentsTitle": "Комментарии",
+  "commentsHint": "Введите текст комментария",
+  "commentsEmpty": "Комментариев пока нет",
+  "commentsSend": "Отправить комментарий",
+
+  "profileTitle": "Профиль",
+  "profileMyQuestions": "Мои вопросы",
+  "profileFavorites": "Избранное",
+  "profileEmpty": "Вопросы не добавлены",
+  "statusNew": "На модерации",
+  "statusRejected": "Отклонён",
+
+  "createTitle": "Добавление вопроса",
+  "createSubtitle": "Придумайте два варианта. После модерации вопрос увидят все.",
+  "createFirstHint": "То",
+  "createLastHint": "Это",
+  "createSend": "Отправить",
+  "createValidation": "Оба варианта должны быть длиной от 4 до 150 символов",
+  "createdTitle": "Вопрос успешно добавлен!",
+  "createdText": "Вы можете следить за его счётчиками и комментариями в разделе «Мои вопросы»",
+  "createdOk": "Круто!",
+  "cloneShrug": "¯\\_(ツ)_/¯",
+  "cloneTitle": "В нашей базе уже есть этот вопрос",
+  "cloneText": "Хотите добавить этот вопрос в избранное?",
+
+  "onboardingStep": "Шаг {step} из {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "step": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "onboardingAgeTitle": "Сколько вам лет?",
+  "onboardingAgeText": "Покажем вопросы, популярные у ваших ровесников.",
+  "ageUnder10": "До 10 🧒",
+  "age10to12": "10–12 ⭐",
+  "age13to15": "13–15 🔥",
+  "age16to17": "16–17",
+  "age18to24": "18–24",
+  "age25to34": "25–34",
+  "age35plus": "35+",
+  "ageSkip": "Не скажу",
+  "onboardingContinue": "Дальше",
+  "onboardingGenderTitle": "Кто вы?",
+  "onboardingGenderText": "Сравним ваши ответы с ответами таких же, как вы.",
+  "genderMale": "Парень",
+  "genderFemale": "Девушка",
+  "genderOther": "Другое",
+  "genderSkip": "Пропустить",
+  "onboardingStart": "Поехали 🚀"
+}

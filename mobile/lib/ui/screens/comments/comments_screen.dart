@@ -162,15 +162,7 @@ class _CommentTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipOval(
-            child: Image.network(
-              comment.avatarUrl,
-              width: 40,
-              height: 40,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => Container(width: 40, height: 40, color: AppColors.ink(0.08)),
-            ),
-          ),
+          _Avatar(comment: comment, color: nameColor),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -186,6 +178,42 @@ class _CommentTile extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The author's picture, or their initial on their colour when there is no
+/// picture or it does not load.
+class _Avatar extends StatelessWidget {
+  const _Avatar({required this.comment, required this.color});
+
+  final Comment comment;
+  final Color color;
+
+  static const _size = 40.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final name = comment.name.trim();
+    final initial = Container(
+      width: _size,
+      height: _size,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: color.withValues(alpha: 0.2)),
+      child: Text(
+        name.isEmpty ? '?' : name.characters.first.toUpperCase(),
+        style: AppText.body(size: 16, weight: FontWeight.w900, color: color),
+      ),
+    );
+    if (comment.avatarUrl.isEmpty) return initial;
+    return ClipOval(
+      child: Image.network(
+        comment.avatarUrl,
+        width: _size,
+        height: _size,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => initial,
       ),
     );
   }

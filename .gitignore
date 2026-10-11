@@ -8,3 +8,4 @@
 .externalNativeBuild
 app/release/*
 *.jks
+/db-dump/

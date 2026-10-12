@@ -2,12 +2,14 @@
 
 Mobile client for the Russian "This or That" game («То или Это», https://thisorthat.ru): the player
 picks one of two answers to a question and sees how everyone else voted. This repo holds two
-versions of it:
+versions of the app and the server for the new one:
 
 - `app/` — the native Android app (Kotlin, Moxy MVP, Dagger 2, Volley), the one published on Google
   Play as `com.svobnick.thisorthat`.
 - `mobile/` — the Flutter app for iOS and Android that replaces it. It does everything the native
   app does, in the refreshed design, and is not in the stores yet.
+- `backend/` — the server written for it (Rust, axum, PostgreSQL), a replacement for the PHP
+  backend that production runs. Not deployed yet. `backend/README.md` says how it is built.
 
 ## The idea
 
@@ -26,17 +28,25 @@ The next version replaces the native app with a new one:
 What the Flutter app still lacks next to the native one: Firebase (Analytics and Crashlytics). It
 needs an iOS app registered in the Firebase console first.
 
-Two things in the mock-up go beyond what the current API can do and wait for the new backend (see
-below). The onboarding asks for age and gender: the app keeps the answers on the device
-(`profile.json`) and sends them nowhere. Questions with pictures are not built at all: the API has
-only the two texts.
+Two things in the mock-up go beyond what the game does today. The onboarding asks for age and
+gender: the app keeps the answers on the device (`profile.json`) and sends them to the server
+(`setProfile`), which stores them with the user; nothing reads them yet, so the questions are not
+picked by age and no "your group" numbers are shown. Questions with pictures are not built at all,
+in the app or the server.
 
 ## Backend
 
-**A new backend will be written for the Flutter app** (decided 2026-10-12). Until it exists the
-Flutter app is worked on with tests and mocks only: it runs on the mock backend built into it,
-`mobile/lib/api/mock_backend.dart`, and nothing in development goes to the production API. The mock
-answers the same requests with the same JSON as the current API, described here:
+**The new backend is `backend/`**, written in October 2026 for the Flutter app. It speaks the
+protocol of the PHP backend and adds two things for the app: `setProfile` and a `comments_count` on
+every question. Three places answer that protocol and change together: the server
+(`backend/src/api.rs`), the app's client (`mobile/lib/api/api_client.dart`) and the mock built into
+the app (`mobile/lib/api/mock_backend.dart`).
+
+Production still runs the PHP backend. Until the new one is deployed the Flutter app is worked on
+with tests and mocks only: by default it runs on its mock, and nothing in development goes to the
+production API. To try the app against the real server, run it locally (`backend/README.md`).
+
+What production runs today:
 
 - The backend is a separate repository with its own owner:
   https://github.com/antonlukin/thisorthat — a PHP API (`api/`), the React web app (`src/`), cron
@@ -50,7 +60,8 @@ answers the same requests with the same JSON as the current API, described here:
   the native app keeps its user. (The native app registers with the Firebase installation id, the
   Flutter app with a random one; the server does not care.)
 - `/setViewed` adds a vote to the public counter every time it receives one, even for a question
-  this user already answered. Each question must be sent exactly once.
+  this user already answered, so the app sends each question exactly once. The new server counts
+  an answer once however often it arrives.
 - `/getItems` returns up to 30 questions the user has not answered. A short or empty list is not
   the end: the server walks its sections one call at a time, so the client asks again.
 - The API has no language parameter: every question, vote count and comment belongs to the one
@@ -72,7 +83,7 @@ commit messages, docs — is in English.
 - **Conventional Commits with a scope:** `type(scope): summary`. Types: `feat`, `fix`, `style`,
   `refactor`, `test`, `docs`, `build`, `chore`, `revert`. The scope is the feature area:
   `questions`, `new-question`, `profile`, `favorites`, `comments`, `share`, `api`, `ui`, `l10n`,
-  `ads`, `android`, `ios`, `release`, `deps`, `repo`.
+  `ads`, `android`, `ios`, `release`, `deps`, `repo`, and `backend` for the server.
 - **Subject under 100 characters**, lower-case after the colon, no trailing period. Say what
   changes for the person using the app, not which file moved:
   `fix(questions): send the last answers when the app goes to the background`.
@@ -97,6 +108,9 @@ commit messages, docs — is in English.
 - In the Flutter app, `flutter analyze` and `flutter test` are green before every commit.
   `flutter test` does not regenerate the strings: run `flutter gen-l10n` after editing an ARB (the
   generated `app_localizations*.dart` are not committed).
+- In the backend, `cargo fmt`, `cargo clippy --all-targets` and `cargo test` are clean before
+  every commit. The tests need a PostgreSQL (`DATABASE_URL`); `backend/README.md` has the commands,
+  with and without Rust installed on the machine.
 - Every feature comes with tests, but only the necessary ones — do not over-test.
 - A throwaway test (a screenshot capture, a one-off probe) is deleted, never committed.
 - Passing tests do not prove how a screen looks. After a visual change, render it and compare with
@@ -120,6 +134,15 @@ flutter build ios --simulator
   speaks this protocol; every vote, comment and question sent there is real.
 - Both apps share one application id, so installing one over the other on a device replaces it and
   keeps its data.
+
+The server, from `backend/`:
+
+```sh
+docker compose up --build      # the API on http://localhost:8787/ with a database of its own
+```
+
+- The dump of the production database (`db-dump/`, git-ignored) holds the token secrets of real
+  users. It is imported with `thisorthat-api import` and never committed.
 
 The native app, from the repo root:
 

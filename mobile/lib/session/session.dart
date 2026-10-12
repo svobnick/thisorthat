@@ -24,6 +24,25 @@ class Session {
     api.token = token;
   }
 
+  /// Keeps the onboarding answers on the device and passes them on.
+  Future<void> saveProfile(Profile profile) async {
+    await storage.writeProfile(profile);
+    await syncProfile();
+  }
+
+  /// Tells the server the onboarding answers it does not have yet. When that
+  /// fails they stay marked as unsent and the next launch tries again.
+  Future<void> syncProfile() async {
+    final profile = await storage.readProfile();
+    if (profile == null || profile.synced) return;
+    try {
+      await api.setProfile(age: profile.age, gender: profile.gender);
+      await storage.writeProfile(profile.asSynced());
+    } on ApiException {
+      // Next launch.
+    }
+  }
+
   static String _uniqueId() {
     final random = Random.secure();
     return [for (var i = 0; i < 16; i++) random.nextInt(256).toRadixString(16).padLeft(2, '0')].join();

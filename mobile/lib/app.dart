@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -70,6 +72,7 @@ class _RootState extends State<_Root> {
     try {
       await widget.session.start();
       final profile = await widget.session.storage.readProfile();
+      if (profile != null) unawaited(widget.session.syncProfile());
       if (!mounted) return;
       setState(() => _phase = profile == null ? _Phase.onboarding : _Phase.home);
     } on Object catch (e) {
@@ -79,7 +82,7 @@ class _RootState extends State<_Root> {
 
   Future<void> _finishOnboarding(Profile profile) async {
     setState(() => _phase = _Phase.home);
-    await widget.session.storage.writeProfile(profile);
+    await widget.session.saveProfile(profile);
   }
 
   @override

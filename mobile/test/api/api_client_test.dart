@@ -43,6 +43,13 @@ void main() {
     expect((items[2].hasComments, items[2].commentsCount), (true, 0));
   });
 
+  test('setProfile sends the answers given and leaves out the declined ones', () async {
+    await api.client.setProfile(age: '13-15');
+
+    expect(api.calls.single.method, 'setProfile');
+    expect(api.calls.single.params, {'age': '13-15'});
+  });
+
   test('setViewed sends each answer as views[id]', () async {
     await api.client.setViewed({100: Choice.first, 245: Choice.last, 376: Choice.skip});
 

@@ -44,6 +44,22 @@ void main() {
     expect(api.calls, isEmpty);
   });
 
+  test('onboarding answers go to the server, at once or on a later launch', () async {
+    await session.start();
+    api.handlers['setProfile'] = (_) => FakeApi.refuse('down', status: 503);
+
+    await session.saveProfile(const Profile(age: '13-15', gender: 'female'));
+    expect((await session.storage.readProfile())!.synced, isFalse);
+
+    api.handlers.remove('setProfile');
+    await session.syncProfile();
+    await session.syncProfile();
+
+    expect((await session.storage.readProfile())!.synced, isTrue);
+    expect(api.callsTo('setProfile'), hasLength(2));
+    expect(api.callsTo('setProfile').last.params, {'age': '13-15', 'gender': 'female'});
+  });
+
   test('onboarding answers survive a restart, declined ones as null', () async {
     final storage = AppStorage(directory);
     expect(await storage.readProfile(), isNull);

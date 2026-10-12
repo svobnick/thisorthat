@@ -4,15 +4,23 @@ import 'dart:io';
 /// What a person said about themselves in onboarding. A null field is a
 /// question they chose not to answer.
 class Profile {
-  const Profile({this.age, this.gender});
+  const Profile({this.age, this.gender, this.synced = false});
 
   final String? age;
   final String? gender;
 
-  Map<String, dynamic> toJson() => {'age': age, 'gender': gender};
+  /// Whether the server has been told these answers.
+  final bool synced;
 
-  factory Profile.fromJson(Map<String, dynamic> json) =>
-      Profile(age: json['age'] as String?, gender: json['gender'] as String?);
+  Profile asSynced() => Profile(age: age, gender: gender, synced: true);
+
+  Map<String, dynamic> toJson() => {'age': age, 'gender': gender, 'synced': synced};
+
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+        age: json['age'] as String?,
+        gender: json['gender'] as String?,
+        synced: json['synced'] == true,
+      );
 }
 
 /// The few things the app keeps on the device, as files in one directory.

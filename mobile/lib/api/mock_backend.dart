@@ -38,6 +38,9 @@ class MockBackend {
       case 'register':
         return _ok({'token': '1:${'0' * 32}'});
 
+      case 'setProfile':
+        return _ok(true);
+
       case 'getItems':
         final fresh = _items
             .where((item) => item.status == 'approved' && !item.mine && !_views.containsKey(item.id))

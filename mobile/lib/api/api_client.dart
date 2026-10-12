@@ -61,6 +61,11 @@ class ApiClient {
     return _map(result)['token'] as String;
   }
 
+  /// Tells the server the onboarding answers; a null one was declined.
+  Future<void> setProfile({String? age, String? gender}) async {
+    await _call('setProfile', {'age': ?age, 'gender': ?gender});
+  }
+
   /// Up to 30 approved questions this person has not answered yet. A short or
   /// empty list does not mean the end: the server walks its sections one call
   /// at a time, so asking again moves on to the next one.

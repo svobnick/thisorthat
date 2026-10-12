@@ -1,10 +1,12 @@
+use std::path::Path;
 use std::time::Duration;
 
 use anyhow::{Context, bail};
 use sqlx::postgres::PgPoolOptions;
-use thisorthat_backend::{AppState, Config, MIGRATOR, moderation, router};
+use thisorthat_backend::{AppState, Config, MIGRATOR, import, moderation, router};
 
-/// `thisorthat-api [serve]` runs the server.
+/// `thisorthat-api [serve]` runs the server; `thisorthat-api import <dir>`
+/// loads a dump of the old database into an empty one.
 ///
 /// Settings come from the environment: `DATABASE_URL` (required), `BIND`
 /// (`0.0.0.0:8787`), `DB_CONNECTIONS` (8), `AVATAR_BASE_URL` (none).
@@ -19,6 +21,10 @@ async fn main() -> anyhow::Result<()> {
     let arguments: Vec<String> = std::env::args().skip(1).collect();
     match arguments.first().map(String::as_str) {
         None | Some("serve") => serve(db).await,
+        Some("import") => {
+            let directory = arguments.get(1).context("usage: thisorthat-api import <dump directory>")?;
+            import::run(&db, Path::new(directory)).await
+        }
         Some(other) => bail!("unknown command: {other}"),
     }
 }

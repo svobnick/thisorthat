@@ -1,9 +1,11 @@
-//! The server of the This or That game: the API the apps talk to and the
-//! moderation rules that used to be cron jobs.
+//! The server of the This or That game: the API the apps talk to, the
+//! moderation rules that used to be cron jobs, and the importer of the old
+//! MySQL dump.
 
 pub mod api;
 pub mod catalog;
 pub mod error;
+pub mod import;
 pub mod moderation;
 pub mod params;
 pub mod text;

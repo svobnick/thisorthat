@@ -7,7 +7,7 @@ use axum::http::{Request, StatusCode};
 use http_body_util::BodyExt;
 use serde_json::{Value, json};
 use sqlx::PgPool;
-use thisorthat_backend::{AppState, Config, api, moderation, router};
+use thisorthat_backend::{AppState, Config, api, import, moderation, router};
 use tower::ServiceExt;
 
 struct Api {
@@ -423,4 +423,68 @@ async fn the_onboarding_answers_are_stored_with_the_user(db: PgPool) {
     assert_eq!(profile().await, (Some("35plus".into()), None));
 
     api.refused("setProfile", &[("token", &token), ("age", "ancient")], StatusCode::BAD_REQUEST).await;
+}
+
+#[sqlx::test]
+async fn a_dump_of_the_old_database_becomes_a_working_one(db: PgPool) {
+    let directory = std::env::temp_dir().join(format!("thisorthat-dump-{}", rand::random::<u64>()));
+    std::fs::create_dir_all(&directory).unwrap();
+    let marker = "abcdef0123456789abcdef0123456789";
+    let secret = api::secret_of(marker);
+    let tables = [
+        ("words", "INSERT INTO \"words\" (\"word\", \"pos\") VALUES ('сонный','adjv'),('пингвин','noun');".to_owned()),
+        ("users", format!(
+            "INSERT INTO \"users\" (\"id\", \"secret\", \"uniqid\", \"client\", \"name\", \"section\", \"created\") VALUES \
+             (7,'{secret}','dev-7','android','Тихий ураган',3,'2020-05-01 10:00:00'),(9,'{secret}','dev-9','ios',NULL,4,'0000-00-00 00:00:00');"
+        )),
+        ("items", "INSERT INTO \"items\" (\"id\", \"user_id\", \"first_text\", \"last_text\", \"status\", \"reason\", \"section\", \"created\") VALUES \
+             (10,7,'Чай','Кофе с \\'сахаром\\'','approved','',1,'2020-05-02 10:00:00'),(11,7,'Кошка','Собака','approved','',2,'2020-05-02 11:00:00'),\
+             (11,7,'Кошка','Дубль','approved','',2,'2020-05-02 11:00:00'),(12,9,'Арбуз','Дыня','rejected','clone',3,'2020-05-03 10:00:00');".to_owned()),
+        ("comments", "INSERT INTO \"comments\" (\"id\", \"user_id\", \"item_id\", \"message\", \"parent\", \"abuse\", \"created\") VALUES (40,7,10,'Первый\\nкомментарий',0,0,'2020-06-01 10:00:00');".to_owned()),
+        ("favorite", "INSERT INTO \"favorite\" (\"id\", \"user_id\", \"item_id\") VALUES (5,7,11);".to_owned()),
+        ("reports", "INSERT INTO \"reports\" (\"id\", \"user_id\", \"item_id\", \"reason\") VALUES (1,9,12,'clone');".to_owned()),
+        ("audit", "INSERT INTO \"audit\" (\"id\", \"user_id\", \"item_id\", \"vote\") VALUES (1,9,12,'decline');".to_owned()),
+        ("views", "INSERT INTO \"views\" (\"id\", \"user_id\", \"item_id\", \"vote\") VALUES (1,7,10,'first'),(2,9,10,'last'),(3,9,11,'first');\n\
+             INSERT INTO \"views\" (\"id\", \"user_id\", \"item_id\", \"vote\") VALUES (4,7,12,'skip');".to_owned()),
+    ];
+    for (table, sql) in tables {
+        std::fs::write(directory.join(format!("{table}.sql.zst")), zstd::encode_all(sql.as_bytes(), 0).unwrap())
+            .unwrap();
+    }
+
+    import::run(&db, &directory).await.unwrap();
+    assert!(import::run(&db, &directory).await.is_err(), "a second import into the same database must be refused");
+    std::fs::remove_dir_all(&directory).unwrap();
+    let api = Api::new(db).await;
+
+    // The old token works, and the feed knows what this user answered.
+    let token = format!("7:{marker}");
+    let feed = api.feed(&token).await;
+    assert_eq!(ids(&feed), [11]);
+    assert_eq!(
+        (&feed[0]["first_vote"], &feed[0]["last_vote"], &feed[0]["last_text"]),
+        (&json!(1), &json!(0), &json!("Собака"))
+    );
+    assert_eq!(api.votes_of(10).await, (1, 1));
+    assert!(api.feed(&format!("9:{marker}")).await.is_empty());
+
+    let comments = api.ok("getComments", &[("token", &token), ("item_id", "10")]).await;
+    assert_eq!(
+        (&comments["comments"][0]["message"], &comments["comments"][0]["name"]),
+        (&json!("Первый\nкомментарий"), &json!("Тихий ураган"))
+    );
+    let favorite = api.ok("getFavorite", &[("token", &token)]).await;
+    assert_eq!((&favorite["items"][0]["item_id"], &favorite["items"][0]["comments_count"]), (&json!("11"), &json!(0)));
+    let texts: (String, i32) = sqlx::query_as("SELECT last_text, comments_count FROM items WHERE id = 10")
+        .fetch_one(&api.state.db)
+        .await
+        .unwrap();
+    assert_eq!(texts, ("Кофе с 'сахаром'".to_owned(), 1));
+
+    // New rows carry on after the imported ids.
+    let fresh = api.register().await;
+    assert_eq!(fresh.split_once(':').unwrap().0, "10");
+    let added =
+        api.ok("addItem", &[("token", &fresh), ("first_text", "Море и пляж"), ("last_text", "Горы и лес")]).await;
+    assert_eq!(added["item_id"], "13");
 }

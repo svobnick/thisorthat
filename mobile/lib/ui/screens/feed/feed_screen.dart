@@ -215,6 +215,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
                   Builder(
                     builder: (shareContext) => ActionBar(
                       onComments: entry == null ? null : () => _openComments(entry),
+                      commentsCount: entry?.question.commentsCount ?? 0,
                       liked: entry?.favorite ?? false,
                       onLike: entry == null ? null : _toggleFavorite,
                       onShare: entry == null ? null : () => shareQuestionCard(shareContext, _cardKey),

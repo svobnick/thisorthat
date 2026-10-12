@@ -11,7 +11,7 @@ void main() {
   setUp(() {
     api = FakeApi();
     api.handlers['getItems'] = (_) => FakeApi.ok({
-          'items': [FakeApi.item(1, first: 30, last: 9), FakeApi.item(2), FakeApi.item(3)],
+          'items': [FakeApi.item(1, first: 30, last: 9, comments: 248), FakeApi.item(2), FakeApi.item(3)],
         });
   });
 
@@ -19,6 +19,9 @@ void main() {
     await pumpApp(tester, Scaffold(body: FeedScreen(api: api.client)));
     expect(find.text('first 1'), findsOneWidget);
     expect(find.textContaining('%', findRichText: true), findsNothing);
+    // The comment button counts the comments, or says what it is for.
+    expect(find.text('248'), findsOneWidget);
+    expect(find.text(l10nOf(tester).actionComments), findsNothing);
 
     await tester.tap(find.text('first 1'));
     await settle(tester);
@@ -33,6 +36,7 @@ void main() {
     await settle(tester);
     expect(find.text('first 2'), findsOneWidget);
     expect(find.textContaining('%', findRichText: true), findsNothing);
+    expect(find.text(l10nOf(tester).actionComments), findsOneWidget);
 
     // Out the last timers: the vote toast.
     await tester.pump(const Duration(seconds: 3));

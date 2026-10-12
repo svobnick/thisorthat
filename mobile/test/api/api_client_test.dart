@@ -24,9 +24,11 @@ void main() {
   test('getItems asks for approved questions and reads ids, votes and the comments flag', () async {
     api.handlers['getItems'] = (_) => FakeApi.ok({
           'items': [
-            {...FakeApi.item(65373, first: 860, last: 1165), 'comments': 'available', 'last_text': 'padded '},
+            {...FakeApi.item(65373, first: 860, last: 1165, comments: 248), 'last_text': 'padded '},
             // Counters have been seen as strings too.
             {...FakeApi.item(2), 'first_vote': '5', 'last_vote': '0'},
+            // The API the app started on says only whether there are comments.
+            {...FakeApi.item(3), 'comments': 'available', 'comments_count': null},
           ],
         });
 
@@ -36,8 +38,9 @@ void main() {
     expect(items.first.id, 65373);
     expect(items.first.lastText, 'padded');
     expect((items.first.firstVotes, items.first.lastVotes), (860, 1165));
-    expect(items.first.hasComments, isTrue);
-    expect((items.last.firstVotes, items.last.hasComments), (5, false));
+    expect((items[0].hasComments, items[0].commentsCount), (true, 248));
+    expect((items[1].firstVotes, items[1].hasComments), (5, false));
+    expect((items[2].hasComments, items[2].commentsCount), (true, 0));
   });
 
   test('setViewed sends each answer as views[id]', () async {

@@ -94,6 +94,7 @@ class _QuestionViewScreenState extends State<QuestionViewScreen> {
                     ),
                   ),
                 ),
+                commentsCount: question.commentsCount,
                 liked: _favorite,
                 onLike: widget.favorite == null ? null : _toggleFavorite,
                 onShare: () => shareQuestionCard(shareContext, _cardKey),

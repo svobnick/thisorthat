@@ -43,7 +43,7 @@ class MockBackend {
             .where((item) => item.status == 'approved' && !item.mine && !_views.containsKey(item.id))
             .take(_pageOfItems);
         return _ok({
-          'items': [for (final item in fresh) item.toJson(hasComments: _comments[item.id]?.isNotEmpty ?? false)],
+          'items': [for (final item in fresh) _itemJson(item)],
         });
 
       case 'setViewed':
@@ -72,10 +72,10 @@ class MockBackend {
         return _ok(true);
 
       case 'getFavorite':
-        return _page('items', [for (final id in _favorites) ?_find(id)?.toJson()], params);
+        return _page('items', [for (final id in _favorites) if (_find(id) case final item?) _itemJson(item)], params);
 
       case 'getMyItems':
-        return _page('items', [for (final item in _items.reversed) if (item.mine) item.toJson()], params);
+        return _page('items', [for (final item in _items.reversed) if (item.mine) _itemJson(item)], params);
 
       case 'addItem':
         final first = (params['first_text'] ?? '').trim();
@@ -110,6 +110,8 @@ class MockBackend {
         return _refuse('Метод не найден', status: 404);
     }
   }
+
+  Map<String, Object?> _itemJson(_Item item) => item.toJson(comments: _comments[item.id]?.length ?? 0);
 
   _Item? _find(int id) {
     for (final item in _items) {
@@ -153,12 +155,13 @@ class _Item {
   /// Added by this person; shown in the profile and kept out of their feed.
   final bool mine;
 
-  Map<String, Object?> toJson({bool hasComments = false}) => {
+  Map<String, Object?> toJson({required int comments}) => {
         'item_id': '$id',
         'first_text': first,
         'last_text': last,
         'status': status,
-        'comments': hasComments ? 'available' : null,
+        'comments': comments > 0 ? 'available' : null,
+        'comments_count': comments,
         'first_vote': firstVotes,
         'last_vote': lastVotes,
       };

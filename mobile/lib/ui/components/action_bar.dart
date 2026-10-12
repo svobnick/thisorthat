@@ -11,12 +11,16 @@ class ActionBar extends StatelessWidget {
   const ActionBar({
     super.key,
     required this.onComments,
+    this.commentsCount = 0,
     required this.liked,
     required this.onLike,
     required this.onShare,
   });
 
   final VoidCallback? onComments;
+
+  /// Shown next to the comment icon when there are any.
+  final int commentsCount;
   final bool liked;
   final VoidCallback? onLike;
   final VoidCallback? onShare;
@@ -30,7 +34,13 @@ class ActionBar extends StatelessWidget {
       decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.ink(0.06)))),
       child: Row(
         children: [
-          Expanded(child: _ActionButton(icon: AppIcons.comment, label: l10n.actionComments, onTap: onComments)),
+          Expanded(
+            child: _ActionButton(
+              icon: AppIcons.comment,
+              label: commentsCount > 0 ? '$commentsCount' : l10n.actionComments,
+              onTap: onComments,
+            ),
+          ),
           divider,
           Expanded(
             child: _ActionButton(icon: AppIcons.heart, label: l10n.actionLike, active: liked, onTap: onLike),

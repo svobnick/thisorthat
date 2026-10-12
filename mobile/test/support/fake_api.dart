@@ -43,12 +43,13 @@ class FakeApi {
       );
 
   /// A question as `/getItems` sends it.
-  static Map<String, Object?> item(int id, {int first = 30, int last = 10, String status = 'approved'}) => {
+  static Map<String, Object?> item(int id, {int first = 30, int last = 10, String status = 'approved', int comments = 0}) => {
         'item_id': '$id',
         'first_text': 'first $id',
         'last_text': 'last $id',
         'status': status,
-        'comments': null,
+        'comments': comments > 0 ? 'available' : null,
+        'comments_count': comments,
         'first_vote': first,
         'last_vote': last,
       };

@@ -28,6 +28,7 @@ class Question {
     required this.lastVotes,
     this.status = QuestionStatus.approved,
     this.hasComments = false,
+    this.commentsCount = 0,
   });
 
   final int id;
@@ -36,7 +37,12 @@ class Question {
   final int firstVotes;
   final int lastVotes;
   final QuestionStatus status;
+
   final bool hasComments;
+
+  /// How many comments the question has; zero when the server does not say.
+  /// The API this app started on only told whether there are any.
+  final int commentsCount;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: _int(json['item_id']),
@@ -45,7 +51,8 @@ class Question {
         firstVotes: _int(json['first_vote']),
         lastVotes: _int(json['last_vote']),
         status: QuestionStatus.parse(json['status']),
-        hasComments: json['comments'] != null,
+        hasComments: json['comments'] != null || _int(json['comments_count']) > 0,
+        commentsCount: _int(json['comments_count']),
       );
 }
 

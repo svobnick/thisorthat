@@ -1,0 +1,37 @@
+[package]
+name = "thisorthat-backend"
+version = "0.1.0"
+edition = "2024"
+description = "The server of the This or That game"
+publish = false
+
+[[bin]]
+name = "thisorthat-api"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.104"
+axum = { version = "0.8.9", default-features = false, features = ["tokio", "http1"] }
+bytes = "1.12.1"
+form_urlencoded = "1.2.2"
+futures-util = "0.3.34"
+multer = "3.1.0"
+rand = "0.10.3"
+regex = "1.13.1"
+roaring = "0.11.5"
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+sqlx = { version = "0.9.0", default-features = false, features = ["runtime-tokio", "postgres", "migrate", "macros"] }
+tokio = { version = "1.53.2", features = ["rt-multi-thread", "macros", "signal", "time", "net"] }
+tower-http = { version = "0.7.1", features = ["cors"] }
+tracing = "0.1.44"
+tracing-subscriber = "0.3.23"
+
+[dev-dependencies]
+http-body-util = "0.1.5"
+tower = { version = "0.5.3", features = ["util"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
